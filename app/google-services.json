@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "377165360155",
+    "firebase_url": "https://restaurant-automation-sy-a940e.firebaseio.com",
+    "project_id": "restaurant-automation-sy-a940e",
+    "storage_bucket": "restaurant-automation-sy-a940e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377165360155:android:df2152a47dd49d15e91cbe",
+        "android_client_info": {
+          "package_name": "com.read.restaurantautomationsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377165360155-dc3e5stb1k5rpp88vvpj3u5ssvgtlluq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.read.restaurantautomationsystem",
+            "certificate_hash": "e7882762a87ec3888c9d65e1108b637c483ff791"
+          }
+        },
+        {
+          "client_id": "377165360155-3go8ifm02ljebqc1gv9d5aajnj57m268.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcfjKjJIobucUvfEK-E-j7GJuxJcbfyo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377165360155-3go8ifm02ljebqc1gv9d5aajnj57m268.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
