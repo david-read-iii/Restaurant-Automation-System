@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="app_theme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
     </style>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+    </style>
+
+    <style name="DrawerHeader.TextView.Name" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="DrawerHeader.TextView.Position" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
 </resources>

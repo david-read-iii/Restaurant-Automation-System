@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- App name -->
     <string name="app_name">Restaurant Automation System</string>
+
+    <!-- Activity login strings -->
     <string name="activity_login_name">Login</string>
     <string name="activity_login_textview_username">Username:</string>
     <string name="activity_login_textview_password">Password:</string>
     <string name="activity_login_edittext_username">Username</string>
     <string name="activity_login_edittext_password">Password</string>
     <string name="activity_login_button">Login</string>
-    <string name="activity_main_name">Home</string>
+
+    <!-- Activity main strings -->
+    <string name="activity_main_drawer_open">Drawer is open</string>
+    <string name="activity_main_drawer_closed">Drawer is closed</string>
+    <string name="activity_main_drawer_menu_employee_functions">Employee Functions</string>
+    <string name="activity_main_drawer_menu_manager_functions">Manager Functions</string>
+
+
+    <!-- Table list fragment strings -->
+    <string name="fragment_table_list_name">Table List</string>
+
+    <!-- Order queue fragment strings -->
+    <string name="fragment_order_queue_name">Order Queue</string>
+
+    <!-- Manage employees fragment strings -->
+    <string name="fragment_manage_employees_name">Manage Employees</string>
+
+    <!-- Manage inventory fragment strings -->
+    <string name="fragment_manage_inventory_name">Manage Inventory</string>
+
+    <!-- View reports fragment strings -->
+    <string name="fragment_view_reports_name">View Reports</string>
+
+    <!-- Manage tables fragment strings -->
+    <string name="fragment_manage_tables_name">Manage Tables</string>
+
+    <!-- Manage menu fragment strings -->
+    <string name="fragment_manage_menu_name">Manage Menu</string>
+
 </resources>

@@ -1,7 +1,3 @@
-//*************************************************************************************************
-// This class... <describe what class does>
-//*************************************************************************************************
-
 package com.read.restaurantautomationsystem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +10,10 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //----------------------------------------------------------------------------------------------
+    // Inflates the activity_login.xml layout file. Sets up an onClickListener to listen for when
+    // the login button is pressed. When this happens a Firebase function will be called.
+    //----------------------------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +29,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /* IMPLEMENT: Call a Firebase function to check if this username and password
-                 *            combination is present in the "users" collection. If it is, send
-                 *            the user to the MainActivity. If not, prompt the user with an error
-                 *            Toast.
-                 * */
+                /* TODO: Call a Firebase function to check if this username and password
+                    combination is present in the "users" collection. If it is, send the user to
+                    the MainActivity. If not, prompt the user with an error Toast. */
 
-                // Assume this combination of username and password is present in the database, send
-                // user to the MainActivity.
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                // Assume this user is authorized to access the application.
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
