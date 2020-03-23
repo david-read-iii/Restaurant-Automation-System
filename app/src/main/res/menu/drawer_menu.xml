@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/activity_main_drawer_menu_employee_functions">
+    <item android:title="@string/drawer_menu_employee_functions">
         <menu>
             <item
-                android:id="@+id/activity_main_drawer_menu_table_list"
+                android:id="@+id/drawer_menu_table_list"
                 android:title="@string/fragment_table_list_name" />
             <item
-                android:id="@+id/activity_main_drawer_menu_order_queue"
+                android:id="@+id/drawer_menu_order_queue"
                 android:title="@string/fragment_order_queue_name" />
         </menu>
     </item>
 
-    <item android:title="@string/activity_main_drawer_menu_manager_functions">
+    <item android:title="@string/drawer_menu_manager_functions">
         <menu>
             <item
-                android:id="@+id/activity_main_drawer_menu_manage_employees"
+                android:id="@+id/drawer_menu_manage_employees"
                 android:title="@string/fragment_manage_employees_name" />
             <item
-                android:id="@+id/activity_main_drawer_menu_manage_inventory"
+                android:id="@+id/drawer_menu_manage_inventory"
                 android:title="@string/fragment_manage_inventory_name" />
             <item
-                android:id="@+id/activity_main_drawer_menu_view_reports"
+                android:id="@+id/drawer_menu_view_reports"
                 android:title="@string/fragment_view_reports_name" />
             <item
-                android:id="@+id/activity_main_drawer_menu_manage_tables"
+                android:id="@+id/drawer_menu_manage_tables"
                 android:title="@string/fragment_manage_tables_name" />
             <item
-                android:id="@+id/activity_main_drawer_menu_manage_menu"
+                android:id="@+id/drawer_menu_manage_menu"
                 android:title="@string/fragment_manage_menu_name" />
         </menu>
     </item>

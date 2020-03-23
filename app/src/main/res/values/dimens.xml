@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Activity login dimens -->
-    <dimen name="activity_login_margin">16dp</dimen>
-    <dimen name="activity_login_linear_layout_vertical_margin">16dp</dimen>
+    <dimen name="activity_padding">16dp</dimen>
 
-    <!-- Activity main dimens -->
-    <dimen name="activity_main_drawer_header_height">150dp</dimen>
-    <dimen name="activity_main_drawer_header_linear_layout_horizontal_margin">16dp</dimen>
-    <dimen name="activity_main_drawer_header_linear_layout_vertical_margin">8dp</dimen>
+    <!-- LoginActivity dimens -->
+    <dimen name="activity_login_view_vertical_padding">16dp</dimen>
+
+    <!-- MainActivity dimens -->
+    <dimen name="drawer_header_height">150dp</dimen>
+    <dimen name="drawer_header_content_horizontal_padding">16dp</dimen>
+    <dimen name="drawer_header_content_vertical_padding">8dp</dimen>
 
 </resources>
