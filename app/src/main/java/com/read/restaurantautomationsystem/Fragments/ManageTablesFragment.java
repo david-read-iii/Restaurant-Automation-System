@@ -1,4 +1,4 @@
-package com.read.restaurantautomationsystem;
+package com.read.restaurantautomationsystem.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.read.restaurantautomationsystem.R;
 
 public class ManageTablesFragment extends Fragment {
 

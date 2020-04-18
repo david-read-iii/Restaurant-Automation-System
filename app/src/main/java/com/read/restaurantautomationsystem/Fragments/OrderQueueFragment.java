@@ -1,4 +1,4 @@
-package com.read.restaurantautomationsystem;
+package com.read.restaurantautomationsystem.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class ManageEmployeesFragment extends Fragment {
+import com.read.restaurantautomationsystem.R;
+
+public class OrderQueueFragment extends Fragment {
 
     /**
      * Setup a fragment with an undefined layout when this fragment is created.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_manage_employees, container, false);
+        return inflater.inflate(R.layout.fragment_order_queue, container, false);
     }
 }

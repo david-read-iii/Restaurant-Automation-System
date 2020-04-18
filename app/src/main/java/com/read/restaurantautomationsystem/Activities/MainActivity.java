@@ -1,4 +1,4 @@
-package com.read.restaurantautomationsystem;
+package com.read.restaurantautomationsystem.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +16,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.read.restaurantautomationsystem.Fragments.ManageEmployeesFragment;
+import com.read.restaurantautomationsystem.Fragments.ManageInventoryFragment;
+import com.read.restaurantautomationsystem.Fragments.ManageMenuFragment;
+import com.read.restaurantautomationsystem.Fragments.ManageTablesFragment;
+import com.read.restaurantautomationsystem.Fragments.OrderQueueFragment;
+import com.read.restaurantautomationsystem.R;
+import com.read.restaurantautomationsystem.Fragments.TableListFragment;
+import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
 
 /* TODO: Restrict certain NavigationItems from showing in the NavigationDrawer given the role of the
     logged in user. */
