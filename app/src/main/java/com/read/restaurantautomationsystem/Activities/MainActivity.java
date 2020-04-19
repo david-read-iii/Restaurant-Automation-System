@@ -30,10 +30,6 @@ import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
 /* TODO: Restrict certain NavigationItems from showing in the NavigationDrawer given the role of the
     logged in user. */
 
-/* TODO: Toolbar actions and their click listeners for each fragment will need to be defined in this
-    activity. In addition, they will also need to be swapped out when a new fragment is started.
-    These will likely be defined in the startFragment() method or a helper method to it. */
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
@@ -84,11 +80,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        // Close the navigation drawer and clear actions from the toolbar.
+        // Close the navigation drawer.
         closeDrawer();
-        menu.clear();
 
-        // Start the appropriate Fragment and put appropriate actions in toolbar.
+        // Start the appropriate Fragment.
         if (menuItem.getItemId() == R.id.drawer_menu_table_list) {
             startFragment(new TableListFragment(), getString(R.string.fragment_table_list_name));
         }
@@ -99,20 +94,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startFragment(new ViewReportsFragment(), getString(R.string.fragment_view_reports_name));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_employees) {
-            startFragment(new ManageEmployeesFragment(), getString(R.string.fragment_manage_employees_name));
-            getMenuInflater().inflate(R.menu.manage_employees_menu, menu);
+            startFragment(new ManageEmployeesFragment(), getString(R.string.fragment_manage_employees_name), R.menu.manage_employees_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_inventory) {
-            startFragment(new ManageInventoryFragment(), getString(R.string.fragment_manage_inventory_name));
-            getMenuInflater().inflate(R.menu.manage_inventory_menu, menu);
+            startFragment(new ManageInventoryFragment(), getString(R.string.fragment_manage_inventory_name), R.menu.manage_inventory_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
-            startFragment(new ManageTablesFragment(), getString(R.string.fragment_manage_tables_name));
-            getMenuInflater().inflate(R.menu.manage_tables_menu, menu);
+            startFragment(new ManageTablesFragment(), getString(R.string.fragment_manage_tables_name), R.menu.manage_tables_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_menu) {
-            startFragment(new ManageMenuFragment(), getString(R.string.fragment_manage_menu_name));
-            getMenuInflater().inflate(R.menu.manage_menu_menu, menu);
+            startFragment(new ManageMenuFragment(), getString(R.string.fragment_manage_menu_name), R.menu.manage_menu_menu);
         }
         return true;
     }
@@ -154,10 +145,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Starts a given Fragment in the fragment container.
      * @param fragment Fragment to be started in the fragment container.
-     * @param title The title to be set in the Toolbar once the fragment is started.
+     * @param title Text to display in Toolbar.
      */
     private void startFragment(Fragment fragment, String title) {
+        // Set Toolbar text.
         getSupportActionBar().setTitle(title);
+
+        // Clear actions from Toolbar.
+        if (menu != null)  {
+            menu.clear();
+        }
+
+        // Start Fragment.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
+    }
+
+    /**
+     * Starts a given Fragment in the fragment container with the specified actions in the Toolbar.
+     * @param fragment Fragment to be started in the fragment container.
+     * @param title Text to display in Toolbar.
+     * @param menuRes Menu resource file specifying the actions to display in the Toolbar.
+     */
+    private void startFragment(Fragment fragment, String title, int menuRes) {
+        // Set Toolbar text.
+        getSupportActionBar().setTitle(title);
+
+        // Clear actions from Toolbar.
+        if (menu != null)  {
+            menu.clear();
+        }
+
+        // Add specified actions to Toolbar.
+        getMenuInflater().inflate(menuRes, menu);
+
+        // Start Fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
