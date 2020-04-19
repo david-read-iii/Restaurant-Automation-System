@@ -15,14 +15,14 @@
     <item android:title="@string/drawer_menu_manager_functions">
         <menu>
             <item
+                android:id="@+id/drawer_menu_view_reports"
+                android:title="@string/fragment_view_reports_name" />
+            <item
                 android:id="@+id/drawer_menu_manage_employees"
                 android:title="@string/fragment_manage_employees_name" />
             <item
                 android:id="@+id/drawer_menu_manage_inventory"
                 android:title="@string/fragment_manage_inventory_name" />
-            <item
-                android:id="@+id/drawer_menu_view_reports"
-                android:title="@string/fragment_view_reports_name" />
             <item
                 android:id="@+id/drawer_menu_manage_tables"
                 android:title="@string/fragment_manage_tables_name" />

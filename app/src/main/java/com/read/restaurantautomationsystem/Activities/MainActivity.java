@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.read.restaurantautomationsystem.Fragments.ManageEmployeesFragment;
@@ -33,7 +35,9 @@ import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
     These will likely be defined in the startFragment() method or a helper method to it. */
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     private DrawerLayout drawerLayout;
+    private Menu menu;
 
     /**
      * Setup an activity with a custom Toolbar and NavigationDrawer when this activity is created.
@@ -80,35 +84,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        // Close the navigation drawer and clear actions from the toolbar.
         closeDrawer();
+        menu.clear();
+
+        // Start the appropriate Fragment and put appropriate actions in toolbar.
         if (menuItem.getItemId() == R.id.drawer_menu_table_list) {
             startFragment(new TableListFragment(), getString(R.string.fragment_table_list_name));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_order_queue) {
             startFragment(new OrderQueueFragment(), getString(R.string.fragment_order_queue_name));
         }
-        if (menuItem.getItemId() == R.id.drawer_menu_manage_employees) {
-            startFragment(new ManageEmployeesFragment(), getString(R.string.fragment_manage_employees_name));
-        }
-        if (menuItem.getItemId() == R.id.drawer_menu_manage_inventory) {
-            startFragment(new ManageInventoryFragment(), getString(R.string.fragment_manage_inventory_name));
-        }
         if (menuItem.getItemId() == R.id.drawer_menu_view_reports) {
             startFragment(new ViewReportsFragment(), getString(R.string.fragment_view_reports_name));
         }
+        if (menuItem.getItemId() == R.id.drawer_menu_manage_employees) {
+            startFragment(new ManageEmployeesFragment(), getString(R.string.fragment_manage_employees_name));
+            getMenuInflater().inflate(R.menu.manage_employees_menu, menu);
+        }
+        if (menuItem.getItemId() == R.id.drawer_menu_manage_inventory) {
+            startFragment(new ManageInventoryFragment(), getString(R.string.fragment_manage_inventory_name));
+            getMenuInflater().inflate(R.menu.manage_inventory_menu, menu);
+        }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
             startFragment(new ManageTablesFragment(), getString(R.string.fragment_manage_tables_name));
+            getMenuInflater().inflate(R.menu.manage_tables_menu, menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_menu) {
             startFragment(new ManageMenuFragment(), getString(R.string.fragment_manage_menu_name));
+            getMenuInflater().inflate(R.menu.manage_menu_menu, menu);
         }
         return true;
     }
 
     /**
+     * Instead of specifying Toolbar actions here, make the Menu object for this activity a global
+     * variable. This way, the Toolbar actions can be specified each time a Fragment is started.
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        return true;
+    }
+
+    /**
+     * Define what to do in response to clicks in the Toolbar.
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        /* TODO: Start the appropriate activity, passing the appropriate parameters to each activity. */
+        if (id == R.id.action_add_user) {
+            Toast.makeText(this, "Start AddEmployeeActivity...", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.action_add_inventory_item) {
+            Toast.makeText(this, "Start AddInventoryItemActivity...", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.action_add_table) {
+            Toast.makeText(this, "Start AddTableActivity...", Toast.LENGTH_SHORT).show();
+        }
+        if (id == R.id.action_add_menu_item) {
+            Toast.makeText(this, "Start AddMenuItemActivity...", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
      * Starts a given Fragment in the fragment container.
      * @param fragment Fragment to be started in the fragment container.
-     * @param title The title to be set in the toolbar once the fragment is started.
+     * @param title The title to be set in the Toolbar once the fragment is started.
      */
     private void startFragment(Fragment fragment, String title) {
         getSupportActionBar().setTitle(title);
@@ -119,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * Closes the NavigationDrawer with an animation
+     * Closes the NavigationDrawer with an animation.
      */
     private void closeDrawer() {
         drawerLayout.closeDrawer(GravityCompat.START);

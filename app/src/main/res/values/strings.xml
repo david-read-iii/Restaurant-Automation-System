@@ -40,5 +40,9 @@
 
     <!-- ManageMenuFragment strings -->
     <string name="fragment_manage_menu_name">Manage Menu</string>
+    <string name="action_add_user">Add user</string>
+    <string name="action_add_table">Add table</string>
+    <string name="action_add_inventory_item">Add item</string>
+    <string name="action_add_menu_item">Add item</string>
 
 </resources>

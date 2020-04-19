@@ -13,4 +13,10 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
+    <!-- Text formatting for primary text in each view of list view. -->
+    <style name="ListView.SingleView.Text.Primary" parent="@android:style/TextAppearance.Medium" />
+
+    <!-- Text formatting for secondary text in each view of list view. -->
+    <style name="ListView.SingleView.Text.Secondary" parent="@android:style/TextAppearance.Small" />
+
 </resources>
