@@ -1,6 +1,6 @@
 package com.read.restaurantautomationsystem.Models;
 
-public class User {
+public class Employee {
 
     private String key;
     private String firstName;
@@ -8,30 +8,6 @@ public class User {
     private String username;
     private String password;
     private String role;
-
-    /**
-     * Represents a User with null attributes.
-     */
-    public User() {
-    }
-
-    /**
-     * Represents a User with the specified attributes and a null key.
-     *
-     * @param firstName The first name of the User.
-     * @param lastName  The last name of the User.
-     * @param username  The username of the User.
-     * @param password  The password of the User.
-     * @param role      The role of the User.
-     */
-    public User(String firstName, String lastName, String username, String password, String role) {
-        this.key = null;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 
     /**
      * Represents a User with the specified attributes.
@@ -43,7 +19,7 @@ public class User {
      * @param password  The password of the User.
      * @param role      The role of the User.
      */
-    public User(String key, String firstName, String lastName, String username, String password, String role) {
+    public Employee(String key, String firstName, String lastName, String username, String password, String role) {
         this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;

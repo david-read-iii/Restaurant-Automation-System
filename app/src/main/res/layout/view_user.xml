@@ -7,14 +7,14 @@
 
     <TextView
         android:id="@+id/view_user_name"
-        style="@style/ListView.SingleView.Text.Primary"
+        style="@style/TextView.ListView.Primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name" />
 
     <TextView
         android:id="@+id/view_user_role"
-        style="@style/ListView.SingleView.Text.Secondary"
+        style="@style/TextView.ListView.Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Role" />

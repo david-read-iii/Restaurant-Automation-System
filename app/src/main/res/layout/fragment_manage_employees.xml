@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listview_users"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/listview_employees_empty_text"
+        style="@style/TextView.ListView.Empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/listview_employees_empty_text" />
+
+    <ListView
+        android:id="@+id/listview_employees"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

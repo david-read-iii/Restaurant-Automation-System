@@ -15,10 +15,10 @@
         android:paddingBottom="@dimen/activity_login_view_vertical_padding">
 
         <TextView
+            style="@style/TextView.Label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_username"
-            android:textColor="@color/color_accent" />
+            android:text="@string/label_username" />
 
         <EditText
             android:id="@+id/edittext_username"
@@ -37,10 +37,11 @@
         android:paddingBottom="@dimen/activity_login_view_vertical_padding">
 
         <TextView
+            style="@style/TextView.Label"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
-            android:text="@string/label_password"
-            android:textColor="@color/color_accent" />
+            android:text="@string/label_password" />
 
         <EditText
             android:id="@+id/edittext_password"

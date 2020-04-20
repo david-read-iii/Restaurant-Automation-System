@@ -23,6 +23,7 @@ import com.read.restaurantautomationsystem.Fragments.ManageInventoryFragment;
 import com.read.restaurantautomationsystem.Fragments.ManageMenuFragment;
 import com.read.restaurantautomationsystem.Fragments.ManageTablesFragment;
 import com.read.restaurantautomationsystem.Fragments.OrderQueueFragment;
+import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 import com.read.restaurantautomationsystem.Fragments.TableListFragment;
 import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
@@ -32,11 +33,12 @@ import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Employee loggedInEmployee;
     private DrawerLayout drawerLayout;
     private Menu menu;
 
     /**
-     * Setup an activity with a custom Toolbar and NavigationDrawer when this activity is created.
+     * When this activity is created, inflate a layout with a custom Toolbar and a NavigationDrawer.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +58,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
 
-        /* Receive the full name and role of the logged in user from the LoginActivity and show them
-         * in the header of the NavigationDrawer. */
+        /* Get the attributes of the logged in employee and store them in an Employee object. If the
+         * user is navigating from the LoginActivity, we will get these from intent extras. If the
+         * user is navigating from a child activity, we will get them from a saved instance bundle. */
+        Intent intent = getIntent();
+        Bundle loginActivityExtras = intent.getExtras();
+
+        if (loginActivityExtras != null) {
+            loggedInEmployee = new Employee(
+                    intent.getStringExtra("key"),
+                    intent.getStringExtra("firstName"),
+                    intent.getStringExtra("lastName"),
+                    intent.getStringExtra("username"),
+                    intent.getStringExtra("password"),
+                    intent.getStringExtra("role"));
+        } else if (savedInstanceState != null) {
+            loggedInEmployee = new Employee(
+                    savedInstanceState.getString("key"),
+                    savedInstanceState.getString("firstName"),
+                    savedInstanceState.getString("lastName"),
+                    savedInstanceState.getString("username"),
+                    savedInstanceState.getString("password"),
+                    savedInstanceState.getString("role"));
+        }
+
+        // Set the drawer header text as the name and role of the logged in employee.
         TextView textViewFullName = navigationView.getHeaderView(0).findViewById(R.id.textview_drawer_name);
         TextView textViewRole = navigationView.getHeaderView(0).findViewById(R.id.textview_drawer_role);
+        textViewFullName.setText(getString(R.string.format_full_name, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()));
+        textViewRole.setText(loggedInEmployee.getRole());
 
-        Intent intent = getIntent();
-        textViewFullName.setText(getString(R.string.format_full_name, intent.getStringExtra("firstName"), intent.getStringExtra("lastName")));
-        textViewRole.setText(intent.getStringExtra("role"));
-
-        // Start a Fragment given the role of the logged in user.
-        if(intent.getStringExtra("role").equals("Manager")) {
+        // Start a Fragment given the role of the logged in employee.
+        if (loggedInEmployee.getRole().equals("Manager")) {
             startFragment(new ViewReportsFragment(), getString(R.string.fragment_view_reports_name));
-        } else if(intent.getStringExtra("role").equals("Cook")) {
+        } else if (loggedInEmployee.getRole().equals("Cook")) {
             startFragment(new OrderQueueFragment(), getString(R.string.fragment_order_queue_name));
         } else {
             startFragment(new TableListFragment(), getString(R.string.fragment_table_list_name));
         }
+    }
+
+    /**
+     * When prompted to save the activity instance state, save the attributes of the logged in
+     * Employee to the instance state.
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putString("key", loggedInEmployee.getKey());
+        savedInstanceState.putString("firstName", loggedInEmployee.getFirstName());
+        savedInstanceState.putString("lastName", loggedInEmployee.getLastName());
+        savedInstanceState.putString("username", loggedInEmployee.getUsername());
+        savedInstanceState.putString("password", loggedInEmployee.getPassword());
+        savedInstanceState.putString("role", loggedInEmployee.getRole());
     }
 
     /**
@@ -125,17 +164,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        /* TODO: Start the appropriate activity, passing the appropriate parameters to each activity. */
         if (id == R.id.action_add_user) {
-            Toast.makeText(this, "Start AddEmployeeActivity...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AddEmployeeActivity.class);
+            startActivity(intent);
         }
         if (id == R.id.action_add_inventory_item) {
+            // TODO: Start AddInventoryItemActivity.
             Toast.makeText(this, "Start AddInventoryItemActivity...", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.action_add_table) {
+            // TODO: Start AddTableActivity.
             Toast.makeText(this, "Start AddTableActivity...", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.action_add_menu_item) {
+            // TODO: Start AddMenuItemActivity.
             Toast.makeText(this, "Start AddMenuItemActivity...", Toast.LENGTH_SHORT).show();
         }
 
@@ -144,15 +186,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Starts a given Fragment in the fragment container.
+     *
      * @param fragment Fragment to be started in the fragment container.
-     * @param title Text to display in Toolbar.
+     * @param title    Text to display in Toolbar.
      */
     private void startFragment(Fragment fragment, String title) {
         // Set Toolbar text.
         getSupportActionBar().setTitle(title);
 
         // Clear actions from Toolbar.
-        if (menu != null)  {
+        if (menu != null) {
             menu.clear();
         }
 
@@ -165,16 +208,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * Starts a given Fragment in the fragment container with the specified actions in the Toolbar.
+     *
      * @param fragment Fragment to be started in the fragment container.
-     * @param title Text to display in Toolbar.
-     * @param menuRes Menu resource file specifying the actions to display in the Toolbar.
+     * @param title    Text to display in Toolbar.
+     * @param menuRes  Menu resource file specifying the actions to display in the Toolbar.
      */
     private void startFragment(Fragment fragment, String title, int menuRes) {
         // Set Toolbar text.
         getSupportActionBar().setTitle(title);
 
         // Clear actions from Toolbar.
-        if (menu != null)  {
+        if (menu != null) {
             menu.clear();
         }
 

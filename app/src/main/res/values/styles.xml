@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App theme styles -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
@@ -13,10 +14,24 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
-    <!-- Text formatting for primary text in each view of list view. -->
-    <style name="ListView.SingleView.Text.Primary" parent="@android:style/TextAppearance.Medium" />
+    <!-- TextView formatting styles -->
+    <style name="TextView.Label" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_accent</item>
+    </style>
 
-    <!-- Text formatting for secondary text in each view of list view. -->
-    <style name="ListView.SingleView.Text.Secondary" parent="@android:style/TextAppearance.Small" />
+    <style name="TextView.ListView.Primary" parent="@android:style/TextAppearance.Medium" />
+
+    <style name="TextView.ListView.Secondary" parent="@android:style/TextAppearance.Small" />
+
+    <style name="TextView.ListView.Empty" parent="@android:style/TextAppearance.Medium">
+        <item name="android:gravity">center</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <!-- Spinner formatting styles -->
+    <style name="Spinner.Default" parent="Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:paddingTop">@dimen/spinner_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/spinner_vertical_padding</item>
+    </style>
 
 </resources>

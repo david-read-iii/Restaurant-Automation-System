@@ -12,7 +12,8 @@
 
         <activity
             android:name=".Activities.LoginActivity"
-            android:label="@string/app_name_short">
+            android:label="@string/app_name_short"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,8 +22,28 @@
 
         <activity
             android:name=".Activities.MainActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.LoginActivity" />
+        </activity>
+
+        <activity
+            android:name=".Activities.AddEmployeeActivity"
+            android:label="@string/activity_add_employee_name"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".Activities.ModifyEmployeeActivity"
+            android:label="@string/activity_modify_employee_name"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.MainActivity" />

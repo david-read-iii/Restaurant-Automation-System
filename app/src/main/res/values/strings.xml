@@ -5,44 +5,71 @@
     <string name="app_name">Restaurant Automation System</string>
     <string name="app_name_short">RAS</string>
 
-    <!-- LoginActivity strings -->
+    <!-- Activity and fragment names -->
     <string name="activity_login_name">Login</string>
+    <string name="fragment_table_list_name">Table List</string>
+    <string name="fragment_order_queue_name">Order Queue</string>
+    <string name="fragment_view_reports_name">View Reports</string>
+    <string name="fragment_manage_employees_name">Manage Employees</string>
+    <string name="activity_add_employee_name">Add Employee</string>
+    <string name="activity_modify_employee_name">Modify Employee</string>
+    <string name="fragment_manage_inventory_name">Manage Inventory</string>
+    <string name="fragment_manage_tables_name">Manage Tables</string>
+    <string name="fragment_manage_menu_name">Manage Menu</string>
+
+    <!-- TextView labels -->
     <string name="label_username">Username:</string>
     <string name="label_password">Password:</string>
+    <string name="label_first_name">First name:</string>
+    <string name="label_last_name">Last name:</string>
+    <string name="label_role">"Role:"</string>
+
+    <!-- EditText hints -->
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
-    <string name="button_login">Login</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
 
-    <!-- MainActivity strings -->
+    <!-- Spinner option arrays -->
+    <array name="spinner_role_options">
+        <item>Host</item>
+        <item>Waiter</item>
+        <item>Cook</item>
+        <item>Busboy</item>
+        <item>Manager</item>
+    </array>
+
+    <!-- Button text -->
+    <string name="button_login">Login</string>
+    <string name="button_add">Add</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_save">Save</string>
+
+    <!-- Navigation drawer text -->
     <string name="drawer_open">Drawer is open</string>
     <string name="drawer_closed">Drawer is closed</string>
     <string name="drawer_menu_employee_functions">Employee Functions</string>
     <string name="drawer_menu_manager_functions">Manager Functions</string>
-    <string name="format_full_name">%1$s %2$s</string>
 
-    <!-- TableListFragment strings -->
-    <string name="fragment_table_list_name">Table List</string>
-
-    <!-- OrderQueueFragment strings -->
-    <string name="fragment_order_queue_name">Order Queue</string>
-
-    <!-- ManageEmployeesFragment strings -->
-    <string name="fragment_manage_employees_name">Manage Employees</string>
-
-    <!-- ManageInventoryFragment strings -->
-    <string name="fragment_manage_inventory_name">Manage Inventory</string>
-
-    <!-- ViewReportsFragment strings -->
-    <string name="fragment_view_reports_name">View Reports</string>
-
-    <!-- ManageTablesFragment strings -->
-    <string name="fragment_manage_tables_name">Manage Tables</string>
-
-    <!-- ManageMenuFragment strings -->
-    <string name="fragment_manage_menu_name">Manage Menu</string>
-    <string name="action_add_user">Add user</string>
+    <!-- Toolbar action text -->
+    <string name="action_add_employee">Add employee</string>
     <string name="action_add_table">Add table</string>
     <string name="action_add_inventory_item">Add item</string>
     <string name="action_add_menu_item">Add item</string>
+
+    <!-- Toast messages -->
+    <string name="toast_add_employee_success">Employee added successfully</string>
+    <string name="toast_add_employee_failed">Employee not added</string>
+    <string name="toast_delete_employee_success">Employee deleted successfully</string>
+    <string name="toast_delete_employee_failed">Employee not deleted</string>
+    <string name="toast_modify_employee_success">Employee modified successfully</string>
+    <string name="toast_modify_employee_failed">Employee not modified</string>
+    <string name="toast_employee_changed">Employee changed by another user</string>
+
+    <!-- ListView empty text -->
+    <string name="listview_employees_empty_text">There are no employees</string>
+
+    <!-- Other -->
+    <string name="format_full_name">%1$s %2$s</string>
 
 </resources>

@@ -8,12 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 
 public class LoginActivity extends AppCompatActivity {
 
     /**
-     * Setup an activity with two EditTexts and a Button when this activity is created. The
+     * When this activity is created, inflate a layout containing two EditTexts and a Button. The
      * EditTexts will be fields for the user to enter their username and password. The Button will
      * log the user into the application.
      */
@@ -27,29 +28,37 @@ public class LoginActivity extends AppCompatActivity {
         EditText editTextPassword = findViewById(R.id.edittext_password);
         Button button = findViewById(R.id.button_login);
 
-        /* Attach a click listener to button to contact the database to see if this user has the
-         * correct credentials. If they are correct, receive their full name and role from the
-         * database and start the MainActivity. */
+        // Set text in Toolbar.
+        getSupportActionBar().setTitle(R.string.activity_login_name);
+
+        // Attach a click listener to the button.
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                /* TODO: Call a Firebase function to see if the given username and password
-                    combination is in the database. If it is, the function will return true. It
-                    will also return the user's full name and role. If the combination is not
-                    in the database, print a Toast indicating so. */
+                /* TODO: Call a Firebase function to see if the given username and password combo is
+                 *   in the database. If it is, the function will return true and return the
+                 *   attributes of the now logged in Employee object. If the combo is not in the
+                 *   database, print a Toast indicating so. */
 
-                /* Until the function is implemented, assume a user named Jane Doe with a role of
-                 * Manager has been returned by the function. */
-                String firstName = "Jane";
-                String lastName = "Doe";
-                String role = "Manager";
+                // Assume the Firebase function returns true and returns these attributes.
+                Employee employee = new Employee(
+                        "0",
+                        "Jane",
+                        "Doe",
+                        "janedoesahoe",
+                        "bigjane69",
+                        "Manager"
+                );
 
-                // Start the MainActivity. Pass the user's full name and role as extras.
+                // Start the MainActivity. Pass the attributes of the logged in Employee in.
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("firstName", firstName);
-                intent.putExtra("lastName", lastName);
-                intent.putExtra("role", role);
+                intent.putExtra("key", employee.getKey());
+                intent.putExtra("firstName", employee.getFirstName());
+                intent.putExtra("lastName", employee.getLastName());
+                intent.putExtra("username", employee.getUsername());
+                intent.putExtra("password", employee.getPassword());
+                intent.putExtra("role", employee.getRole());
                 startActivity(intent);
             }
         });

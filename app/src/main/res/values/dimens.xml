@@ -11,5 +11,6 @@
     <dimen name="drawer_header_height">150dp</dimen>
     <dimen name="drawer_header_content_horizontal_padding">16dp</dimen>
     <dimen name="drawer_header_content_vertical_padding">8dp</dimen>
+    <dimen name="spinner_vertical_padding">16dp</dimen>
 
 </resources>
