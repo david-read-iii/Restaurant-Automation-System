@@ -10,6 +10,12 @@ public class Employee {
     private String role;
 
     /**
+     * Represents a User with null attributes.
+     */
+    public Employee() {
+    }
+
+    /**
      * Represents a User with the specified attributes.
      *
      * @param key       The unique key of the User.
