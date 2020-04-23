@@ -174,4 +174,18 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * When this activity leaves the foreground, close this activity.
+     */
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        // Detach database listener.
+        databaseReference.child("Users").child(selected.getKey()).removeEventListener(childEventListener);
+
+        // Close this activity.
+        finish();
+    }
 }
