@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
+import com.read.restaurantautomationsystem.Firebase.EmployeesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 
@@ -24,16 +25,15 @@ import java.util.ArrayList;
 public class ManageEmployeesFragment extends Fragment {
 
     private ListView listView;
-    private TextView listViewEmptyText;
+    private TextView textViewEmpty;
     private ArrayList<Employee> employees;
     private EmployeesBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
-    private ValueEventListener valueEventListener;
+    private EmployeesValueEventListener valueEventListener;
 
     /**
-     * When this fragment is created, inflate a layout containing a ListView. The data source of the
-     * ListView will be an ArrayList of Employee objects. The adapter of the ListView will be a
-     * custom BaseAdapter.
+     * When this fragment is created, inflate a layout with a ListView and initialize objects that
+     * work with the ListView.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,61 +41,31 @@ public class ManageEmployeesFragment extends Fragment {
 
         // Bring XML elements to Java.
         listView = rootView.findViewById(R.id.listview_employees);
-        listViewEmptyText = rootView.findViewById(R.id.listview_employees_empty_text);
+        textViewEmpty = rootView.findViewById(R.id.listview_employees_empty_text);
 
-        // Initialize ArrayList.
+        // Initialize ArrayList and EmployeesBaseAdapter.
         employees = new ArrayList<>();
-
-        // Initialize the custom BaseAdapter with context from the MainActivity and a reference to the ArrayList.
         baseAdapter = new EmployeesBaseAdapter(rootView.getContext(), employees);
 
-        // Attach the ListView to the BaseAdapter.
+        // Initialize DatabaseReference and EmployeesValueEventListener.
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+        valueEventListener = new EmployeesValueEventListener(employees, baseAdapter, textViewEmpty);
+
+        // Set adapter of ListView.
         listView.setAdapter(baseAdapter);
 
         return rootView;
     }
 
     /**
-     * When this fragment is in the foreground, sync the ListView with Employee objects from the
-     * database.
+     * When this fragment is in the foreground, start syncing the ListView with Employee objects
+     * from the database.
      */
     @Override
     public void onResume() {
         super.onResume();
 
-        // Initialize the DatabaseReference.
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Define the ValueEventListener.
-        valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Clear the ArrayList.
-                employees.clear();
-
-                // Populate the ArrayList with Employee objects from the database.
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Employee employee = ds.getValue(Employee.class);
-                    employees.add(employee);
-                }
-
-                // Notify the BaseAdapter to update its ListView.
-                baseAdapter.notifyDataSetChanged();
-
-                // If the ArrayList is empty, display ListView empty text.
-                if (employees.isEmpty()) {
-                    listViewEmptyText.setVisibility(View.VISIBLE);
-                } else {
-                    listViewEmptyText.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-
-        // Attach the ValueEventListener to the part of the database containing Employee objects.
+        // Add EmployeesValueEventListener to part of database that contains Employee objects.
         databaseReference.child("Employees").addValueEventListener(valueEventListener);
     }
 
@@ -106,7 +76,7 @@ public class ManageEmployeesFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        // Detach ValueEventListener from the database.
+        // Detach EmployeesValueEventListener from the database.
         databaseReference.child("Employees").removeEventListener(valueEventListener);
     }
 }

@@ -19,23 +19,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.read.restaurantautomationsystem.Firebase.EmployeesChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.EmployeesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 
 public class ModifyEmployeeActivity extends AppCompatActivity {
 
     private Employee selected;
+    private DatabaseReference databaseReference;
+    private EmployeesChildEventListener childEventListener;
     private EditText editTextFirstName, editTextLastName, editTextUsername, editTextPassword;
     private Spinner spinnerRole;
     private Button buttonDelete, buttonSave;
-    private DatabaseReference databaseReference;
-    private ChildEventListener childEventListener;
+    private int deleted, modified;
 
     /**
      * When this activity is created, inflate a layout containing some EditTexts, a Spinner, and two
-     * Buttons. The EditTexts and Spinner will allow the user to change the attributes of some
-     * Employee. The Button buttonSave will confirm the modification of the Employee to the database.
-     * The Button buttonDelete will delete the selected Employee object from the database.
+     * Buttons. The Employee object selected will represent the Employee that the user clicked on to
+     * get to this activity. The EditTexts and Spinner will allow the user to change the attributes
+     * of some Employee. The Button buttonSave will confirm the modification of the Employee to the
+     * database. The Button buttonDelete will delete the selected Employee object from the database.
+     * An EmployeesChildEventListener will be setup to close this activity when the selected Employee
+     * object is changed by another user in the database.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,38 +60,11 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 intent.getStringExtra("role")
         );
 
-        // Initialize the DatabaseReference.
+        // Initialize DatabaseReference and EmployeesChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        childEventListener = new EmployeesChildEventListener(this);
 
-        // Define ChildEventListener.
-        childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-
-            /**
-             * If the Employee object is changed, print a Toast indicating so and finish the activity.
-             */
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_changed, Toast.LENGTH_SHORT).show();
-                finish();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-
-        // Attach the ChildEventListener to the selected Employee object in the database.
+        // Attach the EmployeesChildEventListener to the selected Employee object in the database.
         databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -113,24 +92,20 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach ChildEventListener.
+                // Detach EmployeesChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
-                try {
-                    // Delete the selected Employee object from the database.
-                    databaseReference.child("Employees").child(selected.getKey()).removeValue();
+                // Delete the selected Employee object from the database.
+                deleted = EmployeesFirebaseHelper.delete(selected);
 
-                    // Print success Toast.
+                // Print Toast indicating status of the deletion.
+                if (deleted == 0) {
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_success, Toast.LENGTH_SHORT).show();
-
-                } catch (DatabaseException e) {
-                    e.printStackTrace();
-
-                    // Print error Toast.
+                } else {
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
                 }
 
-                // Finish the activity.
+                // Close this activity.
                 finish();
             }
         });
@@ -139,38 +114,32 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach ChildEventListener.
+                // Detach EmployeesChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
-                try {
-                    // Delete the old selected Employee object from the database.
-                    databaseReference.child("Employees").child(selected.getKey()).removeValue();
+                // Modify Employee selected in the database with the attributes specified in the EditTexts.
+                modified = EmployeesFirebaseHelper.modify(selected, new Employee(
+                        editTextFirstName.getText().toString(),
+                        editTextLastName.getText().toString(),
+                        editTextUsername.getText().toString(),
+                        editTextPassword.getText().toString(),
+                        spinnerRole.getSelectedItem().toString()
+                ));
 
-                    // Auto-generate new key from database.
-                    String key = databaseReference.child("Employees").push().getKey();
-
-                    // Save Employee object to the database.
-                    databaseReference.child("Employees").child(key).setValue(new Employee(
-                            key,
-                            editTextFirstName.getText().toString(),
-                            editTextLastName.getText().toString(),
-                            editTextUsername.getText().toString(),
-                            editTextPassword.getText().toString(),
-                            spinnerRole.getSelectedItem().toString()
-                    ));
-
-                    // Print success Toast.
+                // Depending on the status of the modification, print a Toast and take an action.
+                if (modified == 0) {
+                    // Modification successful. Close this activity.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_modify_employee_success, Toast.LENGTH_SHORT).show();
-
-                } catch (DatabaseException e) {
-                    e.printStackTrace();
-
-                    // Print error Toast.
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_modify_employee_failed, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (modified == 2) {
+                    // Modification failed due to invalid attributes. Reattach UsersChildEventListener.
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
+                    databaseReference.child("Users").child(selected.getKey()).addChildEventListener(childEventListener);
+                } else {
+                    // Modification failed due to database error. Close this activity.
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
+                    finish();
                 }
-
-                // Finish the activity.
-                finish();
             }
         });
     }
@@ -182,7 +151,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        // Detach database listener.
+        // Detach EmployeesChildEventListener.
         databaseReference.child("Users").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

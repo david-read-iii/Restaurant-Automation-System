@@ -64,6 +64,7 @@
     <string name="toast_delete_employee_failed">Employee not deleted</string>
     <string name="toast_modify_employee_success">Employee modified successfully</string>
     <string name="toast_modify_employee_failed">Employee not modified</string>
+    <string name="toast_employee_invalid">Employee has invalid attributes.</string>
     <string name="toast_employee_changed">Employee changed by another user</string>
 
     <!-- ListView empty text -->

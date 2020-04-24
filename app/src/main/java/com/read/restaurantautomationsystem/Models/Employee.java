@@ -16,6 +16,23 @@ public class Employee {
     }
 
     /**
+     * Represents a User with the specified attributes and a null key.
+     *
+     * @param firstName The first name of the User.
+     * @param lastName  The last name of the User.
+     * @param username  The username of the User.
+     * @param password  The password of the User.
+     * @param role      The role of the User.
+     */
+    public Employee(String firstName, String lastName, String username, String password, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    /**
      * Represents a User with the specified attributes.
      *
      * @param key       The unique key of the User.
