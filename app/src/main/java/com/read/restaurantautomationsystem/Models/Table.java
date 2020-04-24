@@ -6,6 +6,12 @@ public class Table {
     private String name;
 
     /**
+     * Represents a Table with null attributes.
+     */
+    public Table() {
+    }
+
+    /**
      * Represents a Table with the specified attributes and a null key.
      *
      * @param name      The name of the table.

@@ -3,8 +3,14 @@ package com.read.restaurantautomationsystem.Models;
 public class MenuItem {
     private String key;
     private String name;
-    private double price;
+    private String price;
     private String category;
+
+    /**
+     * Represents a MenuItem with null attributes.
+     */
+    public MenuItem() {
+    }
 
     /**
      * Represents a Menu Item with the specified attributes and a null key.
@@ -13,7 +19,7 @@ public class MenuItem {
      * @param price     The price of the item.
      * @param category  The category of the item.
      */
-    public MenuItem(String name, double price, String category) {
+    public MenuItem(String name, String price, String category) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -26,7 +32,7 @@ public class MenuItem {
      * @param price     The price of the item.
      * @param category  The category of the item.
      */
-    public MenuItem(String key, String name, double price, String category) {
+    public MenuItem(String key, String name, String price, String category) {
         this.key = key;
         this.name = name;
         this.price = price;
@@ -41,11 +47,11 @@ public class MenuItem {
         this.category = category;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
