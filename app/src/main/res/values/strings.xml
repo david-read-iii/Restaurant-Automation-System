@@ -23,12 +23,19 @@
     <string name="label_first_name">First name:</string>
     <string name="label_last_name">Last name:</string>
     <string name="label_role">"Role:"</string>
+    <string name="label_name">"Name:"</string>
+    <string name="label_price">"Price:"</string>
+    <string name="label_category">"Category:"</string>
 
     <!-- EditText hints -->
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_price">Price</string>
+    <string name="hint_category">Category</string>
+
 
     <!-- Spinner option arrays -->
     <array name="spinner_role_options">
@@ -69,6 +76,9 @@
 
     <!-- ListView empty text -->
     <string name="listview_employees_empty_text">There are no employees</string>
+    <string name="listview_inventory_empty_text">There are no inventory items</string>
+    <string name="listview_menu_empty_text">There are no menu items</string>
+    <string name="listview_table_empty_text">There are no tables</string>
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>
