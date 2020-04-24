@@ -5,14 +5,14 @@
     android:layout_gravity="center">
 
     <TextView
-        android:id="@+id/listview_employees_empty_text"
+        android:id="@+id/empty_text_manage_employees"
         style="@style/TextView.ListView.Empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/listview_employees_empty_text" />
+        android:text="@string/empty_text_manage_employees" />
 
     <ListView
-        android:id="@+id/listview_employees"
+        android:id="@+id/listview_manage_employees"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

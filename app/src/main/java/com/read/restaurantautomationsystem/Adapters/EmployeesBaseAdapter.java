@@ -48,12 +48,12 @@ public class EmployeesBaseAdapter extends BaseAdapter {
 
         // Set layout of a single view of the list view.
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.view_user, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.view_employee, viewGroup, false);
         }
 
         // Bring XML elements from the single view to Java.
-        TextView name = view.findViewById(R.id.view_user_name);
-        TextView role = view.findViewById(R.id.view_user_role);
+        TextView name = view.findViewById(R.id.view_employee_name);
+        TextView role = view.findViewById(R.id.view_employee_role);
 
         // Set the text inside each view to the attributes of each Employee.
         name.setText(context.getString(R.string.format_full_name, employees.get(i).getFirstName(), employees.get(i).getLastName()));

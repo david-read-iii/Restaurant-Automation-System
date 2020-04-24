@@ -9,17 +9,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.read.restaurantautomationsystem.Firebase.EmployeesChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.GenericChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.EmployeesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
@@ -28,7 +22,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
 
     private Employee selected;
     private DatabaseReference databaseReference;
-    private EmployeesChildEventListener childEventListener;
+    private GenericChildEventListener childEventListener;
     private EditText editTextFirstName, editTextLastName, editTextUsername, editTextPassword;
     private Spinner spinnerRole;
     private Button buttonDelete, buttonSave;
@@ -40,7 +34,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
      * get to this activity. The EditTexts and Spinner will allow the user to change the attributes
      * of some Employee. The Button buttonSave will confirm the modification of the Employee to the
      * database. The Button buttonDelete will delete the selected Employee object from the database.
-     * An EmployeesChildEventListener will be setup to close this activity when the selected Employee
+     * An GenericChildEventListener will be setup to close this activity when the selected Employee
      * object is changed by another user in the database.
      */
     @Override
@@ -60,11 +54,11 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 intent.getStringExtra("role")
         );
 
-        // Initialize DatabaseReference and EmployeesChildEventListener.
+        // Initialize DatabaseReference and GenericChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        childEventListener = new EmployeesChildEventListener(this);
+        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_employee_changed));
 
-        // Attach the EmployeesChildEventListener to the selected Employee object in the database.
+        // Attach the GenericChildEventListener to the selected Employee object in the database.
         databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -73,8 +67,8 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.edittext_modify_employee_username);
         editTextPassword = findViewById(R.id.edittext_modify_employee_password);
         spinnerRole = findViewById(R.id.spinner_modify_employee_role);
-        buttonDelete = findViewById(R.id.button_employee_delete);
-        buttonSave = findViewById(R.id.button_employee_save);
+        buttonDelete = findViewById(R.id.button_delete_employee);
+        buttonSave = findViewById(R.id.button_save_employee);
 
         // Define and attach ArrayAdapter to Spinner.
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_role_options, android.R.layout.simple_spinner_item);
@@ -92,7 +86,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach EmployeesChildEventListener.
+                // Detach GenericChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected Employee object from the database.
@@ -114,7 +108,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach EmployeesChildEventListener.
+                // Detach GenericChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Employee selected in the database with the attributes specified in the EditTexts.
@@ -132,7 +126,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_modify_employee_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach UsersChildEventListener.
+                    // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
                     databaseReference.child("Users").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
@@ -151,7 +145,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        // Detach EmployeesChildEventListener.
+        // Detach GenericChildEventListener.
         databaseReference.child("Users").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

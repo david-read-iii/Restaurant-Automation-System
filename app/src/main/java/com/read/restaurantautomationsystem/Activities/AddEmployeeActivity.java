@@ -37,7 +37,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.edittext_add_employee_username);
         editTextPassword = findViewById(R.id.edittext_add_employee_password);
         spinnerRole = findViewById(R.id.spinner_add_employee_role);
-        buttonAdd = findViewById(R.id.button_employee_add);
+        buttonAdd = findViewById(R.id.button_add_employee);
 
         // Define and attach ArrayAdapter to Spinner.
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_role_options, android.R.layout.simple_spinner_item);

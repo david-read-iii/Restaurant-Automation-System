@@ -73,13 +73,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_employee_delete"
+            android:id="@+id/button_delete_employee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_delete" />
 
         <Button
-            android:id="@+id/button_employee_save"
+            android:id="@+id/button_save_employee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_save" />

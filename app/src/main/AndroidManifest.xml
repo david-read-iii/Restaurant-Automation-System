@@ -49,6 +49,25 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".Activities.AddInventoryItemActivity"
+            android:label="@string/activity_add_inventory_item_name"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".Activities.ModifyInventoryItemActivity"
+            android:label="@string/activity_modify_inventory_item_name"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

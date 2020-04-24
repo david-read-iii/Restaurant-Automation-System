@@ -14,6 +14,8 @@
     <string name="activity_add_employee_name">Add Employee</string>
     <string name="activity_modify_employee_name">Modify Employee</string>
     <string name="fragment_manage_inventory_name">Manage Inventory</string>
+    <string name="activity_add_inventory_item_name">Add Inventory Item</string>
+    <string name="activity_modify_inventory_item_name">Modify Inventory Item</string>
     <string name="fragment_manage_tables_name">Manage Tables</string>
     <string name="fragment_manage_menu_name">Manage Menu</string>
 
@@ -24,6 +26,7 @@
     <string name="label_last_name">Last name:</string>
     <string name="label_role">"Role:"</string>
     <string name="label_name">"Name:"</string>
+    <string name="label_quantity">Quantity:</string>
     <string name="label_price">"Price:"</string>
     <string name="label_category">"Category:"</string>
 
@@ -33,9 +36,9 @@
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>
     <string name="hint_name">Name</string>
+    <string name="hint_quantity">Quantity</string>
     <string name="hint_price">Price</string>
     <string name="hint_category">Category</string>
-
 
     <!-- Spinner option arrays -->
     <array name="spinner_role_options">
@@ -51,6 +54,8 @@
     <string name="button_add">Add</string>
     <string name="button_delete">Delete</string>
     <string name="button_save">Save</string>
+    <string name="button_increment">+</string>
+    <string name="button_decrement">-</string>
 
     <!-- Navigation drawer text -->
     <string name="drawer_open">Drawer is open</string>
@@ -73,12 +78,20 @@
     <string name="toast_modify_employee_failed">Employee not modified</string>
     <string name="toast_employee_invalid">Employee has invalid attributes.</string>
     <string name="toast_employee_changed">Employee changed by another user</string>
+    <string name="toast_add_inventory_item_success">Item added successfully</string>
+    <string name="toast_add_inventory_item_failed">Item not added</string>
+    <string name="toast_delete_inventory_item_success">Item deleted successfully</string>
+    <string name="toast_delete_inventory_item_failed">Item not deleted</string>
+    <string name="toast_modify_inventory_item_success">Item modified successfully</string>
+    <string name="toast_modify_inventory_item_failed">Item not modified</string>
+    <string name="toast_inventory_item_invalid">Item has invalid attributes.</string>
+    <string name="toast_inventory_item_changed">Item changed by another user</string>
 
     <!-- ListView empty text -->
-    <string name="listview_employees_empty_text">There are no employees</string>
-    <string name="listview_inventory_empty_text">There are no inventory items</string>
-    <string name="listview_menu_empty_text">There are no menu items</string>
-    <string name="listview_table_empty_text">There are no tables</string>
+    <string name="empty_text_manage_employees">There are no employees</string>
+    <string name="empty_text_manage_inventory">There are no inventory items</string>
+    <string name="empty_text_manage_menu">There are no menu items</string>
+    <string name="empty_text_manage_tables">There are no tables</string>
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>

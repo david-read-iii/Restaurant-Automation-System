@@ -10,19 +10,19 @@ public class Employee {
     private String role;
 
     /**
-     * Represents a User with null attributes.
+     * Represents an Employee with null attributes.
      */
     public Employee() {
     }
 
     /**
-     * Represents a User with the specified attributes and a null key.
+     * Represents a Employee with the specified attributes and a null key.
      *
-     * @param firstName The first name of the User.
-     * @param lastName  The last name of the User.
-     * @param username  The username of the User.
-     * @param password  The password of the User.
-     * @param role      The role of the User.
+     * @param firstName The first name of the Employee.
+     * @param lastName  The last name of the Employee.
+     * @param username  The username of the Employee.
+     * @param password  The password of the Employee.
+     * @param role      The role of the Employee.
      */
     public Employee(String firstName, String lastName, String username, String password, String role) {
         this.firstName = firstName;
@@ -33,14 +33,14 @@ public class Employee {
     }
 
     /**
-     * Represents a User with the specified attributes.
+     * Represents a Employee with the specified attributes.
      *
-     * @param key       The unique key of the User.
-     * @param firstName The first name of the User.
-     * @param lastName  The last name of the User.
-     * @param username  The username of the User.
-     * @param password  The password of the User.
-     * @param role      The role of the User.
+     * @param key       The unique key of the Employee.
+     * @param firstName The first name of the Employee.
+     * @param lastName  The last name of the Employee.
+     * @param username  The username of the Employee.
+     * @param password  The password of the Employee.
+     * @param role      The role of the Employee.
      */
     public Employee(String key, String firstName, String lastName, String username, String password, String role) {
         this.key = key;

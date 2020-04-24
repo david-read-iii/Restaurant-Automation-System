@@ -10,18 +10,20 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.read.restaurantautomationsystem.R;
 
-public class EmployeesChildEventListener implements ChildEventListener {
+public class GenericChildEventListener implements ChildEventListener {
 
     private Context context;
+    private String toastMessage;
 
     /**
-     * Defines a listener that finishes the activity the user is in if a certain child in the
-     * database is changed. Also prints an indication Toast.
+     * Defines a listener that executes code when a certain child in the database is changed. When
+     * this happens, the activity the user is currently in will close and an indication Toast will
+     * be printed.
      */
-    public EmployeesChildEventListener(Context context) {
+    public GenericChildEventListener(Context context, String toastMessage) {
         this.context = context;
+        this.toastMessage = toastMessage;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class EmployeesChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-        Toast.makeText(context, R.string.toast_employee_changed, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
         ((Activity) context).finish();
     }
 

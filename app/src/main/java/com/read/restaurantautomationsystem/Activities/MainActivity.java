@@ -169,8 +169,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }
         if (id == R.id.action_add_inventory_item) {
-            // TODO: Start AddInventoryItemActivity.
-            Toast.makeText(this, "Start AddInventoryItemActivity...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AddInventoryItemActivity.class);
+            startActivity(intent);
         }
         if (id == R.id.action_add_table) {
             // TODO: Start AddTableActivity.

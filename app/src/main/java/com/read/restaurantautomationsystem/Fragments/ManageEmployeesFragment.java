@@ -7,14 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.EmployeesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
@@ -40,8 +36,8 @@ public class ManageEmployeesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_manage_employees, container, false);
 
         // Bring XML elements to Java.
-        listView = rootView.findViewById(R.id.listview_employees);
-        textViewEmpty = rootView.findViewById(R.id.listview_employees_empty_text);
+        listView = rootView.findViewById(R.id.listview_manage_employees);
+        textViewEmpty = rootView.findViewById(R.id.empty_text_manage_employees);
 
         // Initialize ArrayList and EmployeesBaseAdapter.
         employees = new ArrayList<>();
