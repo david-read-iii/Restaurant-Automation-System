@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class InventoryItemsBaseAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<InventoryItem> inventoryItems = new ArrayList<>();
+    private ArrayList<InventoryItem> inventoryItems;
 
     /**
      * Defines how InventoryItem objects in the ArrayList inventoryItems should be adapted to be displayed

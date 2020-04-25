@@ -87,6 +87,25 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".Activities.AddTableActivity"
+            android:label="@string/name_activity_add_table"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".Activities.ModifyTableActivity"
+            android:label="@string/name_activity_modify_table"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

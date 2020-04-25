@@ -116,7 +116,6 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     /**
