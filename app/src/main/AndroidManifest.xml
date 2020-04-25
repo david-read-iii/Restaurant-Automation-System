@@ -68,6 +68,25 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".Activities.AddMenuItemActivity"
+            android:label="@string/name_activity_add_menu_item"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity android:name=".Activities.ModifyMenuItemActivity"
+            android:label="@string/name_activity_modify_menu_item"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

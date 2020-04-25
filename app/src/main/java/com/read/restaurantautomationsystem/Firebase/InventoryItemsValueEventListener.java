@@ -36,7 +36,7 @@ public class InventoryItemsValueEventListener implements ValueEventListener {
         // Clear the ArrayList.
         inventoryItems.clear();
 
-        // Retrieve new Employee objects from the database and store them in the ArrayList.
+        // Retrieve new InventoryItem objects from the database and store them in the ArrayList.
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             InventoryItem inventoryItem = new InventoryItem(
                     ds.getKey(),

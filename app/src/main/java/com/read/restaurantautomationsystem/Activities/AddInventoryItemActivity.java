@@ -59,5 +59,4 @@ public class AddInventoryItemActivity extends AppCompatActivity {
             }
         });
     }
-
 }

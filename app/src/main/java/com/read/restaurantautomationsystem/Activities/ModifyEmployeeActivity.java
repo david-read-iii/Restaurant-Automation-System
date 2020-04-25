@@ -128,7 +128,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 } else if (modified == 2) {
                     // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
-                    databaseReference.child("Users").child(selected.getKey()).addChildEventListener(childEventListener);
+                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
                     // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         super.onPause();
 
         // Detach GenericChildEventListener.
-        databaseReference.child("Users").child(selected.getKey()).removeEventListener(childEventListener);
+        databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.
         finish();

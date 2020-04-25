@@ -101,7 +101,6 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                 ));
 
                 // Depending on the status of the modification, print a Toast and take an action.
-                // Depending on the status of the modification, print a Toast and take an action.
                 if (modified == 0) {
                     // Modification successful. Close this activity.
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_success, Toast.LENGTH_SHORT).show();
@@ -109,7 +108,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                 } else if (modified == 2) {
                     // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
-                    databaseReference.child("Users").child(selected.getKey()).addChildEventListener(childEventListener);
+                    databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
                     // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_failed, Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_padding"
-    tools:context=".Activities.ModifyInventoryItemActivity">
+    tools:context=".Activities.ModifyMenuItemActivity">
 
     <TextView
         style="@style/TextView.Label"
@@ -14,7 +14,7 @@
         android:text="@string/label_name" />
 
     <EditText
-        android:id="@+id/edit_text_modify_inventory_item_name"
+        android:id="@+id/edit_text_modify_menu_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
@@ -23,13 +23,25 @@
         style="@style/TextView.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_quantity" />
+        android:text="@string/label_price" />
 
     <EditText
-        android:id="@+id/edit_text_modify_inventory_item_quantity"
+        android:id="@+id/edit_text_modify_menu_item_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_quantity" />
+        android:hint="@string/hint_price" />
+
+    <TextView
+        style="@style/TextView.Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_category" />
+
+    <EditText
+        android:id="@+id/edit_text_modify_menu_item_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_category" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,13 +49,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_modify_inventory_item_delete"
+            android:id="@+id/button_modify_menu_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_delete" />
 
         <Button
-            android:id="@+id/button_modify_inventory_item_save"
+            android:id="@+id/button_modify_menu_item_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_save" />

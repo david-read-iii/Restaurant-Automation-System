@@ -46,7 +46,7 @@ public class InventoryItemsBaseAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
 
-        // Set layout of a single view of the list view.
+        // Set layout of a single view of the ListView.
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_inventory_item, viewGroup, false);
         }

@@ -177,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Start AddTableActivity...", Toast.LENGTH_SHORT).show();
         }
         if (id == R.id.action_add_menu_item) {
-            // TODO: Start AddMenuItemActivity.
-            Toast.makeText(this, "Start AddMenuItemActivity...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AddMenuItemActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

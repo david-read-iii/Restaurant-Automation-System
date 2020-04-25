@@ -18,6 +18,8 @@
     <string name="name_activity_modify_inventory_item">Modify Inventory Item</string>
     <string name="name_fragment_manage_tables">Manage Tables</string>
     <string name="name_fragment_manage_menu">Manage Menu</string>
+    <string name="name_activity_add_menu_item">Add Menu Item</string>
+    <string name="name_activity_modify_menu_item">Modify Menu Item</string>
 
     <!-- TextView labels -->
     <string name="label_username">Username:</string>
@@ -87,6 +89,15 @@
     <string name="toast_modify_inventory_item_failed">Item not modified</string>
     <string name="toast_inventory_item_invalid">Item has invalid attributes.</string>
     <string name="toast_inventory_item_changed">Item changed by another user</string>
+
+    <string name="toast_add_menu_item_success">Item added successfully</string>
+    <string name="toast_add_menu_item_failed">Item not added</string>
+    <string name="toast_delete_menu_item_success">Item deleted successfully</string>
+    <string name="toast_delete_menu_item_failed">Item not deleted</string>
+    <string name="toast_modify_menu_item_success">Item modified successfully</string>
+    <string name="toast_modify_menu_item_failed">Item not modified</string>
+    <string name="toast_menu_item_invalid">Item has invalid attributes.</string>
+    <string name="toast_menu_item_changed">Item changed by another user</string>
 
     <!-- ListView empty text -->
     <string name="empty_text_manage_employees">There are no employees</string>
