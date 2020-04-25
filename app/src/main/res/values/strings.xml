@@ -31,6 +31,12 @@
     <string name="label_quantity">Quantity:</string>
     <string name="label_price">"Price:"</string>
     <string name="label_category">"Category:"</string>
+    <string name="label_table_name">"Table Name:"</string>
+    <string name="label_table_password">"Table Password:"</string>
+    <string name="label_waiter">"Waiter:"</string>
+    <string name="label_edit_table">"Edit Table:"</string>
+
+
 
     <!-- EditText hints -->
     <string name="hint_username">Username</string>
