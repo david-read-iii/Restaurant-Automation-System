@@ -10,37 +10,13 @@
         style="@style/TextView.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_table_name" />
+        android:text="@string/label_name" />
 
     <EditText
         android:id="@+id/edit_text_add_table_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
-
-    <TextView
-        style="@style/TextView.Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_table_password" />
-
-    <EditText
-        android:id="@+id/edit_text_add_table_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_password" />
-
-    <TextView
-        style="@style/TextView.Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_waiter" />
-
-    <Spinner
-        android:id="@+id/spinner_add_waiter"
-        style="@style/Spinner.Default"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/button_add_table"

@@ -4,43 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/activity_padding" >
+    android:padding="@dimen/activity_padding">
 
     <TextView
         style="@style/TextView.Label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_table_name" />
+        android:text="@string/label_name" />
 
     <EditText
         android:id="@+id/edit_text_modify_table_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
-
-    <TextView
-        style="@style/TextView.Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_table_password" />
-
-    <EditText
-        android:id="@+id/edit_text_modify_table_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_password" />
-
-    <TextView
-        style="@style/TextView.Label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/label_edit_table" />
-
-    <Spinner
-        android:id="@+id/spinner_modify_table"
-        style="@style/Spinner.Default"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="wrap_content"

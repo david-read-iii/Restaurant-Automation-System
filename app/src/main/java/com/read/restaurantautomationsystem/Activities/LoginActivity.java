@@ -24,8 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Bring XML elements to Java.
-        EditText editTextUsername = findViewById(R.id.edittext_login_username);
-        EditText editTextPassword = findViewById(R.id.edittext_login_password);
+        EditText editTextUsername = findViewById(R.id.edit_text_login_username);
+        EditText editTextPassword = findViewById(R.id.edit_text_login_password);
         Button button = findViewById(R.id.button_login);
 
         // Set text in Toolbar.
