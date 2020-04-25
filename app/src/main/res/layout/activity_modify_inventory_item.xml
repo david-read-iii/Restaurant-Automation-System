@@ -13,7 +13,7 @@
         android:text="@string/label_name" />
 
     <EditText
-        android:id="@+id/edittext_modify_inventory_item_name"
+        android:id="@+id/edit_text_modify_inventory_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
@@ -25,7 +25,7 @@
         android:text="@string/label_quantity" />
 
     <EditText
-        android:id="@+id/edittext_modify_inventory_item_quantity"
+        android:id="@+id/edit_text_modify_inventory_item_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_quantity" />
@@ -36,13 +36,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_delete_inventory_item"
+            android:id="@+id/button_modify_inventory_item_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_delete" />
 
         <Button
-            android:id="@+id/button_save_inventory_item"
+            android:id="@+id/button_modify_inventory_item_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_save" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- App theme styles -->
+    <!-- AppTheme styles -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
@@ -19,13 +19,21 @@
         <item name="android:textColor">@color/color_accent</item>
     </style>
 
-    <style name="TextView.ListView.Primary" parent="@android:style/TextAppearance.Medium" />
+    <style name="TextView.PrimaryListViewText" parent="@android:style/TextAppearance.Medium" />
 
-    <style name="TextView.ListView.Secondary" parent="@android:style/TextAppearance.Small" />
+    <style name="TextView.SecondaryListViewText" parent="@android:style/TextAppearance.Small" />
 
-    <style name="TextView.ListView.Empty" parent="@android:style/TextAppearance.Medium">
+    <style name="TextView.EmptyListViewText" parent="@android:style/TextAppearance.Medium">
         <item name="android:gravity">center</item>
         <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="TextView.PrimaryDrawerHeaderText" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/color_text_light</item>
+    </style>
+
+    <style name="TextView.SecondaryDrawerHeaderText" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/color_text_light</item>
     </style>
 
     <!-- Spinner formatting styles -->

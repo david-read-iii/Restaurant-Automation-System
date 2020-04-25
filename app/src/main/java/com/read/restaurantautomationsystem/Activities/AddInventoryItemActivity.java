@@ -29,8 +29,8 @@ public class AddInventoryItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_inventory_item);
 
         // Bring XML elements to Java.
-        editTextName = findViewById(R.id.edittext_add_inventory_item_name);
-        editTextQuantity = findViewById(R.id.edittext_add_inventory_item_quantity);
+        editTextName = findViewById(R.id.edit_text_add_inventory_item_name);
+        editTextQuantity = findViewById(R.id.edit_text_add_inventory_item_quantity);
         buttonAdd = findViewById(R.id.button_add_inventory_item);
 
         // Attach a click listener to buttonAdd.

@@ -3,20 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/view_padding">
+    android:padding="@dimen/item_padding">
 
     <TextView
-        android:id="@+id/view_inventory_item_name"
-        style="@style/TextView.ListView.Primary"
+        android:id="@+id/text_view_employee_name"
+        style="@style/TextView.PrimaryListViewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name" />
 
     <TextView
-        android:id="@+id/view_inventory_item_quantity"
-        style="@style/TextView.ListView.Secondary"
+        android:id="@+id/text_view_employee_role"
+        style="@style/TextView.SecondaryListViewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quantity" />
+        android:text="Role" />
 
 </LinearLayout>

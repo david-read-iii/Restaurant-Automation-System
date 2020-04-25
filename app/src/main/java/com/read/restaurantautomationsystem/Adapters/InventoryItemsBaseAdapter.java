@@ -48,12 +48,12 @@ public class InventoryItemsBaseAdapter extends BaseAdapter {
 
         // Set layout of a single view of the list view.
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.view_inventory_item, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_inventory_item, viewGroup, false);
         }
 
         // Bring XML elements from the single view to Java.
-        TextView name = view.findViewById(R.id.view_inventory_item_name);
-        TextView quantity = view.findViewById(R.id.view_inventory_item_quantity);
+        TextView name = view.findViewById(R.id.text_view_inventory_item_name);
+        TextView quantity = view.findViewById(R.id.text_view_inventory_item_quantity);
 
         // Set the text inside each view to the attributes of each InventoryItem.
         name.setText(inventoryItems.get(i).getName());

@@ -13,7 +13,7 @@
         android:text="@string/label_name" />
 
     <EditText
-        android:id="@+id/edittext_add_menu_item_name"
+        android:id="@+id/edit_text_add_menu_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
@@ -25,7 +25,7 @@
         android:text="@string/label_price" />
 
     <EditText
-        android:id="@+id/edittext_add_menu_item_price"
+        android:id="@+id/edit_text_add_menu_item_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_price" />
@@ -37,7 +37,7 @@
         android:text="@string/label_category" />
 
     <EditText
-        android:id="@+id/edittext_add_menu_item_category"
+        android:id="@+id/edit_text_add_menu_item_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_category" />

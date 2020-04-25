@@ -36,8 +36,8 @@ public class ManageInventoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_manage_inventory, container, false);
 
         // Bring XML elements to Java.
-        listView = rootView.findViewById(R.id.listview_manage_inventory);
-        textViewEmpty = rootView.findViewById(R.id.empty_text_manage_inventory);
+        listView = rootView.findViewById(R.id.list_view_manage_inventory);
+        textViewEmpty = rootView.findViewById(R.id.text_view_manage_inventory_empty);
 
         // Initialize ArrayList and InventoryItemsBaseAdapter.
         inventoryItems = new ArrayList<>();

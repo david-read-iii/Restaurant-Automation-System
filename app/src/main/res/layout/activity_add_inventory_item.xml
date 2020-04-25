@@ -13,7 +13,7 @@
         android:text="@string/label_name" />
 
     <EditText
-        android:id="@+id/edittext_add_inventory_item_name"
+        android:id="@+id/edit_text_add_inventory_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_name" />
@@ -25,7 +25,7 @@
         android:text="@string/label_quantity" />
 
     <EditText
-        android:id="@+id/edittext_add_inventory_item_quantity"
+        android:id="@+id/edit_text_add_inventory_item_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_quantity" />

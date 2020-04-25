@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- General dimens -->
     <dimen name="activity_padding">16dp</dimen>
-    <dimen name="view_padding">16dp</dimen>
+    <dimen name="item_padding">16dp</dimen>
+    <dimen name="spinner_vertical_padding">16dp</dimen>
 
     <!-- LoginActivity dimens -->
     <dimen name="activity_login_view_vertical_padding">16dp</dimen>
 
-    <!-- MainActivity dimens -->
-    <dimen name="drawer_header_height">150dp</dimen>
-    <dimen name="drawer_header_content_horizontal_padding">16dp</dimen>
-    <dimen name="drawer_header_content_vertical_padding">8dp</dimen>
-
-    <!-- AddEmployeesActivity and ModifyEmployeesActivity dimens -->
-    <dimen name="spinner_vertical_padding">16dp</dimen>
+    <!-- MainDrawerHeader dimens -->
+    <dimen name="drawer_header_main_height">150dp</dimen>
+    <dimen name="drawer_header_main_content_horizontal_padding">16dp</dimen>
+    <dimen name="drawer_header_main_content_vertical_padding">8dp</dimen>
 
 </resources>

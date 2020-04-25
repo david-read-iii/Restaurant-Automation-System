@@ -14,7 +14,7 @@
         android:text="@string/label_first_name" />
 
     <EditText
-        android:id="@+id/edittext_modify_employee_first_name"
+        android:id="@+id/edit_text_modify_employee_first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_first_name" />
@@ -26,7 +26,7 @@
         android:text="@string/label_last_name" />
 
     <EditText
-        android:id="@+id/edittext_modify_employee_last_name"
+        android:id="@+id/edit_text_modify_employee_last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_last_name" />
@@ -38,7 +38,7 @@
         android:text="@string/label_username" />
 
     <EditText
-        android:id="@+id/edittext_modify_employee_username"
+        android:id="@+id/edit_text_modify_employee_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_username" />
@@ -50,7 +50,7 @@
         android:text="@string/label_password" />
 
     <EditText
-        android:id="@+id/edittext_modify_employee_password"
+        android:id="@+id/edit_text_modify_employee_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_password" />
@@ -73,13 +73,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_delete_employee"
+            android:id="@+id/button_modify_employee_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_delete" />
 
         <Button
-            android:id="@+id/button_save_employee"
+            android:id="@+id/button_modify_employee_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_save" />

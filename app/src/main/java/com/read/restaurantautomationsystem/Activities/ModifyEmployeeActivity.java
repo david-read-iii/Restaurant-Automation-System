@@ -62,16 +62,16 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
-        editTextFirstName = findViewById(R.id.edittext_modify_employee_first_name);
-        editTextLastName = findViewById(R.id.edittext_modify_employee_last_name);
-        editTextUsername = findViewById(R.id.edittext_modify_employee_username);
-        editTextPassword = findViewById(R.id.edittext_modify_employee_password);
+        editTextFirstName = findViewById(R.id.edit_text_modify_employee_first_name);
+        editTextLastName = findViewById(R.id.edit_text_modify_employee_last_name);
+        editTextUsername = findViewById(R.id.edit_text_modify_employee_username);
+        editTextPassword = findViewById(R.id.edit_text_modify_employee_password);
         spinnerRole = findViewById(R.id.spinner_modify_employee_role);
-        buttonDelete = findViewById(R.id.button_delete_employee);
-        buttonSave = findViewById(R.id.button_save_employee);
+        buttonDelete = findViewById(R.id.button_modify_employee_delete);
+        buttonSave = findViewById(R.id.button_modify_employee_save);
 
         // Define and attach ArrayAdapter to Spinner.
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_role_options, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_options_role, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(spinnerAdapter);
 

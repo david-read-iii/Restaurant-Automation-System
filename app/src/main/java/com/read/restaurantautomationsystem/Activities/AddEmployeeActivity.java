@@ -32,15 +32,15 @@ public class AddEmployeeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_employee);
 
         // Bring XML elements to Java.
-        editTextFirstName = findViewById(R.id.edittext_add_employee_first_name);
-        editTextLastName = findViewById(R.id.edittext_add_employee_last_name);
-        editTextUsername = findViewById(R.id.edittext_add_employee_username);
-        editTextPassword = findViewById(R.id.edittext_add_employee_password);
+        editTextFirstName = findViewById(R.id.edit_text_add_employee_first_name);
+        editTextLastName = findViewById(R.id.edit_text_add_employee_last_name);
+        editTextUsername = findViewById(R.id.edit_text_add_employee_username);
+        editTextPassword = findViewById(R.id.edit_text_add_employee_password);
         spinnerRole = findViewById(R.id.spinner_add_employee_role);
         buttonAdd = findViewById(R.id.button_add_employee);
 
         // Define and attach ArrayAdapter to Spinner.
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_role_options, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_options_role, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRole.setAdapter(spinnerAdapter);
 

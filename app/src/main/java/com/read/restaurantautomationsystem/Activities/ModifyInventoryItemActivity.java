@@ -56,10 +56,10 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
         databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
-        editTextName = findViewById(R.id.edittext_modify_inventory_item_name);
-        editTextQuantity = findViewById(R.id.edittext_modify_inventory_item_quantity);
-        buttonDelete = findViewById(R.id.button_delete_inventory_item);
-        buttonSave = findViewById(R.id.button_save_inventory_item);
+        editTextName = findViewById(R.id.edit_text_modify_inventory_item_name);
+        editTextQuantity = findViewById(R.id.edit_text_modify_inventory_item_quantity);
+        buttonDelete = findViewById(R.id.button_modify_inventory_item_delete);
+        buttonSave = findViewById(R.id.button_modify_inventory_item_save);
 
         // Set EditText values as the attributes of the selected InventoryItem.
         editTextName.setText(selected.getName());

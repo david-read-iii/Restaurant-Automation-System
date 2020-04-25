@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // Use custom Toolbar.
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         // Setup the NavigationDrawer.
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        drawerLayout = findViewById(R.id.drawer_layout_main);
+        NavigationView navigationView = findViewById(R.id.navigation_view_main);
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_closed);
         navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -83,18 +83,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // Set the drawer header text as the name and role of the logged in employee.
-        TextView textViewFullName = navigationView.getHeaderView(0).findViewById(R.id.textview_drawer_name);
-        TextView textViewRole = navigationView.getHeaderView(0).findViewById(R.id.textview_drawer_role);
+        TextView textViewFullName = navigationView.getHeaderView(0).findViewById(R.id.text_view_drawer_header_main_name);
+        TextView textViewRole = navigationView.getHeaderView(0).findViewById(R.id.text_view_drawer_header_main_role);
         textViewFullName.setText(getString(R.string.format_full_name, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()));
         textViewRole.setText(loggedInEmployee.getRole());
 
         // Start a Fragment given the role of the logged in employee.
         if (loggedInEmployee.getRole().equals("Manager")) {
-            startFragment(new ViewReportsFragment(), getString(R.string.fragment_view_reports_name));
+            startFragment(new ViewReportsFragment(), getString(R.string.name_fragment_view_reports));
         } else if (loggedInEmployee.getRole().equals("Cook")) {
-            startFragment(new OrderQueueFragment(), getString(R.string.fragment_order_queue_name));
+            startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
         } else {
-            startFragment(new TableListFragment(), getString(R.string.fragment_table_list_name));
+            startFragment(new TableListFragment(), getString(R.string.name_fragment_table_list));
         }
     }
 
@@ -124,25 +124,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Start the appropriate Fragment.
         if (menuItem.getItemId() == R.id.drawer_menu_table_list) {
-            startFragment(new TableListFragment(), getString(R.string.fragment_table_list_name));
+            startFragment(new TableListFragment(), getString(R.string.name_fragment_table_list));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_order_queue) {
-            startFragment(new OrderQueueFragment(), getString(R.string.fragment_order_queue_name));
+            startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_view_reports) {
-            startFragment(new ViewReportsFragment(), getString(R.string.fragment_view_reports_name));
+            startFragment(new ViewReportsFragment(), getString(R.string.name_fragment_view_reports));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_employees) {
-            startFragment(new ManageEmployeesFragment(), getString(R.string.fragment_manage_employees_name), R.menu.manage_employees_menu);
+            startFragment(new ManageEmployeesFragment(), getString(R.string.name_fragment_manage_employees), R.menu.manage_employees_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_inventory) {
-            startFragment(new ManageInventoryFragment(), getString(R.string.fragment_manage_inventory_name), R.menu.manage_inventory_menu);
+            startFragment(new ManageInventoryFragment(), getString(R.string.name_fragment_manage_inventory), R.menu.manage_inventory_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
-            startFragment(new ManageTablesFragment(), getString(R.string.fragment_manage_tables_name), R.menu.manage_tables_menu);
+            startFragment(new ManageTablesFragment(), getString(R.string.name_fragment_manage_tables), R.menu.manage_tables_menu);
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_menu) {
-            startFragment(new ManageMenuFragment(), getString(R.string.fragment_manage_menu_name), R.menu.manage_menu_menu);
+            startFragment(new ManageMenuFragment(), getString(R.string.name_fragment_manage_menu), R.menu.manage_menu_menu);
         }
         return true;
     }
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_add_user) {
+        if (id == R.id.action_add_employee) {
             Intent intent = new Intent(this, AddEmployeeActivity.class);
             startActivity(intent);
         }
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Start Fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container_main, fragment);
         fragmentTransaction.commit();
     }
 
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Start Fragment.
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.replace(R.id.fragment_container_main, fragment);
         fragmentTransaction.commit();
     }
 

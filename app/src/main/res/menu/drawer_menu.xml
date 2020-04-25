@@ -5,10 +5,10 @@
         <menu>
             <item
                 android:id="@+id/drawer_menu_table_list"
-                android:title="@string/fragment_table_list_name" />
+                android:title="@string/name_fragment_table_list" />
             <item
                 android:id="@+id/drawer_menu_order_queue"
-                android:title="@string/fragment_order_queue_name" />
+                android:title="@string/name_fragment_order_queue" />
         </menu>
     </item>
 
@@ -16,19 +16,19 @@
         <menu>
             <item
                 android:id="@+id/drawer_menu_view_reports"
-                android:title="@string/fragment_view_reports_name" />
+                android:title="@string/name_fragment_view_reports" />
             <item
                 android:id="@+id/drawer_menu_manage_employees"
-                android:title="@string/fragment_manage_employees_name" />
+                android:title="@string/name_fragment_manage_employees" />
             <item
                 android:id="@+id/drawer_menu_manage_inventory"
-                android:title="@string/fragment_manage_inventory_name" />
+                android:title="@string/name_fragment_manage_inventory" />
             <item
                 android:id="@+id/drawer_menu_manage_tables"
-                android:title="@string/fragment_manage_tables_name" />
+                android:title="@string/name_fragment_manage_tables" />
             <item
                 android:id="@+id/drawer_menu_manage_menu"
-                android:title="@string/fragment_manage_menu_name" />
+                android:title="@string/name_fragment_manage_menu" />
         </menu>
     </item>
 
