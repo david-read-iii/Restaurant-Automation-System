@@ -1,14 +1,12 @@
 package com.read.restaurantautomationsystem.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.read.restaurantautomationsystem.Activities.ModifyInventoryItemActivity;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
 
@@ -44,7 +42,7 @@ public class InventoryItemsBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
         // Set layout of a single view of the ListView.
         if (view == null) {
@@ -55,24 +53,13 @@ public class InventoryItemsBaseAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.text_view_inventory_item_name);
         TextView quantity = view.findViewById(R.id.text_view_inventory_item_quantity);
 
-        // Set the text inside each view to the attributes of each InventoryItem.
-        name.setText(inventoryItems.get(i).getName());
-        quantity.setText(inventoryItems.get(i).getQuantity());
+        // Retrieve attributes of the ith InventoryItem object in the ArrayList.
+        InventoryItem selected = (InventoryItem) getItem(i);
 
-        // Attach a click listener to each view to start the ModifyInventoryItemActivity.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ModifyInventoryItemActivity.class);
+        // Set text as the attributes of the ith InventoryItem object.
+        name.setText(selected.getName());
+        quantity.setText(selected.getQuantity());
 
-                // Pass the attributes of the selected InventoryItem to the activity.
-                intent.putExtra("key", inventoryItems.get(i).getKey());
-                intent.putExtra("name", inventoryItems.get(i).getName());
-                intent.putExtra("quantity", inventoryItems.get(i).getQuantity());
-
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 }

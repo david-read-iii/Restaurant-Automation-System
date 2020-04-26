@@ -1,6 +1,7 @@
 package com.read.restaurantautomationsystem.Firebase.ValueEventListeners;
 
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,23 +13,22 @@ import com.read.restaurantautomationsystem.Adapters.InventoryItemsBaseAdapter;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class InventoryItemsValueEventListener implements ValueEventListener {
 
     private ArrayList<InventoryItem> inventoryItems;
-    private InventoryItemsBaseAdapter baseAdapter;
-    private TextView textViewEmpty;
+    private BaseAdapter baseAdapter;
 
     /**
      * Defines a ValueEventListener that syncs a given ArrayList with InventoryItem objects in the database.
      * When the ArrayList is synced, a given BaseAdapter is notified so that it can update its
-     * ListView. When the ArrayList is empty, a given TextView is notified so that it can display
-     * text that indicates so.
+     * ListView.
      */
-    public InventoryItemsValueEventListener(ArrayList<InventoryItem> inventoryItems, InventoryItemsBaseAdapter baseAdapter, TextView textViewEmpty) {
+    public InventoryItemsValueEventListener(ArrayList<InventoryItem> inventoryItems, BaseAdapter baseAdapter) {
         this.inventoryItems = inventoryItems;
         this.baseAdapter = baseAdapter;
-        this.textViewEmpty = textViewEmpty;
     }
 
     @Override
@@ -46,15 +46,16 @@ public class InventoryItemsValueEventListener implements ValueEventListener {
             inventoryItems.add(inventoryItem);
         }
 
+        // Sort InventoryItem objects in ArrayList alphabetically by name.
+        Collections.sort(inventoryItems, new Comparator<InventoryItem>() {
+            @Override
+            public int compare(InventoryItem i1, InventoryItem i2) {
+                return i1.getName().compareToIgnoreCase(i2.getName());
+            }
+        });
+
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();
-
-        // Set visibility of the empty TextView depending on if the ArrayList is empty.
-        if (inventoryItems.isEmpty()) {
-            textViewEmpty.setVisibility(View.VISIBLE);
-        } else {
-            textViewEmpty.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override

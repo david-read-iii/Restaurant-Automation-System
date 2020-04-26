@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class EmployeesBaseAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Employee> employees = new ArrayList<>();
+    private ArrayList<Employee> employees;
 
     /**
      * Defines how Employee objects in the ArrayList employees should be adapted to be displayed
@@ -44,9 +44,9 @@ public class EmployeesBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
-        // Set layout of a single view of the list view.
+        // Set layout of a single view of the ListView.
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_employee, viewGroup, false);
         }
@@ -55,27 +55,13 @@ public class EmployeesBaseAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.text_view_employee_name);
         TextView role = view.findViewById(R.id.text_view_employee_role);
 
-        // Set the text inside each view to the attributes of each Employee.
-        name.setText(context.getString(R.string.format_full_name, employees.get(i).getFirstName(), employees.get(i).getLastName()));
-        role.setText(employees.get(i).getRole());
+        // Retrieve attributes of the ith Employee object in the ArrayList.
+        Employee selected = (Employee) getItem(i);
 
-        // Attach a click listener to each view to start the ModifyEmployeeActivity.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ModifyEmployeeActivity.class);
+        // Set text as the attributes of the ith Employee object.
+        name.setText(context.getString(R.string.format_full_name, selected.getFirstName(), selected.getLastName()));
+        role.setText(selected.getRole());
 
-                // Pass the attributes of the selected Employee to the activity.
-                intent.putExtra("key", employees.get(i).getKey());
-                intent.putExtra("firstName", employees.get(i).getFirstName());
-                intent.putExtra("lastName", employees.get(i).getLastName());
-                intent.putExtra("username", employees.get(i).getUsername());
-                intent.putExtra("password", employees.get(i).getPassword());
-                intent.putExtra("role", employees.get(i).getRole());
-
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 }

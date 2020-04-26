@@ -1,9 +1,11 @@
 package com.read.restaurantautomationsystem.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.read.restaurantautomationsystem.Activities.ModifyEmployeeActivity;
 import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.EmployeesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
@@ -33,7 +36,7 @@ public class ManageEmployeesFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_manage_employees, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_manage_employees, container, false);
 
         // Bring XML elements to Java.
         listView = rootView.findViewById(R.id.list_view_manage_employees);
@@ -45,11 +48,34 @@ public class ManageEmployeesFragment extends Fragment {
 
         // Initialize DatabaseReference and EmployeesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        valueEventListener = new EmployeesValueEventListener(employees, baseAdapter, textViewEmpty);
+        valueEventListener = new EmployeesValueEventListener(employees, baseAdapter);
 
-        // Set adapter of ListView.
+        // Set adapter and empty view of ListView.
         listView.setAdapter(baseAdapter);
         listView.setEmptyView(textViewEmpty);
+
+        // Define ListView clicks.
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                // Retrieve attributes of the selected Employee object.
+                Employee selected = (Employee) baseAdapter.getItem(i);
+
+                // Start the ModifyEmployeeActivity.
+                Intent intent = new Intent(rootView.getContext(), ModifyEmployeeActivity.class);
+
+                // Pass the attributes of the selected Employee to the activity.
+                intent.putExtra("key", selected.getKey());
+                intent.putExtra("firstName", selected.getFirstName());
+                intent.putExtra("lastName", selected.getLastName());
+                intent.putExtra("username", selected.getUsername());
+                intent.putExtra("password", selected.getPassword());
+                intent.putExtra("role", selected.getRole());
+
+                rootView.getContext().startActivity(intent);
+            }
+        });
 
         return rootView;
     }

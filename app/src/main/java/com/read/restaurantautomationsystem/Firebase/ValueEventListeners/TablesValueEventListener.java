@@ -1,15 +1,12 @@
 package com.read.restaurantautomationsystem.Firebase.ValueEventListeners;
 
-import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.read.restaurantautomationsystem.Adapters.TablesBaseAdapter;
 import com.read.restaurantautomationsystem.Models.Table;
 
 import java.util.ArrayList;
@@ -20,18 +17,15 @@ public class TablesValueEventListener implements ValueEventListener {
 
     private ArrayList<Table> tables;
     private BaseAdapter baseAdapter;
-    private TextView textViewEmpty;
 
     /**
      * Defines a ValueEventListener that syncs a given ArrayList with Table objects in the database.
      * When the ArrayList is synced, a given BaseAdapter is notified so that it can update its
-     * ListView. When the ArrayList is empty, a given TextView is notified so that it can display
-     * text that indicates so.
+     * ListView.
      */
-    public TablesValueEventListener(ArrayList<Table> tables, BaseAdapter baseAdapter, TextView textViewEmpty) {
+    public TablesValueEventListener(ArrayList<Table> tables, BaseAdapter baseAdapter) {
         this.tables = tables;
         this.baseAdapter = baseAdapter;
-        this.textViewEmpty = textViewEmpty;
     }
 
     @Override
@@ -49,23 +43,16 @@ public class TablesValueEventListener implements ValueEventListener {
             tables.add(table);
         }
 
-        // Sort Tables alphabetically.
+        // Sort Tables objects in ArrayList alphabetically by name.
         Collections.sort(tables, new Comparator<Table>() {
             @Override
-            public int compare(Table table1, Table table2) {
-                return table1.getName().compareToIgnoreCase(table2.getName());
+            public int compare(Table t1, Table t2) {
+                return t1.getName().compareToIgnoreCase(t2.getName());
             }
         });
 
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();
-
-        // Set visibility of the empty TextView depending on if the ArrayList is empty.
-        if (tables.isEmpty()) {
-            textViewEmpty.setVisibility(View.VISIBLE);
-        } else {
-            textViewEmpty.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override

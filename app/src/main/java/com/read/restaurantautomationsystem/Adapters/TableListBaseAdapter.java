@@ -53,9 +53,12 @@ public class TableListBaseAdapter extends BaseAdapter {
         TextView name = view.findViewById(R.id.text_view_table_employee_view_name);
         TextView status = view.findViewById(R.id.text_view_table_employee_view_status);
 
-        // Set the text inside each view to the attributes of each Table.
-        name.setText(tables.get(i).getName());
-        status.setText(tables.get(i).getStatus());
+        // Retrieve attributes of the ith Table object in the ArrayList.
+        Table selected = (Table) getItem(i);
+
+        // Set text as the attributes of the ith Table object.
+        name.setText(selected.getName());
+        status.setText(selected.getStatus());
 
         return view;
     }

@@ -1,9 +1,11 @@
 package com.read.restaurantautomationsystem.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.read.restaurantautomationsystem.Activities.ModifyTableActivity;
 import com.read.restaurantautomationsystem.Adapters.TablesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.TablesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Table;
@@ -33,7 +36,7 @@ public class ManageTablesFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_manage_tables, container, false);
+        final View rootView =  inflater.inflate(R.layout.fragment_manage_tables, container, false);
 
         // Bring XML elements to Java.
         listView = rootView.findViewById(R.id.list_view_manage_tables);
@@ -45,10 +48,30 @@ public class ManageTablesFragment extends Fragment {
 
         // Initialize DatabaseReference and TablesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        valueEventListener = new TablesValueEventListener(tables, baseAdapter, textViewEmpty);
+        valueEventListener = new TablesValueEventListener(tables, baseAdapter);
 
-        // Set adapter of ListView.
+        // Set adapter and empty view of ListView.
         listView.setAdapter(baseAdapter);
+        listView.setEmptyView(textViewEmpty);
+
+        // Define ListView clicks.
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Retrieve attributes of selected Table object.
+                Table selected = (Table) baseAdapter.getItem(i);
+
+                // Start ModifyTableActivity.
+                Intent intent = new Intent(rootView.getContext(), ModifyTableActivity.class);
+
+                // Pass the attributes of the selected Table object to the activity.
+                intent.putExtra("key", selected.getKey());
+                intent.putExtra("name", selected.getName());
+                intent.putExtra("status", selected.getStatus());
+
+                rootView.getContext().startActivity(intent);
+            }
+        });
 
         return rootView;
     }

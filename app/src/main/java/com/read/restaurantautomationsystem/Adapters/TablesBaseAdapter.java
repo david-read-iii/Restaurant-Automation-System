@@ -1,14 +1,12 @@
 package com.read.restaurantautomationsystem.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.read.restaurantautomationsystem.Activities.ModifyTableActivity;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 
@@ -44,7 +42,7 @@ public class TablesBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
         // Set layout of a single view of the ListView.
         if (view == null) {
@@ -54,23 +52,12 @@ public class TablesBaseAdapter extends BaseAdapter {
         // Bring XML elements from the single view to Java.
         TextView name = view.findViewById(R.id.text_view_table_manager_view_name);
 
-        // Set the text inside each view to the attributes of each Table.
-        name.setText(tables.get(i).getName());
+        // Retrieve attributes of the ith Table object in the ArrayList.
+        Table selected = (Table) getItem(i);
 
-        // Attach a click listener to each view to start the ModifyTableActivity.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ModifyTableActivity.class);
+        // Set text as the attributes of the ith Table object.
+        name.setText(selected.getName());
 
-                // Pass the attributes of the selected Table object to the activity.
-                intent.putExtra("key", tables.get(i).getKey());
-                intent.putExtra("name", tables.get(i).getName());
-                intent.putExtra("status", tables.get(i).getStatus());
-
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 }

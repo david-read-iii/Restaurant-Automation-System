@@ -1,6 +1,7 @@
 package com.read.restaurantautomationsystem.Firebase.ValueEventListeners;
 
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,23 +13,22 @@ import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
 import com.read.restaurantautomationsystem.Models.Employee;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class EmployeesValueEventListener implements ValueEventListener {
 
     private ArrayList<Employee> employees;
-    private EmployeesBaseAdapter baseAdapter;
-    private TextView textViewEmpty;
+    private BaseAdapter baseAdapter;
 
     /**
      * Defines a ValueEventListener that syncs a given ArrayList with Employee objects in the database.
      * When the ArrayList is synced, a given BaseAdapter is notified so that it can update its
-     * ListView. When the ArrayList is empty, a given TextView is notified so that it can display
-     * text that indicates so.
+     * ListView.
      */
-    public EmployeesValueEventListener(ArrayList<Employee> employees, EmployeesBaseAdapter baseAdapter, TextView textViewEmpty) {
+    public EmployeesValueEventListener(ArrayList<Employee> employees, BaseAdapter baseAdapter) {
         this.employees = employees;
         this.baseAdapter = baseAdapter;
-        this.textViewEmpty = textViewEmpty;
     }
 
     @Override
@@ -49,15 +49,22 @@ public class EmployeesValueEventListener implements ValueEventListener {
             employees.add(employee);
         }
 
+        // Sort Employee objects in ArrayList alphabetically by last name, then by first name.
+        Collections.sort(employees, new Comparator<Employee>() {
+            @Override
+            public int compare(Employee e1, Employee e2) {
+                int lastNameCompareValue = e1.getLastName().compareToIgnoreCase(e2.getLastName());
+
+                if (lastNameCompareValue != 0) {
+                    return lastNameCompareValue;
+                } else {
+                    return e1.getFirstName().compareToIgnoreCase(e2.getLastName());
+                }
+            }
+        });
+
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();
-
-        // Set visibility of the empty TextView depending on if the ArrayList is empty.
-        if (employees.isEmpty()) {
-            textViewEmpty.setVisibility(View.VISIBLE);
-        } else {
-            textViewEmpty.setVisibility(View.INVISIBLE);
-        }
     }
 
     @Override

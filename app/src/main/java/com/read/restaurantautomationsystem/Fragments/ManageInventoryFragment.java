@@ -1,9 +1,11 @@
 package com.read.restaurantautomationsystem.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.read.restaurantautomationsystem.Activities.ModifyInventoryItemActivity;
 import com.read.restaurantautomationsystem.Adapters.InventoryItemsBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.InventoryItemsValueEventListener;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
@@ -33,7 +36,7 @@ public class ManageInventoryFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_manage_inventory, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_manage_inventory, container, false);
 
         // Bring XML elements to Java.
         listView = rootView.findViewById(R.id.list_view_manage_inventory);
@@ -45,10 +48,30 @@ public class ManageInventoryFragment extends Fragment {
 
         // Initialize DatabaseReference and InventoryItemsValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        valueEventListener = new InventoryItemsValueEventListener(inventoryItems, baseAdapter, textViewEmpty);
+        valueEventListener = new InventoryItemsValueEventListener(inventoryItems, baseAdapter);
 
-        // Set adapter of ListView.
+        // Set adapter and empty view of ListView.
         listView.setAdapter(baseAdapter);
+        listView.setEmptyView(textViewEmpty);
+
+        // Define ListView clicks.
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Retrieve attributes of selected InventoryItem object.
+                InventoryItem selected = (InventoryItem) baseAdapter.getItem(i);
+
+                // Start the ModifyInventoryItemActivity.
+                Intent intent = new Intent(rootView.getContext(), ModifyInventoryItemActivity.class);
+
+                // Pass the attributes of the selected InventoryItem to the activity.
+                intent.putExtra("key", inventoryItems.get(i).getKey());
+                intent.putExtra("name", inventoryItems.get(i).getName());
+                intent.putExtra("quantity", inventoryItems.get(i).getQuantity());
+
+                rootView.getContext().startActivity(intent);
+            }
+        });
 
         return rootView;
     }

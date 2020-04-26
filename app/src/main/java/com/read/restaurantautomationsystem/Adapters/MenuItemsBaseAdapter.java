@@ -1,14 +1,12 @@
 package com.read.restaurantautomationsystem.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.read.restaurantautomationsystem.Activities.ModifyMenuItemActivity;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
 
@@ -77,8 +75,11 @@ public class MenuItemsBaseAdapter extends BaseExpandableListAdapter {
         // Bring XML elements from the single group view to Java.
         TextView textViewCategory = view.findViewById(R.id.text_view_menu_item_category);
 
-        // Set the text inside each view to the category of the MenuItems to appear underneath this group view.
-        textViewCategory.setText((String) getGroup(i));
+        // Retrieve the category of the ith category in the ArrayList.
+        String selected = (String) getGroup(i);
+
+        // Set the as the category of the ith category.
+        textViewCategory.setText(selected);
 
         return view;
     }
@@ -95,28 +96,13 @@ public class MenuItemsBaseAdapter extends BaseExpandableListAdapter {
         TextView textViewName = (TextView) view.findViewById(R.id.text_view_menu_item_name);
         TextView textViewPrice = (TextView) view.findViewById(R.id.text_view_menu_item_price);
 
-        // Get the MenuItem object corresponding to this view.
-        final MenuItem menuItem = (MenuItem) getChild(i, i1);
+        // Retrieve attributes of the (ith, i1th) MenuItem object from the HashMap.
+        MenuItem selected = (MenuItem) getChild(i, i1);
 
-        // Set the text inside each view to the attributes of each MenuItem.
-        textViewName.setText(menuItem.getName());
-        textViewPrice.setText(menuItem.getPrice());
+        // Set text as attributes of the (ith, i1th) MenuItem object.
+        textViewName.setText(selected.getName());
+        textViewPrice.setText(selected.getPrice());
 
-        // Attach a click listener to each view to start the ModifyMenuItemActivity.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ModifyMenuItemActivity.class);
-
-                // Pass the attributes of the selected MenuItem to the activity.
-                intent.putExtra("key", menuItem.getKey());
-                intent.putExtra("name", menuItem.getName());
-                intent.putExtra("price", menuItem.getPrice());
-                intent.putExtra("category", menuItem.getCategory());
-
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 

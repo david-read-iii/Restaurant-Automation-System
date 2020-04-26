@@ -57,18 +57,18 @@ public class TableListFragment extends Fragment {
 
         // Initialize DatabaseReference and TablesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        valueEventListener = new TablesValueEventListener(tables, baseAdapter, textViewEmpty);
+        valueEventListener = new TablesValueEventListener(tables, baseAdapter);
 
-        // Set adapter of ListView.
+        // Set adapter and empty view of ListView.
         listView.setAdapter(baseAdapter);
+        listView.setEmptyView(textViewEmpty);
 
         // Define ListView clicks.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 // Retrieve attributes of selected Table object.
-                final Table table = (Table) baseAdapter.getItem(i);
+                Table table = (Table) baseAdapter.getItem(i);
 
                 // Initialize AlertDialog tableOptionsDialog.
                 initializeTableOptionsDialog(rootView.getContext(), table);
