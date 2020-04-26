@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.read.restaurantautomationsystem.Firebase.InventoryItemsFirebaseHelper;
+import com.read.restaurantautomationsystem.Firebase.Helpers.InventoryItemsFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
 

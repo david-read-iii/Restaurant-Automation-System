@@ -1,29 +1,27 @@
 package com.read.restaurantautomationsystem.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.read.restaurantautomationsystem.Activities.ModifyTableActivity;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 
-public class TablesBaseAdapter extends BaseAdapter {
+public class TableListBaseAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Table> tables;
 
     /**
      * Defines how Table objects in the ArrayList tables should be adapted to be displayed
-     * in the ListView in the ManageTablesFragment.
+     * in the ListView in the TableListFragment.
      */
-    public TablesBaseAdapter(Context context, ArrayList<Table> tables) {
+    public TableListBaseAdapter(Context context, ArrayList<Table> tables) {
         this.context = context;
         this.tables = tables;
     }
@@ -48,29 +46,17 @@ public class TablesBaseAdapter extends BaseAdapter {
 
         // Set layout of a single view of the ListView.
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_table_manager_view, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_table_employee_view, viewGroup, false);
         }
 
         // Bring XML elements from the single view to Java.
-        TextView name = view.findViewById(R.id.text_view_table_manager_view_name);
+        TextView name = view.findViewById(R.id.text_view_table_employee_view_name);
+        TextView status = view.findViewById(R.id.text_view_table_employee_view_status);
 
         // Set the text inside each view to the attributes of each Table.
         name.setText(tables.get(i).getName());
+        status.setText(tables.get(i).getStatus());
 
-        // Attach a click listener to each view to start the ModifyTableActivity.
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ModifyTableActivity.class);
-
-                // Pass the attributes of the selected Table object to the activity.
-                intent.putExtra("key", tables.get(i).getKey());
-                intent.putExtra("name", tables.get(i).getName());
-                intent.putExtra("status", tables.get(i).getStatus());
-
-                context.startActivity(intent);
-            }
-        });
         return view;
     }
 }

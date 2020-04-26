@@ -7,13 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.read.restaurantautomationsystem.Firebase.GenericChildEventListener;
-import com.read.restaurantautomationsystem.Firebase.TablesFirebaseHelper;
+import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.Helpers.TablesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 

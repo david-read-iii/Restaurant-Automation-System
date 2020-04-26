@@ -31,6 +31,16 @@
         </activity>
 
         <activity
+            android:name=".Activities.TableOrderActivity"
+            android:label="@string/name_activity_table_order"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity
             android:name=".Activities.AddEmployeeActivity"
             android:label="@string/name_activity_add_employee"
             android:parentActivityName=".Activities.MainActivity"
@@ -40,7 +50,8 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
-        <activity android:name=".Activities.ModifyEmployeeActivity"
+        <activity
+            android:name=".Activities.ModifyEmployeeActivity"
             android:label="@string/name_activity_modify_employee"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">
@@ -59,7 +70,8 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
-        <activity android:name=".Activities.ModifyInventoryItemActivity"
+        <activity
+            android:name=".Activities.ModifyInventoryItemActivity"
             android:label="@string/name_activity_modify_inventory_item"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">
@@ -78,7 +90,8 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
-        <activity android:name=".Activities.ModifyMenuItemActivity"
+        <activity
+            android:name=".Activities.ModifyMenuItemActivity"
             android:label="@string/name_activity_modify_menu_item"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">
@@ -97,7 +110,8 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
-        <activity android:name=".Activities.ModifyTableActivity"
+        <activity
+            android:name=".Activities.ModifyTableActivity"
             android:label="@string/name_activity_modify_table"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">

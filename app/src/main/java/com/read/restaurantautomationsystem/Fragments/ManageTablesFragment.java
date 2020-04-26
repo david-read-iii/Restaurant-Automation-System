@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Adapters.TablesBaseAdapter;
-import com.read.restaurantautomationsystem.Firebase.TablesValueEventListener;
+import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.TablesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 

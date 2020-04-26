@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Adapters.MenuItemsBaseAdapter;
-import com.read.restaurantautomationsystem.Firebase.MenuItemsValueEventListener;
+import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.MenuItemsValueEventListener;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
 

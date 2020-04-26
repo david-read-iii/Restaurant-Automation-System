@@ -1,32 +1,32 @@
-package com.read.restaurantautomationsystem.Firebase;
+package com.read.restaurantautomationsystem.Firebase.Helpers;
 
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.read.restaurantautomationsystem.Models.InventoryItem;
+import com.read.restaurantautomationsystem.Models.Table;
 
-public class InventoryItemsFirebaseHelper {
+public class TablesFirebaseHelper {
 
     /**
-     * Saves a new InventoryItem object to the database.
+     * Saves a new Table object to the database.
      *
-     * @param inventoryItem The InventoryItem object to be saved. Must have a null key.
+     * @param table The Table object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
      * database error, 2 indicates a failed save due to an attribute with invalid text.
      */
-    public static int save(InventoryItem inventoryItem) {
+    public static int save(Table table) {
         int status;
 
-        // Verify that the InventoryItem object has valid attributes defined.
-        if (inventoryItem == null) {
+        // Verify that the Table object has valid attributes defined.
+        if (table == null) {
             // TODO: Define some restrictions on what attributes can be entered for the object.
             status = 2;
         }
-        // Attempt to save InventoryItem object to the database. Watch for a DatabaseException.
+        // Attempt to save Table object to the database. Watch for a DatabaseException.
         else {
             try {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("InventoryItems").push().setValue(inventoryItem);
+                databaseReference.child("Tables").push().setValue(table);
                 status = 0;
             } catch (DatabaseException e) {
                 e.printStackTrace();
@@ -37,19 +37,19 @@ public class InventoryItemsFirebaseHelper {
     }
 
     /**
-     * Deletes an InventoryItem object from the database.
+     * Deletes a Table object from the database.
      *
-     * @param inventoryItem The InventoryItem object to be deleted. Must have a key defined.
+     * @param table The Table object to be deleted. Must have a key defined.
      * @return The status of the deletion: 0 indicates successful deletion, 1 indicates a failed
      * deletion due to database error.
      */
-    public static int delete(InventoryItem inventoryItem) {
+    public static int delete(Table table) {
         int status;
 
-        // Attempt to delete the InventoryItem object from the database. Watch for a DatabaseException.
+        // Attempt to delete the Table object from the database. Watch for a DatabaseException.
         try {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-            databaseReference.child("InventoryItems").child(inventoryItem.getKey()).removeValue();
+            databaseReference.child("Tables").child(table.getKey()).removeValue();
             status = 0;
         } catch (DatabaseException e) {
             e.printStackTrace();
@@ -60,24 +60,24 @@ public class InventoryItemsFirebaseHelper {
     }
 
     /**
-     * Deletes an existing InventoryItem object from the database and replaces it with a new InventoryItem object.
+     * Deletes an existing Table object from the database and replaces it with a new Table object.
      *
-     * @param oldInventoryItem The InventoryItem object to be deleted. Must have a key defined.
-     * @param newInventoryItem The InventoryItem object to replace the deleted. Must have a null key.
+     * @param oldTable The Table object to be deleted. Must have a key defined.
+     * @param newTable The Table object to replace the deleted. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
      * failed modification due to database error in the deletion step, 2 indicates a failed
      * modification due to an attribute with invalid text, 3 indicates a failed modification due to
      * database error in the save step.
      */
-    public static int modify(InventoryItem oldInventoryItem, InventoryItem newInventoryItem) {
+    public static int modify(Table oldTable, Table newTable) {
         int status;
 
-        // Save the newInventoryItem object to the database.
-        status = InventoryItemsFirebaseHelper.save(newInventoryItem);
+        // Save the newTable object to the database.
+        status = TablesFirebaseHelper.save(newTable);
 
-        // If save is successful, delete the oldInventoryItem object from the database.
+        // If save is successful, delete the oldTable object from the database.
         if (status == 0) {
-            status = InventoryItemsFirebaseHelper.delete(oldInventoryItem);
+            status = TablesFirebaseHelper.delete(oldTable);
         } else {
             status = 3;
         }

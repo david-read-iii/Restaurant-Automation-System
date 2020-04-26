@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.read.restaurantautomationsystem.Firebase.GenericChildEventListener;
-import com.read.restaurantautomationsystem.Firebase.EmployeesFirebaseHelper;
+import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.Helpers.EmployeesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 

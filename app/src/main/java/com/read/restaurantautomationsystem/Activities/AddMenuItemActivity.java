@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.read.restaurantautomationsystem.Firebase.MenuItemsFirebaseHelper;
+import com.read.restaurantautomationsystem.Firebase.Helpers.MenuItemsFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
 

@@ -8,6 +8,7 @@
     <!-- Activity and fragment names -->
     <string name="name_activity_login">Login</string>
     <string name="name_fragment_table_list">Table List</string>
+    <string name="name_activity_table_order">Create Order</string>
     <string name="name_fragment_order_queue">Order Queue</string>
     <string name="name_fragment_view_reports">View Reports</string>
     <string name="name_fragment_manage_employees">Manage Employees</string>
@@ -53,6 +54,12 @@
         <item>Manager</item>
     </array>
 
+    <array name="spinner_options_order_status">
+        <item>In Progress</item>
+        <item>Ready For Table</item>
+        <item>Completed</item>
+    </array>
+
     <!-- Button text -->
     <string name="button_login">Login</string>
     <string name="button_add">Add</string>
@@ -60,6 +67,22 @@
     <string name="button_save">Save</string>
     <string name="button_increment">+</string>
     <string name="button_decrement">-</string>
+
+    <!-- Dialog text -->
+    <string name="dialog_table_list_title">Choose an action</string>
+    <array name="dialog_options_table_list">
+        <item>Update Status</item>
+        <item>Take Order</item>
+    </array>
+
+    <string name="dialog_table_status_title">Choose a status</string>
+    <array name="dialog_options_table_status">
+        <item>Ready</item>
+        <item>Occupied</item>
+        <item>Dirty</item>
+    </array>
+    <string name="dialog_positive_button_text">OK</string>
+    <string name="dialog_negative_button_text">Cancel</string>
 
     <!-- NavigationDrawer text -->
     <string name="drawer_menu_employee_functions">Employee Functions</string>
@@ -74,6 +97,8 @@
     <string name="action_add_menu_item">Add item</string>
 
     <!-- Toast messages -->
+    <string name="toast_update_status_failed">Table status not updated</string>
+
     <string name="toast_add_employee_success">Employee added successfully</string>
     <string name="toast_add_employee_failed">Employee not added</string>
     <string name="toast_delete_employee_success">Employee deleted successfully</string>
@@ -119,5 +144,6 @@
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>
+    <string name="label_total">Total:</string>
 
 </resources>

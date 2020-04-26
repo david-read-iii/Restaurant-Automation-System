@@ -6,10 +6,17 @@
     android:padding="@dimen/item_padding">
 
     <TextView
-        android:id="@+id/text_view_table_manager_view_name"
+        android:id="@+id/text_view_table_employee_view_name"
         style="@style/TextView.PrimaryListViewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name" />
+
+    <TextView
+        android:id="@+id/text_view_table_employee_view_status"
+        style="@style/TextView.SecondaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status" />
 
 </LinearLayout>

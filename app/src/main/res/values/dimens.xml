@@ -5,6 +5,7 @@
     <dimen name="activity_padding">16dp</dimen>
     <dimen name="item_padding">16dp</dimen>
     <dimen name="spinner_vertical_padding">16dp</dimen>
+    <dimen name="layout_padding">16dp</dimen>
 
     <!-- LoginActivity dimens -->
     <dimen name="activity_login_view_vertical_padding">16dp</dimen>

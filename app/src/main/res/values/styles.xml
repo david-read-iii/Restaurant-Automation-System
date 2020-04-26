@@ -15,6 +15,10 @@
     </style>
 
     <!-- TextView formatting styles -->
+    <style name="TextView.Primary" parent="@style/TextAppearance.AppCompat.Medium" >
+        <item name="android:textColor">@color/color_text_light</item>
+    </style>
+
     <style name="TextView.Label" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/color_accent</item>
     </style>

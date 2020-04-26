@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
-import com.read.restaurantautomationsystem.Firebase.EmployeesValueEventListener;
+import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.EmployeesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 
@@ -49,6 +49,7 @@ public class ManageEmployeesFragment extends Fragment {
 
         // Set adapter of ListView.
         listView.setAdapter(baseAdapter);
+        listView.setEmptyView(textViewEmpty);
 
         return rootView;
     }

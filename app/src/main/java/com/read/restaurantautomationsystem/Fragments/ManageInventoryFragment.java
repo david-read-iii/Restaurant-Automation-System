@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Adapters.InventoryItemsBaseAdapter;
-import com.read.restaurantautomationsystem.Firebase.InventoryItemsValueEventListener;
+import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.InventoryItemsValueEventListener;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
 
