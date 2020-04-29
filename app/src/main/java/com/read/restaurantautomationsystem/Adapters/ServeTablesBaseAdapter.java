@@ -12,16 +12,16 @@ import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 
-public class TablesBaseAdapter extends BaseAdapter {
+public class ServeTablesBaseAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Table> tables;
 
     /**
      * Defines how Table objects in the ArrayList tables should be adapted to be displayed
-     * in the ListView in the ManageTablesFragment.
+     * in the ListView in the TableListFragment.
      */
-    public TablesBaseAdapter(Context context, ArrayList<Table> tables) {
+    public ServeTablesBaseAdapter(Context context, ArrayList<Table> tables) {
         this.context = context;
         this.tables = tables;
     }
@@ -42,21 +42,23 @@ public class TablesBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
         // Set layout of a single view of the ListView.
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_table_manager_view, viewGroup, false);
+            view = LayoutInflater.from(context).inflate(R.layout.item_table_employee, viewGroup, false);
         }
 
         // Bring XML elements from the single view to Java.
-        TextView name = view.findViewById(R.id.text_view_table_manager_view_name);
+        TextView name = view.findViewById(R.id.text_view_table_employee_view_name);
+        TextView status = view.findViewById(R.id.text_view_table_employee_view_status);
 
         // Retrieve attributes of the ith Table object in the ArrayList.
         Table selected = (Table) getItem(i);
 
         // Set text as the attributes of the ith Table object.
         name.setText(selected.getName());
+        status.setText(selected.getStatus());
 
         return view;
     }

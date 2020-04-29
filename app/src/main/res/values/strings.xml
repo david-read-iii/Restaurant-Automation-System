@@ -7,7 +7,7 @@
 
     <!-- Activity and fragment names -->
     <string name="name_activity_login">Login</string>
-    <string name="name_fragment_table_list">Table List</string>
+    <string name="name_fragment_serve_tables">Serve Tables</string>
     <string name="name_activity_table_order">Create Order</string>
     <string name="name_fragment_order_queue">Order Queue</string>
     <string name="name_fragment_view_reports">View Reports</string>
@@ -27,6 +27,7 @@
     <!-- TextView labels -->
     <string name="label_username">Username:</string>
     <string name="label_password">Password:</string>
+    <string name="label_total">Total:</string>
     <string name="label_first_name">First name:</string>
     <string name="label_last_name">Last name:</string>
     <string name="label_role">"Role:"</string>
@@ -91,13 +92,15 @@
     <string name="drawer_closed">Drawer is closed</string>
 
     <!-- Toolbar action text -->
+    <string name="action_submit_order">Submit</string>
     <string name="action_add_employee">Add employee</string>
     <string name="action_add_table">Add table</string>
     <string name="action_add_inventory_item">Add item</string>
     <string name="action_add_menu_item">Add item</string>
 
     <!-- Toast messages -->
-    <string name="toast_update_status_failed">Table status not updated</string>
+    <string name="toast_update_table_status_failed">Table status not updated</string>
+    <string name="toast_ordered_items_empty">Add at least one item</string>
 
     <string name="toast_add_employee_success">Employee added successfully</string>
     <string name="toast_add_employee_failed">Employee not added</string>
@@ -136,14 +139,13 @@
     <string name="toast_table_changed">Table changed by another user</string>
 
     <!-- ListView empty text -->
-    <string name="empty_text_table_list">There are no tables</string>
+    <string name="empty_text_employee_manage_tables">There are no tables</string>
     <string name="empty_text_manage_employees">There are no employees</string>
     <string name="empty_text_manage_inventory">There are no inventory items</string>
     <string name="empty_text_manage_menu">There are no menu items</string>
-    <string name="empty_text_manage_tables">There are no tables</string>
+    <string name="empty_text_manager_manage_tables">There are no tables</string>
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>
-    <string name="label_total">Total:</string>
 
 </resources>

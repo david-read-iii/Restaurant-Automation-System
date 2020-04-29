@@ -1,38 +1,27 @@
 package com.read.restaurantautomationsystem.Models;
 
 public class MenuItemWithQuantity {
+
     MenuItem menuItem;
     String quantity;
-    String key;
+    String totalPrice;
 
     /**
      * Represents a MenuItemWithQuantity with null attributes.
      */
-    public MenuItemWithQuantity(){
-    }
-
-    /**
-     * Represents a MenuItemWithQuantity with the specified attributes and a null key.
-     *
-     * @param menuItem      The MenuItem.
-     * @param quantity      The quantity of the item.
-     */
-    public MenuItemWithQuantity(MenuItem menuItem, String quantity) {
-        this.menuItem = menuItem;
-        this.quantity = quantity;
+    public MenuItemWithQuantity() {
     }
 
     /**
      * Represents a MenuItemWithQuantity with the specified attributes.
      *
-     * @param menuItem      The MenuItem.
-     * @param quantity      The quantity of the item.
-     * @param key           the key of the MenuItemWithQuantity.
+     * @param menuItem The MenuItem.
+     * @param quantity The quantity of the item.
      */
-    public MenuItemWithQuantity(MenuItem menuItem, String quantity, String key) {
+    public MenuItemWithQuantity(MenuItem menuItem, String quantity) {
         this.menuItem = menuItem;
         this.quantity = quantity;
-        this.key = key;
+        this.totalPrice = Double.toString(Double.parseDouble(quantity) * Double.parseDouble(menuItem.getPrice()));
     }
 
     public MenuItem getMenuItem() {
@@ -49,13 +38,10 @@ public class MenuItemWithQuantity {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+        this.totalPrice = Double.toString(Double.parseDouble(quantity) * Double.parseDouble(menuItem.getPrice()));
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
+    public String getTotalPrice() {
+        return totalPrice;
     }
 }

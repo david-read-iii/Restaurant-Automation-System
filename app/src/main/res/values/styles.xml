@@ -46,4 +46,10 @@
         <item name="android:paddingBottom">@dimen/spinner_vertical_padding</item>
     </style>
 
+    <!-- Button formatting styles. -->
+    <style name="Button.Medium.Borderless" parent="Widget.AppCompat.Button.Borderless" >
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_accent</item>
+    </style>
+
 </resources>

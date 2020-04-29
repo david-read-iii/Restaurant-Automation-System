@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.ModifyInventoryItemActivity;
-import com.read.restaurantautomationsystem.Adapters.InventoryItemsBaseAdapter;
+import com.read.restaurantautomationsystem.Adapters.ManageInventoryBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.InventoryItemsValueEventListener;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
@@ -26,7 +26,7 @@ public class ManageInventoryFragment extends Fragment {
     private ListView listView;
     private TextView textViewEmpty;
     private ArrayList<InventoryItem> inventoryItems;
-    private InventoryItemsBaseAdapter baseAdapter;
+    private ManageInventoryBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
     private InventoryItemsValueEventListener valueEventListener;
 
@@ -42,9 +42,9 @@ public class ManageInventoryFragment extends Fragment {
         listView = rootView.findViewById(R.id.list_view_manage_inventory);
         textViewEmpty = rootView.findViewById(R.id.text_view_manage_inventory_empty);
 
-        // Initialize ArrayList and InventoryItemsBaseAdapter.
+        // Initialize ArrayList and ManageInventoryBaseAdapter.
         inventoryItems = new ArrayList<>();
-        baseAdapter = new InventoryItemsBaseAdapter(rootView.getContext(), inventoryItems);
+        baseAdapter = new ManageInventoryBaseAdapter(rootView.getContext(), inventoryItems);
 
         // Initialize DatabaseReference and InventoryItemsValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();

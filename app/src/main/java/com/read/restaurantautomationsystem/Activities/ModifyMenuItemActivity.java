@@ -31,7 +31,7 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
      * to get to this activity. The EditTexts will allow the user to change the attributes of some
      * MenuItem. The Button buttonSave will confirm the modification of the MenuItem to the
      * database. The Button buttonDelete will delete the selected MenuItem object from the database.
-     * An GenericChildEventListener will be setup to close this activity when the selected MenuItem
+     * A ChildEventListener will be setup to close this activity when the selected MenuItem
      * object is changed by another user in the database.
      */
     @Override
@@ -49,11 +49,11 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
                 intent.getStringExtra("category")
         );
 
-        // Initialize DatabaseReference and GenericChildEventListener.
+        // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
         childEventListener = new GenericChildEventListener(this, getString(R.string.toast_menu_item_changed));
 
-        // Attach the GenericChildEventListener to the selected MenuItem object in the database.
+        // Attach the ChildEventListener to the selected MenuItem object in the database.
         databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -72,7 +72,7 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected MenuItem object from the database.
@@ -94,7 +94,7 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify MenuItem selected in the database with the attributes specified in the EditTexts.
@@ -110,7 +110,7 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
+                    // Modification failed due to invalid attributes. Reattach .
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_invalid, Toast.LENGTH_SHORT).show();
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
@@ -129,7 +129,7 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Detach GenericChildEventListener.
+        // Detach ChildEventListener.
         databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

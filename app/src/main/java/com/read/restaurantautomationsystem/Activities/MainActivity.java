@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.read.restaurantautomationsystem.Fragments.ManageEmployeesFragment;
@@ -25,7 +24,7 @@ import com.read.restaurantautomationsystem.Fragments.ManageTablesFragment;
 import com.read.restaurantautomationsystem.Fragments.OrderQueueFragment;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
-import com.read.restaurantautomationsystem.Fragments.TableListFragment;
+import com.read.restaurantautomationsystem.Fragments.ServeTablesFragment;
 import com.read.restaurantautomationsystem.Fragments.ViewReportsFragment;
 
 /* TODO: Restrict certain NavigationItems from showing in the NavigationDrawer given the role of the
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (loggedInEmployee.getRole().equals("Cook")) {
             startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
         } else {
-            startFragment(new TableListFragment(), getString(R.string.name_fragment_table_list));
+            startFragment(new ServeTablesFragment(), getString(R.string.name_fragment_serve_tables));
         }
     }
 
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Start the appropriate Fragment.
         if (menuItem.getItemId() == R.id.drawer_menu_table_list) {
-            startFragment(new TableListFragment(), getString(R.string.name_fragment_table_list));
+            startFragment(new ServeTablesFragment(), getString(R.string.name_fragment_serve_tables));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_order_queue) {
             startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
@@ -138,11 +137,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (menuItem.getItemId() == R.id.drawer_menu_manage_inventory) {
             startFragment(new ManageInventoryFragment(), getString(R.string.name_fragment_manage_inventory), R.menu.manage_inventory_menu);
         }
-        if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
-            startFragment(new ManageTablesFragment(), getString(R.string.name_fragment_manage_tables), R.menu.manage_tables_menu);
-        }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_menu) {
             startFragment(new ManageMenuFragment(), getString(R.string.name_fragment_manage_menu), R.menu.manage_menu_menu);
+        }
+        if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
+            startFragment(new ManageTablesFragment(), getString(R.string.name_fragment_manage_tables), R.menu.manager_manage_tables_menu);
         }
         return true;
     }

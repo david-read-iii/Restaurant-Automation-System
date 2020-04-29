@@ -14,7 +14,7 @@ import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 
-public class EmployeesBaseAdapter extends BaseAdapter {
+public class ManageEmployeesBaseAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<Employee> employees;
@@ -23,7 +23,7 @@ public class EmployeesBaseAdapter extends BaseAdapter {
      * Defines how Employee objects in the ArrayList employees should be adapted to be displayed
      * in a ListView.
      */
-    public EmployeesBaseAdapter(Context context, ArrayList<Employee> employees) {
+    public ManageEmployeesBaseAdapter(Context context, ArrayList<Employee> employees) {
         this.context = context;
         this.employees = employees;
     }

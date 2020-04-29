@@ -1,15 +1,12 @@
 package com.read.restaurantautomationsystem.Firebase.ValueEventListeners;
 
-import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.read.restaurantautomationsystem.Adapters.InventoryItemsBaseAdapter;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 
 import java.util.ArrayList;

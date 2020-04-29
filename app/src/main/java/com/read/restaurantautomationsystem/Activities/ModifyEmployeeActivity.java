@@ -34,7 +34,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
      * get to this activity. The EditTexts and Spinner will allow the user to change the attributes
      * of some Employee. The Button buttonSave will confirm the modification of the Employee to the
      * database. The Button buttonDelete will delete the selected Employee object from the database.
-     * An GenericChildEventListener will be setup to close this activity when the selected Employee
+     * An ChildEventListener will be setup to close this activity when the selected Employee
      * object is changed by another user in the database.
      */
     @Override
@@ -54,11 +54,11 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 intent.getStringExtra("role")
         );
 
-        // Initialize DatabaseReference and GenericChildEventListener.
+        // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
         childEventListener = new GenericChildEventListener(this, getString(R.string.toast_employee_changed));
 
-        // Attach the GenericChildEventListener to the selected Employee object in the database.
+        // Attach the ChildEventListener to the selected Employee object in the database.
         databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -86,7 +86,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected Employee object from the database.
@@ -108,7 +108,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Employee selected in the database with the attributes specified in the EditTexts.
@@ -126,7 +126,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_modify_employee_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
+                    // Modification failed due to invalid attributes. Reattach ChildEventListener.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
@@ -145,7 +145,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        // Detach GenericChildEventListener.
+        // Detach ChildEventListener.
         databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

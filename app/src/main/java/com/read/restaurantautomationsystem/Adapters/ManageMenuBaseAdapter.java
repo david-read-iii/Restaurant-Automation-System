@@ -13,17 +13,17 @@ import com.read.restaurantautomationsystem.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Defines how MenuItem objects in the ArrayList menuItems should be adapted to be displayed
- * in an ExpandableListView.
- */
-public class MenuItemsBaseAdapter extends BaseExpandableListAdapter {
+public class ManageMenuBaseAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<String> categories;
     private HashMap<String, ArrayList<MenuItem>> menuItemsByCategory;
 
-    public MenuItemsBaseAdapter(Context context, ArrayList<String> categories, HashMap<String, ArrayList<MenuItem>> menuItemsByCategory) {
+    /**
+     * Defines how MenuItem objects in the HashMap and categories in the ArrayList should be adapted to
+     * be displayed in an ExpandableListView.
+     */
+    public ManageMenuBaseAdapter(Context context, ArrayList<String> categories, HashMap<String, ArrayList<MenuItem>> menuItemsByCategory) {
         this.context = context;
         this.categories = categories;
         this.menuItemsByCategory = menuItemsByCategory;
@@ -51,12 +51,12 @@ public class MenuItemsBaseAdapter extends BaseExpandableListAdapter {
 
     @Override
     public long getGroupId(int i) {
-        return i;
+        return 0;
     }
 
     @Override
     public long getChildId(int i, int i1) {
-        return i1;
+        return 0;
     }
 
     @Override
@@ -93,8 +93,8 @@ public class MenuItemsBaseAdapter extends BaseExpandableListAdapter {
         }
 
         // Bring XML elements from the single child view to Java.
-        TextView textViewName = (TextView) view.findViewById(R.id.text_view_menu_item_name);
-        TextView textViewPrice = (TextView) view.findViewById(R.id.text_view_menu_item_price);
+        TextView textViewName = view.findViewById(R.id.text_view_menu_item_name);
+        TextView textViewPrice = view.findViewById(R.id.text_view_menu_item_price);
 
         // Retrieve attributes of the (ith, i1th) MenuItem object from the HashMap.
         MenuItem selected = (MenuItem) getChild(i, i1);

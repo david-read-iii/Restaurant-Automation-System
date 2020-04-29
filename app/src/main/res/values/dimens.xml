@@ -6,6 +6,7 @@
     <dimen name="item_padding">16dp</dimen>
     <dimen name="spinner_vertical_padding">16dp</dimen>
     <dimen name="layout_padding">16dp</dimen>
+    <dimen name="square_button_size">48dp</dimen>
 
     <!-- LoginActivity dimens -->
     <dimen name="activity_login_view_vertical_padding">16dp</dimen>
@@ -14,5 +15,8 @@
     <dimen name="drawer_header_main_height">150dp</dimen>
     <dimen name="drawer_header_main_content_horizontal_padding">16dp</dimen>
     <dimen name="drawer_header_main_content_vertical_padding">8dp</dimen>
+
+    <!-- AddOrderActivity dimens -->
+    <dimen name="activity_add_order_view_padding">8dp</dimen>
 
 </resources>

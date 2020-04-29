@@ -1,6 +1,7 @@
 package com.read.restaurantautomationsystem.Firebase.ChildEventListeners;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -14,15 +15,27 @@ import com.google.firebase.database.DatabaseError;
 public class GenericChildEventListener implements ChildEventListener {
 
     private Context context;
+    private AlertDialog alertDialog;
     private String toastMessage;
 
     /**
-     * Defines a listener that executes code when a certain child in the database is changed. When
-     * this happens, the activity the user is currently in will close and an indication Toast will
-     * be printed.
+     * Defines a listener that executes code when a certain child in the database is added,
+     * changed or removed. If this constructor is used, the activity the user is in will close on
+     * execution of the listener.
      */
     public GenericChildEventListener(Context context, String toastMessage) {
         this.context = context;
+        this.toastMessage = toastMessage;
+    }
+
+    /**
+     * Defines a listener that executes code when a certain child in the database is added,
+     * changed or removed. If this constructor is used, the dialog box the user is in will close on
+     * execution of the listener.
+     */
+    public GenericChildEventListener(Context context, AlertDialog alertDialog, String toastMessage) {
+        this.context = context;
+        this.alertDialog = alertDialog;
         this.toastMessage = toastMessage;
     }
 
@@ -37,7 +50,12 @@ public class GenericChildEventListener implements ChildEventListener {
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-        ((Activity) context).finish();
+
+        if (alertDialog != null) {
+            alertDialog.hide();
+        } else {
+            ((Activity) context).finish();
+        }
     }
 
     @Override

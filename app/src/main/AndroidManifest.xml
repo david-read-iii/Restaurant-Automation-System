@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".Activities.TableOrderActivity"
+            android:name=".Activities.AddOrderActivity"
             android:label="@string/name_activity_table_order"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme">

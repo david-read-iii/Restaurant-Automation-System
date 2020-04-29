@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.ModifyTableActivity;
-import com.read.restaurantautomationsystem.Adapters.TablesBaseAdapter;
+import com.read.restaurantautomationsystem.Adapters.ManageTablesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.TablesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
@@ -26,7 +26,7 @@ public class ManageTablesFragment extends Fragment {
     private ListView listView;
     private TextView textViewEmpty;
     private ArrayList<Table> tables;
-    private TablesBaseAdapter baseAdapter;
+    private ManageTablesBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
     private TablesValueEventListener valueEventListener;
 
@@ -39,12 +39,12 @@ public class ManageTablesFragment extends Fragment {
         final View rootView =  inflater.inflate(R.layout.fragment_manage_tables, container, false);
 
         // Bring XML elements to Java.
-        listView = rootView.findViewById(R.id.list_view_manage_tables);
-        textViewEmpty = rootView.findViewById(R.id.text_view_manage_tables_empty);
+        listView = rootView.findViewById(R.id.list_view_manager_manage_tables);
+        textViewEmpty = rootView.findViewById(R.id.text_view_manager_manage_tables_empty);
 
-        // Initialize ArrayList and TablesBaseAdapter.
+        // Initialize ArrayList and ManagerManageTablesBaseAdapter.
         tables = new ArrayList<>();
-        baseAdapter = new TablesBaseAdapter(rootView.getContext(), tables);
+        baseAdapter = new ManageTablesBaseAdapter(rootView.getContext(), tables);
 
         // Initialize DatabaseReference and TablesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();

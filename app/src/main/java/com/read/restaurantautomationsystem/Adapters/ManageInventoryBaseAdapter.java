@@ -12,7 +12,7 @@ import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 
-public class InventoryItemsBaseAdapter extends BaseAdapter {
+public class ManageInventoryBaseAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<InventoryItem> inventoryItems;
@@ -21,7 +21,7 @@ public class InventoryItemsBaseAdapter extends BaseAdapter {
      * Defines how InventoryItem objects in the ArrayList inventoryItems should be adapted to be displayed
      * in a ListView.
      */
-    public InventoryItemsBaseAdapter(Context context, ArrayList<InventoryItem> inventoryItems) {
+    public ManageInventoryBaseAdapter(Context context, ArrayList<InventoryItem> inventoryItems) {
         this.context = context;
         this.inventoryItems = inventoryItems;
     }

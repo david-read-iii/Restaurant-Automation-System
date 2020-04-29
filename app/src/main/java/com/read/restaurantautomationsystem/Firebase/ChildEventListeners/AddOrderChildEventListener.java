@@ -1,6 +1,6 @@
 package com.read.restaurantautomationsystem.Firebase.ChildEventListeners;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -11,20 +11,16 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-public class DialogChildEventListener implements ChildEventListener {
+public class AddOrderChildEventListener implements ChildEventListener {
 
     private Context context;
-    private AlertDialog alertDialog;
-    private String toastMessage;
 
     /**
-     * Defines a listener that executes code when a certain child in the database is changed. When
-     * this happens, the dialog the user has open will close and an indication Toast will be printed.
+     * Defines a listener that closes the AddOrderActivity if the MenuItems collection of the
+     * database is changed.
      */
-    public DialogChildEventListener(Context context, AlertDialog alertDialog, String toastMessage) {
+    public AddOrderChildEventListener(Context context) {
         this.context = context;
-        this.alertDialog = alertDialog;
-        this.toastMessage = toastMessage;
     }
 
     @Override
@@ -34,18 +30,20 @@ public class DialogChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+        Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show();
+        ((Activity) context).finish();
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
-        alertDialog.hide();
+        Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show();
+        ((Activity) context).finish();
     }
 
     @Override
     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+        Toast.makeText(context, "Moved", Toast.LENGTH_SHORT).show();
+        ((Activity) context).finish();
     }
 
     @Override

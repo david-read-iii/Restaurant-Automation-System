@@ -31,7 +31,7 @@ public class ModifyTableActivity extends AppCompatActivity {
      * to get to this activity. The EditText will allow the user to change the attributes of some
      * Table. The Button buttonSave will confirm the modification of the Table to the
      * database. The Button buttonDelete will delete the selected Table object from the database.
-     * An GenericChildEventListener will be setup to close this activity when the selected Table
+     * A ChildEventListener will be setup to close this activity when the selected Table
      * object is changed by another user in the database.
      */
     @Override
@@ -48,11 +48,11 @@ public class ModifyTableActivity extends AppCompatActivity {
                 intent.getStringExtra("status")
         );
 
-        // Initialize DatabaseReference and GenericChildEventListener.
+        // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
         childEventListener = new GenericChildEventListener(this, getString(R.string.toast_table_changed));
 
-        // Attach the GenericChildEventListener to the selected Table object in the database.
+        // Attach the ChildEventListener to the selected Table object in the database.
         databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -67,7 +67,7 @@ public class ModifyTableActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach .
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected Table object from the database.
@@ -89,7 +89,7 @@ public class ModifyTableActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Table selected in the database with the attributes specified in the EditText.
@@ -104,7 +104,7 @@ public class ModifyTableActivity extends AppCompatActivity {
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
+                    // Modification failed due to invalid attributes. Reattach .
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
                     databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
@@ -123,7 +123,7 @@ public class ModifyTableActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Detach GenericChildEventListener.
+        // Detach ChildEventListener.
         databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

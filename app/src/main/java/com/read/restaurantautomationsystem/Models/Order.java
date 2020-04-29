@@ -1,12 +1,14 @@
 package com.read.restaurantautomationsystem.Models;
 
+import java.util.ArrayList;
+
 public class Order {
     private String key;
     private String status;
     private String totalPrice;
     private String timeOrdered;
     private String tableOrdered;
-    private MenuItemWithQuantity[] orderedItems;
+    private ArrayList<MenuItemWithQuantity> orderedItems;
 
     /**
      * Represents an Order with null attributes.
@@ -24,7 +26,7 @@ public class Order {
      * @param orderedItems      The items ordered and their quantities.
      */
 
-    public Order(String status, String totalPrice, String timeOrdered, String tableOrdered, MenuItemWithQuantity[] orderedItems) {
+    public Order(String status, String totalPrice, String timeOrdered, String tableOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
         this.status = status;
         this.totalPrice = totalPrice;
         this.timeOrdered = timeOrdered;
@@ -42,7 +44,7 @@ public class Order {
      * @param tableOrdered      The table the order was placed from.
      * @param orderedItems      The items ordered and their quantities.
      */
-    public Order(String key, String status, String totalPrice, String timeOrdered, String tableOrdered, MenuItemWithQuantity[] orderedItems) {
+    public Order(String key, String status, String totalPrice, String timeOrdered, String tableOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
         this.key = key;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -91,11 +93,11 @@ public class Order {
         this.tableOrdered = tableOrdered;
     }
 
-    public MenuItemWithQuantity[] getOrderedItems() {
+    public ArrayList<MenuItemWithQuantity> getOrderedItems() {
         return orderedItems;
     }
 
-    public void setOrderedItems(MenuItemWithQuantity[] orderedItems) {
+    public void setOrderedItems(ArrayList<MenuItemWithQuantity> orderedItems) {
         this.orderedItems = orderedItems;
     }
 }

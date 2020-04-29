@@ -31,7 +31,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
      * to get to this activity. The EditTexts will allow the user to change the attributes of some
      * InventoryItem. The Button buttonSave will confirm the modification of the InventoryItem to the
      * database. The Button buttonDelete will delete the selected InventoryItem object from the database.
-     * An GenericChildEventListener will be setup to close this activity when the selected InventoryItem
+     * An ChildEventListener will be setup to close this activity when the selected InventoryItem
      * object is changed by another user in the database.
      */
     @Override
@@ -48,11 +48,11 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                 intent.getStringExtra("quantity")
         );
 
-        // Initialize DatabaseReference and GenericChildEventListener.
+        // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
         childEventListener = new GenericChildEventListener(this, getString(R.string.toast_inventory_item_changed));
 
-        // Attach the GenericChildEventListener to the selected InventoryItem object in the database.
+        // Attach the ChildEventListener to the selected InventoryItem object in the database.
         databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
 
         // Bring XML elements to Java.
@@ -69,7 +69,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected InventoryItem object from the database.
@@ -91,7 +91,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach GenericChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify InventoryItem selected in the database with the attributes specified in the EditTexts.
@@ -106,7 +106,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_success, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach GenericChildEventListener.
+                    // Modification failed due to invalid attributes. Reattach ChildEventListener.
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
                     databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
                 } else {
@@ -125,7 +125,7 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        // Detach GenericChildEventListener.
+        // Detach ChildEventListener.
         databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
         // Close this activity.

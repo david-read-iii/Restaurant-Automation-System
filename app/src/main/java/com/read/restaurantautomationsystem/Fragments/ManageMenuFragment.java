@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.ModifyMenuItemActivity;
-import com.read.restaurantautomationsystem.Adapters.MenuItemsBaseAdapter;
+import com.read.restaurantautomationsystem.Adapters.ManageMenuBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.MenuItemsValueEventListener;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
@@ -28,7 +27,7 @@ public class ManageMenuFragment extends Fragment {
     private TextView textViewEmpty;
     private ArrayList<String> categories;
     private HashMap<String, ArrayList<MenuItem>> menuItemsByCategory;
-    private MenuItemsBaseAdapter baseAdapter;
+    private ManageMenuBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
     private MenuItemsValueEventListener valueEventListener;
 
@@ -44,11 +43,12 @@ public class ManageMenuFragment extends Fragment {
         listView = rootView.findViewById(R.id.list_view_manage_menu);
         textViewEmpty = rootView.findViewById(R.id.text_view_manage_menu_empty);
 
-        // Initialize ArrayList, HashMap, and MenuItemsBaseAdapter.
+        // Initialize ArrayList, HashMap, and ManageMenuBaseAdapter.
         categories = new ArrayList<>();
         menuItemsByCategory = new HashMap<>();
-        baseAdapter = new MenuItemsBaseAdapter(rootView.getContext(), categories, menuItemsByCategory);
+        baseAdapter = new ManageMenuBaseAdapter(rootView.getContext(), categories, menuItemsByCategory);
 
+        // Initialize DatabaseReference and MenuItemsValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
         valueEventListener = new MenuItemsValueEventListener(categories, menuItemsByCategory, baseAdapter);
 

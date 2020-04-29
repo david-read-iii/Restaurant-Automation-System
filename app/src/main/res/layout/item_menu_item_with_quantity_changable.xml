@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+    android:paddingTop="@dimen/item_padding"
+    android:paddingRight="@dimen/item_padding"
+    android:paddingBottom="@dimen/item_padding">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:paddingRight="@dimen/activity_add_order_view_padding">
+
+        <TextView
+            android:id="@+id/text_view_menu_item_with_quantity_name"
+            style="@style/TextView.PrimaryListViewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/text_view_menu_item_with_quantity_price"
+            style="@style/TextView.SecondaryListViewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0.00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_add_order_view_padding">
+
+        <Button
+            style="@style/Button.Medium.Borderless"
+            android:id="@+id/button_menu_item_with_quantity_decrement"
+            android:layout_width="@dimen/square_button_size"
+            android:layout_height="@dimen/square_button_size"
+            android:text="-"
+            android:focusable="false"/>
+
+        <TextView
+            style="@style/TextView.SecondaryListViewText"
+            android:id="@+id/text_view_menu_item_with_quantity_quantity"
+            android:paddingLeft="@dimen/activity_add_order_view_padding"
+            android:paddingRight="@dimen/activity_add_order_view_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0" />
+
+        <Button
+            style="@style/Button.Medium.Borderless"
+            android:id="@+id/button_menu_item_with_quantity_increment"
+            android:layout_width="@dimen/square_button_size"
+            android:layout_height="@dimen/square_button_size"
+            android:text="+"
+            android:focusable="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>

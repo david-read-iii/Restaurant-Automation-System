@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.ModifyEmployeeActivity;
-import com.read.restaurantautomationsystem.Adapters.EmployeesBaseAdapter;
+import com.read.restaurantautomationsystem.Adapters.ManageEmployeesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.EmployeesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
@@ -26,7 +26,7 @@ public class ManageEmployeesFragment extends Fragment {
     private ListView listView;
     private TextView textViewEmpty;
     private ArrayList<Employee> employees;
-    private EmployeesBaseAdapter baseAdapter;
+    private ManageEmployeesBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
     private EmployeesValueEventListener valueEventListener;
 
@@ -42,9 +42,9 @@ public class ManageEmployeesFragment extends Fragment {
         listView = rootView.findViewById(R.id.list_view_manage_employees);
         textViewEmpty = rootView.findViewById(R.id.text_view_manage_employees_empty);
 
-        // Initialize ArrayList and EmployeesBaseAdapter.
+        // Initialize ArrayList and ManageEmployeesBaseAdapter.
         employees = new ArrayList<>();
-        baseAdapter = new EmployeesBaseAdapter(rootView.getContext(), employees);
+        baseAdapter = new ManageEmployeesBaseAdapter(rootView.getContext(), employees);
 
         // Initialize DatabaseReference and EmployeesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();

@@ -17,9 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.read.restaurantautomationsystem.Activities.TableOrderActivity;
-import com.read.restaurantautomationsystem.Adapters.TableListBaseAdapter;
-import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.DialogChildEventListener;
+import com.read.restaurantautomationsystem.Activities.AddOrderActivity;
+import com.read.restaurantautomationsystem.Adapters.ServeTablesBaseAdapter;
+import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.TablesFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.TablesValueEventListener;
 import com.read.restaurantautomationsystem.Models.Table;
@@ -27,15 +27,15 @@ import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 
-public class TableListFragment extends Fragment {
+public class ServeTablesFragment extends Fragment {
 
     private ListView listView;
     private TextView textViewEmpty;
     private ArrayList<Table> tables;
-    private TableListBaseAdapter baseAdapter;
+    private ServeTablesBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
     private TablesValueEventListener valueEventListener;
-    private DialogChildEventListener childEventListener;
+    private GenericChildEventListener childEventListener;
     private AlertDialog tableOptionsDialog, tableStatusDialog;
     private int modified;
 
@@ -45,15 +45,15 @@ public class TableListFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_table_list, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_serve_tables, container, false);
 
         // Bring XML elements to Java.
-        listView = rootView.findViewById(R.id.list_view_table_list);
-        textViewEmpty = rootView.findViewById(R.id.text_view_table_list_empty);
+        listView = rootView.findViewById(R.id.list_view_serve_tables);
+        textViewEmpty = rootView.findViewById(R.id.text_view_serve_tables);
 
-        // Initialize ArrayList and TableListBaseAdapter.
+        // Initialize ArrayList and EmployeeManageTablesBaseAdapter.
         tables = new ArrayList<>();
-        baseAdapter = new TableListBaseAdapter(rootView.getContext(), tables);
+        baseAdapter = new ServeTablesBaseAdapter(rootView.getContext(), tables);
 
         // Initialize DatabaseReference and TablesValueEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -73,8 +73,8 @@ public class TableListFragment extends Fragment {
                 // Initialize AlertDialog tableOptionsDialog.
                 initializeTableOptionsDialog(rootView.getContext(), table);
 
-                // Initialize and attach DialogChildEventListener to the selected Table object in the database.
-                childEventListener = new DialogChildEventListener(rootView.getContext(), tableOptionsDialog, getString(R.string.toast_table_changed));
+                // Initialize and attach ChildEventListener to the selected Table object in the database.
+                childEventListener = new GenericChildEventListener(rootView.getContext(), tableOptionsDialog, getString(R.string.toast_table_changed));
                 databaseReference.child("Tables").child(table.getKey()).addChildEventListener(childEventListener);
 
                 // Show AlertDialog tableOptionsDialog.
@@ -106,7 +106,7 @@ public class TableListFragment extends Fragment {
         // Detach TablesValueEventListener from the database.
         databaseReference.child("Tables").removeEventListener(valueEventListener);
 
-        // Detach DialogChildEventListener from the database.
+        // Detach ChildEventListener from the database.
         if (childEventListener != null) {
             databaseReference.child("Tables").removeEventListener(childEventListener);
         }
@@ -140,7 +140,7 @@ public class TableListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                // Detach DialogChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("Tables").child(table.getKey()).removeEventListener(childEventListener);
 
                 switch (i) {
@@ -150,8 +150,8 @@ public class TableListFragment extends Fragment {
                         // Initialize AlertDialog tableStatusDialog.
                         initializeTableStatusDialog(context, table);
 
-                        // Initialize and attach DialogChildEventListener to the selected Table object in the database.
-                        childEventListener = new DialogChildEventListener(context, tableStatusDialog, getString(R.string.toast_table_changed));
+                        // Initialize and attach ChildEventListener to the selected Table object in the database.
+                        childEventListener = new GenericChildEventListener(context, tableStatusDialog, getString(R.string.toast_table_changed));
                         databaseReference.child("Tables").child(table.getKey()).addChildEventListener(childEventListener);
 
                         // Show AlertDialog tableStatusDialog.
@@ -160,7 +160,7 @@ public class TableListFragment extends Fragment {
                         break;
                     // "Take Order" clicked. Start TableOrderActivity.
                     case 1:
-                        Intent intent = new Intent(context, TableOrderActivity.class);
+                        Intent intent = new Intent(context, AddOrderActivity.class);
 
                         // Pass the attributes of the selected Table object to the activity.
                         intent.putExtra("key", table.getKey());
@@ -178,7 +178,7 @@ public class TableListFragment extends Fragment {
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                // Detach DialogChildEventListener.
+                // Detach ChildEventListener.
                 if (childEventListener != null) {
                     databaseReference.child("Tables").child(table.getKey()).removeEventListener(childEventListener);
                 }
@@ -221,7 +221,7 @@ public class TableListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                // Detach DialogChildEventListener.
+                // Detach ChildEventListener.
                 databaseReference.child("Tables").child(table.getKey()).removeEventListener(childEventListener);
 
                 // Determine which option of the AlertDialog is currently checked. The checked option determines the new status.
@@ -236,7 +236,7 @@ public class TableListFragment extends Fragment {
 
                 // Print Toast if modification fails.
                 if (modified == 1) {
-                    Toast.makeText(context, R.string.toast_update_status_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.toast_update_table_status_failed, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -245,7 +245,7 @@ public class TableListFragment extends Fragment {
         builder.setNegativeButton(R.string.dialog_negative_button_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // Detach DialogChildEventListener.
+                // Detach ChildEventListener.
                 if (childEventListener != null) {
                     databaseReference.child("Tables").child(table.getKey()).removeEventListener(childEventListener);
                 }
@@ -256,7 +256,7 @@ public class TableListFragment extends Fragment {
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                // Detach DialogChildEventListener.
+                // Detach ChildEventListener.
                 if (childEventListener != null) {
                     databaseReference.child("Tables").child(table.getKey()).removeEventListener(childEventListener);
                 }

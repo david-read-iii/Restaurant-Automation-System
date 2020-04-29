@@ -5,7 +5,7 @@
         <menu>
             <item
                 android:id="@+id/drawer_menu_table_list"
-                android:title="@string/name_fragment_table_list" />
+                android:title="@string/name_fragment_serve_tables" />
             <item
                 android:id="@+id/drawer_menu_order_queue"
                 android:title="@string/name_fragment_order_queue" />
@@ -24,11 +24,11 @@
                 android:id="@+id/drawer_menu_manage_inventory"
                 android:title="@string/name_fragment_manage_inventory" />
             <item
-                android:id="@+id/drawer_menu_manage_tables"
-                android:title="@string/name_fragment_manage_tables" />
-            <item
                 android:id="@+id/drawer_menu_manage_menu"
                 android:title="@string/name_fragment_manage_menu" />
+            <item
+                android:id="@+id/drawer_menu_manage_tables"
+                android:title="@string/name_fragment_manage_tables" />
         </menu>
     </item>
 
