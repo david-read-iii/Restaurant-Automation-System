@@ -1,38 +1,40 @@
 package com.read.restaurantautomationsystem.Models;
 
 public class MenuItem {
+
     private String key;
     private String name;
-    private String price;
+    private double price;
     private String category;
 
     /**
-     * Represents a MenuItem with null attributes.
+     * Represents a MenuItem object with null attributes.
      */
     public MenuItem() {
     }
 
     /**
-     * Represents a Menu Item with the specified attributes and a null key.
+     * Represents a MenuItem object with the specified attributes and a null key.
      *
-     * @param name      The name of the item.
-     * @param price     The price of the item.
-     * @param category  The category of the item.
+     * @param name     The name of the item.
+     * @param price    The price of the item.
+     * @param category The category of the item.
      */
-    public MenuItem(String name, String price, String category) {
+    public MenuItem(String name, double price, String category) {
         this.name = name;
         this.price = price;
         this.category = category;
     }
+
     /**
-     * Represents a Menu Item with the specified attributes.
+     * Represents a MenuItem object with the specified attributes.
      *
-     * @param key       The key of the item.
-     * @param name      The name of the item.
-     * @param price     The price of the item.
-     * @param category  The category of the item.
+     * @param key      The key of the item.
+     * @param name     The name of the item.
+     * @param price    The price of the item.
+     * @param category The category of the item.
      */
-    public MenuItem(String key, String name, String price, String category) {
+    public MenuItem(String key, String name, double price, String category) {
         this.key = key;
         this.name = name;
         this.price = price;
@@ -47,11 +49,11 @@ public class MenuItem {
         this.category = category;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

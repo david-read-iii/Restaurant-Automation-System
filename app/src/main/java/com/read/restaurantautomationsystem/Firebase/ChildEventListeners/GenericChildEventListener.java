@@ -16,27 +16,29 @@ public class GenericChildEventListener implements ChildEventListener {
 
     private Context context;
     private AlertDialog alertDialog;
-    private String toastMessage;
+    private String toastMessageChildModified, toastMessageChildDeleted;
 
     /**
-     * Defines a listener that executes code when a certain child in the database is added,
-     * changed or removed. If this constructor is used, the activity the user is in will close on
-     * execution of the listener.
+     * Defines a listener that executes code when a certain child in the database changed or removed.
+     * If this object is created with this constructor, the activity the user is in will close on
+     * execution of this listener.
      */
-    public GenericChildEventListener(Context context, String toastMessage) {
+    public GenericChildEventListener(Context context, String toastMessageChildModified, String toastMessageChildDeleted) {
         this.context = context;
-        this.toastMessage = toastMessage;
+        this.toastMessageChildModified = toastMessageChildModified;
+        this.toastMessageChildDeleted = toastMessageChildDeleted;
     }
 
     /**
-     * Defines a listener that executes code when a certain child in the database is added,
-     * changed or removed. If this constructor is used, the dialog box the user is in will close on
-     * execution of the listener.
+     * Defines a listener that executes code when a certain child in the database changed or removed.
+     * If this object is created with this constructor, the dialog the user is in will close on
+     * execution of this listener.
      */
-    public GenericChildEventListener(Context context, AlertDialog alertDialog, String toastMessage) {
+    public GenericChildEventListener(Context context, AlertDialog alertDialog, String toastMessageChildModified, String toastMessageChildDeleted) {
         this.context = context;
         this.alertDialog = alertDialog;
-        this.toastMessage = toastMessage;
+        this.toastMessageChildModified = toastMessageChildModified;
+        this.toastMessageChildDeleted = toastMessageChildDeleted;
     }
 
     @Override
@@ -45,11 +47,20 @@ public class GenericChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+        Toast.makeText(context, toastMessageChildModified, Toast.LENGTH_SHORT).show();
+
+        if (alertDialog != null) {
+            alertDialog.hide();
+        } else {
+            ((Activity) context).finish();
+        }
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(context, toastMessageChildDeleted, Toast.LENGTH_SHORT).show();
 
         if (alertDialog != null) {
             alertDialog.hide();

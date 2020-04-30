@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.read.restaurantautomationsystem.Comparators.TablesComparator;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ServeTablesBaseAdapter extends BaseAdapter {
 
@@ -61,5 +63,17 @@ public class ServeTablesBaseAdapter extends BaseAdapter {
         status.setText(selected.getStatus());
 
         return view;
+    }
+
+    /**
+     * Before adapting the data, sort the Table objects in the ArrayList alphabetically by name.
+     */
+    @Override
+    public void notifyDataSetChanged() {
+
+        // Sort Tables objects in ArrayList alphabetically by name.
+        Collections.sort(tables, new TablesComparator());
+
+        super.notifyDataSetChanged();
     }
 }

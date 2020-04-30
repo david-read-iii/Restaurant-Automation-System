@@ -38,18 +38,10 @@ public class InventoryItemsValueEventListener implements ValueEventListener {
             InventoryItem inventoryItem = new InventoryItem(
                     ds.getKey(),
                     ds.child("name").getValue(String.class),
-                    ds.child("quantity").getValue(String.class)
+                    ds.child("quantity").getValue(Integer.class)
             );
             inventoryItems.add(inventoryItem);
         }
-
-        // Sort InventoryItem objects in ArrayList alphabetically by name.
-        Collections.sort(inventoryItems, new Comparator<InventoryItem>() {
-            @Override
-            public int compare(InventoryItem i1, InventoryItem i2) {
-                return i1.getName().compareToIgnoreCase(i2.getName());
-            }
-        });
 
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();

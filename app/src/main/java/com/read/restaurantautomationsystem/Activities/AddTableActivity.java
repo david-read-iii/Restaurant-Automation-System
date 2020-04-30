@@ -37,23 +37,23 @@ public class AddTableActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Save a Table object with the specified attributes to the database.
                 saved = TablesFirebaseHelper.save(new Table(
                         editTextName.getText().toString(),
                         "Ready"
                 ));
 
-                // Depending on the status of the save, print a Toast and take an action.
+                // If save successful, close this activity.
                 if (saved == 0) {
-                    // Save successful. Close this activity.
-                    Toast.makeText(AddTableActivity.this, R.string.toast_add_table_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (saved == 1) {
-                    // Save failed due to database error. Close this activity.
+                }
+                // If save failed due to database error, print Toast.
+                else if (saved == 1) {
                     Toast.makeText(AddTableActivity.this, R.string.toast_add_table_failed, Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    // Save failed due to invalid attributes.
+                }
+                // If save failed due to the object having invalid attributes, print Toast.
+                else {
                     Toast.makeText(AddTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
                 }
             }

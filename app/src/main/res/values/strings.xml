@@ -99,46 +99,41 @@
     <string name="action_add_menu_item">Add item</string>
 
     <!-- Toast messages -->
+    <string name="toast_update_table_status_to_occupied">Update table status to "occupied" to take orders</string>
     <string name="toast_update_table_status_failed">Table status not updated</string>
-    <string name="toast_ordered_items_empty">Add at least one item</string>
+    <string name="toast_add_order_failed">Order not submitted</string>
+    <string name="toast_add_order_invalid">Add at least one item</string>
 
-    <string name="toast_add_employee_success">Employee added successfully</string>
     <string name="toast_add_employee_failed">Employee not added</string>
-    <string name="toast_delete_employee_success">Employee deleted successfully</string>
     <string name="toast_delete_employee_failed">Employee not deleted</string>
-    <string name="toast_modify_employee_success">Employee modified successfully</string>
     <string name="toast_modify_employee_failed">Employee not modified</string>
-    <string name="toast_employee_invalid">Employee has invalid attributes.</string>
-    <string name="toast_employee_changed">Employee changed by another user</string>
+    <string name="toast_employee_invalid">Employee has invalid attributes</string>
+    <string name="toast_selected_employee_modified">Employee modified by another user</string>
+    <string name="toast_selected_employee_deleted">Employee deleted by another user</string>
 
-    <string name="toast_add_inventory_item_success">Item added successfully</string>
     <string name="toast_add_inventory_item_failed">Item not added</string>
-    <string name="toast_delete_inventory_item_success">Item deleted successfully</string>
     <string name="toast_delete_inventory_item_failed">Item not deleted</string>
-    <string name="toast_modify_inventory_item_success">Item modified successfully</string>
     <string name="toast_modify_inventory_item_failed">Item not modified</string>
-    <string name="toast_inventory_item_invalid">Item has invalid attributes.</string>
-    <string name="toast_inventory_item_changed">Item changed by another user</string>
+    <string name="toast_inventory_item_invalid">Item has invalid attributes</string>
+    <string name="toast_selected_inventory_item_modified">Item modified by another user</string>
+    <string name="toast_selected_inventory_item_deleted">Item deleted by another user</string>
 
-    <string name="toast_add_menu_item_success">Item added successfully</string>
     <string name="toast_add_menu_item_failed">Item not added</string>
-    <string name="toast_delete_menu_item_success">Item deleted successfully</string>
     <string name="toast_delete_menu_item_failed">Item not deleted</string>
-    <string name="toast_modify_menu_item_success">Item modified successfully</string>
     <string name="toast_modify_menu_item_failed">Item not modified</string>
-    <string name="toast_menu_item_invalid">Item has invalid attributes.</string>
-    <string name="toast_menu_item_changed">Item changed by another user</string>
+    <string name="toast_menu_item_invalid">Item has invalid attributes</string>
+    <string name="toast_selected_menu_item_modified">Item modified by another user</string>
+    <string name="toast_selected_menu_item_deleted">Item deleted by another user</string>
 
-    <string name="toast_add_table_success">Table added successfully</string>
     <string name="toast_add_table_failed">Table not added</string>
-    <string name="toast_delete_table_success">Table deleted successfully</string>
     <string name="toast_delete_table_failed">Table not deleted</string>
-    <string name="toast_modify_table_success">Table modified successfully</string>
     <string name="toast_modify_table_failed">Table not modified</string>
-    <string name="toast_table_invalid">Table has invalid attributes.</string>
-    <string name="toast_table_changed">Table changed by another user</string>
+    <string name="toast_table_invalid">Table has invalid attributes</string>
+    <string name="toast_selected_table_modified">Table modified by another user</string>
+    <string name="toast_selected_table_deleted">Table deleted by another user</string>
 
     <!-- ListView empty text -->
+    <string name="empty_text_add_order">There are no menu items</string>
     <string name="empty_text_employee_manage_tables">There are no tables</string>
     <string name="empty_text_manage_employees">There are no employees</string>
     <string name="empty_text_manage_inventory">There are no inventory items</string>
@@ -147,5 +142,6 @@
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>
+    <string name="default_total_price">$0.00</string>
 
 </resources>

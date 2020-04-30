@@ -46,20 +46,6 @@ public class EmployeesValueEventListener implements ValueEventListener {
             employees.add(employee);
         }
 
-        // Sort Employee objects in ArrayList alphabetically by last name, then by first name.
-        Collections.sort(employees, new Comparator<Employee>() {
-            @Override
-            public int compare(Employee e1, Employee e2) {
-                int lastNameCompareValue = e1.getLastName().compareToIgnoreCase(e2.getLastName());
-
-                if (lastNameCompareValue != 0) {
-                    return lastNameCompareValue;
-                } else {
-                    return e1.getFirstName().compareToIgnoreCase(e2.getLastName());
-                }
-            }
-        });
-
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();
     }

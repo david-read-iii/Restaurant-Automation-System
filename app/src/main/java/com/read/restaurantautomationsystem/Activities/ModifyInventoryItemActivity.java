@@ -45,12 +45,12 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
         selected = new InventoryItem(
                 intent.getStringExtra("key"),
                 intent.getStringExtra("name"),
-                intent.getStringExtra("quantity")
+                Integer.parseInt(intent.getStringExtra("quantity"))
         );
 
         // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_inventory_item_changed));
+        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_selected_inventory_item_modified), getString(R.string.toast_selected_inventory_item_deleted));
 
         // Attach the ChildEventListener to the selected InventoryItem object in the database.
         databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
@@ -63,27 +63,28 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
 
         // Set EditText values as the attributes of the selected InventoryItem.
         editTextName.setText(selected.getName());
-        editTextQuantity.setText(selected.getQuantity());
+        editTextQuantity.setText(Integer.toString(selected.getQuantity()));
 
         // Attach a click listener to buttonDelete.
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected InventoryItem object from the database.
-                deleted = InventoryItemsFirebaseHelper.delete(selected);
+                deleted = InventoryItemsFirebaseHelper.delete(selected.getKey());
 
-                // Print Toast indicating the status of the deletion.
+                // If deletion successful, close this activity.
                 if (deleted == 0) {
-                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_delete_inventory_item_success, Toast.LENGTH_SHORT).show();
-                } else {
+                    finish();
+                }
+                // If deletion failed due to database error, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_delete_inventory_item_failed, Toast.LENGTH_SHORT).show();
                 }
-
-                // Close this activity.
-                finish();
             }
         });
 
@@ -91,28 +92,29 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify InventoryItem selected in the database with the attributes specified in the EditTexts.
-                modified = InventoryItemsFirebaseHelper.modify(selected, new InventoryItem(
+                modified = InventoryItemsFirebaseHelper.modify(selected.getKey(), new InventoryItem(
                         editTextName.getText().toString(),
-                        editTextQuantity.getText().toString()
+                        Integer.parseInt(editTextQuantity.getText().toString())
                 ));
 
-                // Depending on the status of the modification, print a Toast and take an action.
+                // If modification successful, close this activity.
                 if (modified == 0) {
-                    // Modification successful. Close this activity.
-                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach ChildEventListener.
-                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to database error, reattach ChildEventListener and print Toast.
+                else if (modified == 1) {
                     databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                } else {
-                    // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_failed, Toast.LENGTH_SHORT).show();
-                    finish();
+                }
+                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

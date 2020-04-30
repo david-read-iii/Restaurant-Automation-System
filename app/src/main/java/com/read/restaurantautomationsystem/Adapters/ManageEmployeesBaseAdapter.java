@@ -1,18 +1,18 @@
 package com.read.restaurantautomationsystem.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.read.restaurantautomationsystem.Activities.ModifyEmployeeActivity;
+import com.read.restaurantautomationsystem.Comparators.EmployeesComparator;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ManageEmployeesBaseAdapter extends BaseAdapter {
 
@@ -63,5 +63,15 @@ public class ManageEmployeesBaseAdapter extends BaseAdapter {
         role.setText(selected.getRole());
 
         return view;
+    }
+
+    /**
+     * Before adapting the data, sort the Employee objects in the ArrayList alphabetically by last
+     * name, then by first name.
+     */
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(employees, new EmployeesComparator());
+        super.notifyDataSetChanged();
     }
 }

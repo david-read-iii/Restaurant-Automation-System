@@ -43,14 +43,6 @@ public class TablesValueEventListener implements ValueEventListener {
             tables.add(table);
         }
 
-        // Sort Tables objects in ArrayList alphabetically by name.
-        Collections.sort(tables, new Comparator<Table>() {
-            @Override
-            public int compare(Table t1, Table t2) {
-                return t1.getName().compareToIgnoreCase(t2.getName());
-            }
-        });
-
         // Notify the BaseAdapter to update its ListView.
         baseAdapter.notifyDataSetChanged();
     }

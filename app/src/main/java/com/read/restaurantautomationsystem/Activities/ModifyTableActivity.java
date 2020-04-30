@@ -50,7 +50,7 @@ public class ModifyTableActivity extends AppCompatActivity {
 
         // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_table_changed));
+        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_selected_table_modified), getString(R.string.toast_selected_table_deleted));
 
         // Attach the ChildEventListener to the selected Table object in the database.
         databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
@@ -67,21 +67,22 @@ public class ModifyTableActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Detach .
+
+                // Detach ChildEventListener.
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected Table object from the database.
-                deleted = TablesFirebaseHelper.delete(selected);
+                deleted = TablesFirebaseHelper.delete(selected.getKey());
 
-                // Print Toast indicating the status of the deletion.
+                // If deletion successful, close this activity.
                 if (deleted == 0) {
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_delete_table_success, Toast.LENGTH_SHORT).show();
-                } else {
+                    finish();
+                }
+                // If deletion failed due to database error, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_delete_table_failed, Toast.LENGTH_SHORT).show();
                 }
-
-                // Close this activity.
-                finish();
             }
         });
 
@@ -89,28 +90,29 @@ public class ModifyTableActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Table selected in the database with the attributes specified in the EditText.
-                modified = TablesFirebaseHelper.modify(selected, new Table(
+                modified = TablesFirebaseHelper.modify(selected.getKey(), new Table(
                         editTextName.getText().toString(),
                         selected.getStatus()
                 ));
 
-                // Depending on the status of the modification, print a Toast and take an action.
+                // If modification successful, close this activity.
                 if (modified == 0) {
-                    // Modification successful. Close this activity.
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach .
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to database error, reattach ChildEventListener and print Toast.
+                else if (modified == 1) {
                     databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
-                } else {
-                    // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_failed, Toast.LENGTH_SHORT).show();
-                    finish();
+                }
+                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

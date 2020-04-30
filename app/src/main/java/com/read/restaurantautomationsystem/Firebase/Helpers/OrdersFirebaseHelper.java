@@ -18,8 +18,7 @@ public class OrdersFirebaseHelper {
         int status;
 
         // Verify that the MenuItem object has valid attributes defined.
-        if (order == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        if (order.getOrderedItems().isEmpty()) {
             status = 2;
         }
         // Attempt to save Order object to the database. Watch for a DatabaseException.
@@ -37,19 +36,19 @@ public class OrdersFirebaseHelper {
     }
 
     /**
-     * Deletes a Order object from the database.
+     * Deletes an Order object from the database.
      *
-     * @param order The Order object to be deleted. Must have a key defined.
+     * @param key The key of the Order object to be deleted.
      * @return The status of the deletion: 0 indicates successful deletion, 1 indicates a failed
      * deletion due to database error.
      */
-    public static int delete(Order order) {
+    public static int delete(String key) {
         int status;
 
         // Attempt to delete the MenuItem object from the database. Watch for a DatabaseException.
         try {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-            databaseReference.child("OrderQueue").child(order.getKey()).removeValue();
+            databaseReference.child("OrderQueue").child(key).removeValue();
             status = 0;
         } catch (DatabaseException e) {
             e.printStackTrace();
@@ -60,29 +59,34 @@ public class OrdersFirebaseHelper {
     }
 
     /**
-     * Deletes an existing Order object from the database and replaces it with a new Order object.
+     * Modifies an existing Order object with new attributes.
      *
-     * @param oldOrder The Order object to be deleted. Must have a key defined.
-     * @param newOrder The Order object to replace the deleted. Must have a null key.
+     * @param key The key of the Order object to be modified.
+     * @param order The Order object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error in the deletion step, 2 indicates a failed
-     * modification due to an attribute with invalid text, 3 indicates a failed modification due to
-     * database error in the save step.
+     * failed modification due to database error, 2 indicates a failed
+     * modification due to an attribute with invalid text.
      */
-    public static int modify(Order oldOrder, Order newOrder) {
+    public static int modify(String key, Order order) {
         int status;
 
-        // Save the newMenuItem object to the database.
-        status = OrdersFirebaseHelper.save(newOrder);
-
-        // If save is successful, delete the oldMenuItem object from the database.
-        if (status == 0) {
-            status = OrdersFirebaseHelper.delete(oldOrder);
-        } else {
-            status = 3;
+        // Verify that the Order object has valid attributes defined.
+        if (order.getOrderedItems().isEmpty()) {
+            // TODO: Define some restrictions on what attributes can be entered for the object.
+            status = 2;
+        }
+        // Attempt to modify the Order object in the database. Watch for a DatabaseException.
+        else {
+            try {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("OrderQueue").child(key).setValue(order);
+                status = 0;
+            } catch (DatabaseException e) {
+                e.printStackTrace();
+                status = 1;
+            }
         }
 
         return status;
     }
-
 }

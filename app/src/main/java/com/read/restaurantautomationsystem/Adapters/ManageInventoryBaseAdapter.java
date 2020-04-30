@@ -7,10 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.read.restaurantautomationsystem.Comparators.InventoryItemsComparator;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ManageInventoryBaseAdapter extends BaseAdapter {
 
@@ -58,8 +61,17 @@ public class ManageInventoryBaseAdapter extends BaseAdapter {
 
         // Set text as the attributes of the ith InventoryItem object.
         name.setText(selected.getName());
-        quantity.setText(selected.getQuantity());
+        quantity.setText(Integer.toString(selected.getQuantity()));
 
         return view;
+    }
+
+    /**
+     * Before adapting the data, sort the InventoryItem objects in the ArrayList alphabetically by name.
+     */
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(inventoryItems, new InventoryItemsComparator());
+        super.notifyDataSetChanged();
     }
 }

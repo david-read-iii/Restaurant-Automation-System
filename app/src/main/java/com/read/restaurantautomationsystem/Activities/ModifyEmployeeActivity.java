@@ -56,7 +56,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
 
         // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_employee_changed));
+        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_selected_employee_modified), getString(R.string.toast_selected_employee_deleted));
 
         // Attach the ChildEventListener to the selected Employee object in the database.
         databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
@@ -90,17 +90,17 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected Employee object from the database.
-                deleted = EmployeesFirebaseHelper.delete(selected);
+                deleted = EmployeesFirebaseHelper.delete(selected.getKey());
 
-                // Print Toast indicating status of the deletion.
+                // If deletion successful, close this activity.
                 if (deleted == 0) {
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_success, Toast.LENGTH_SHORT).show();
-                } else {
+                    finish();
+                }
+                // If deletion failed due to database error, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
                 }
-
-                // Close this activity.
-                finish();
             }
         });
 
@@ -108,11 +108,12 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Employee selected in the database with the attributes specified in the EditTexts.
-                modified = EmployeesFirebaseHelper.modify(selected, new Employee(
+                modified = EmployeesFirebaseHelper.modify(selected.getKey(), new Employee(
                         editTextFirstName.getText().toString(),
                         editTextLastName.getText().toString(),
                         editTextUsername.getText().toString(),
@@ -120,19 +121,19 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                         spinnerRole.getSelectedItem().toString()
                 ));
 
-                // Depending on the status of the modification, print a Toast and take an action.
+                // If modification successful, close this activity.
                 if (modified == 0) {
-                    // Modification successful. Close this activity.
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_modify_employee_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach ChildEventListener.
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to database error, reattach ChildEventListener and print Toast.
+                else if (modified == 1) {
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                } else {
-                    // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
-                    finish();
+                }
+                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

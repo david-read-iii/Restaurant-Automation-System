@@ -1,6 +1,7 @@
 package com.read.restaurantautomationsystem.Models;
 
 public class Table {
+
     private String key;
     private String status;
     private String name;
@@ -14,8 +15,8 @@ public class Table {
     /**
      * Represents a Table with the specified attributes and a null key.
      *
-     * @param name      The name of the table.
-     * @param status    The status of the table.
+     * @param name   The name of the table.
+     * @param status The status of the table.
      */
 
     public Table(String name, String status) {
@@ -26,9 +27,9 @@ public class Table {
     /**
      * Represents a Table with the specified attributes.
      *
-     * @param key       The key of the table.
-     * @param name      The name of the table.
-     * @param status    The status of the table.
+     * @param key    The key of the table.
+     * @param name   The name of the table.
+     * @param status The status of the table.
      */
     public Table(String key, String name, String status) {
         this.key = key;

@@ -67,7 +67,7 @@ public class ManageInventoryFragment extends Fragment {
                 // Pass the attributes of the selected InventoryItem to the activity.
                 intent.putExtra("key", inventoryItems.get(i).getKey());
                 intent.putExtra("name", inventoryItems.get(i).getName());
-                intent.putExtra("quantity", inventoryItems.get(i).getQuantity());
+                intent.putExtra("quantity", Integer.toString(inventoryItems.get(i).getQuantity()));
 
                 rootView.getContext().startActivity(intent);
             }

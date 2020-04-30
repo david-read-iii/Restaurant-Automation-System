@@ -69,7 +69,7 @@ public class ManageMenuFragment extends Fragment {
                 // Pass the attributes of the selected MenuItem to the activity.
                 intent.putExtra("key", selected.getKey());
                 intent.putExtra("name", selected.getName());
-                intent.putExtra("price", selected.getPrice());
+                intent.putExtra("price", Double.toString(selected.getPrice()));
                 intent.putExtra("category", selected.getCategory());
 
                 rootView.getContext().startActivity(intent);

@@ -37,23 +37,23 @@ public class AddInventoryItemActivity extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Save an InventoryItem object with the specified attributes to the database.
                 saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
                         editTextName.getText().toString(),
-                        editTextQuantity.getText().toString()
+                        Integer.parseInt(editTextQuantity.getText().toString())
                 ));
 
-                // Depending on the status of the save, print a Toast and take an action.
+                // If save successful, close this activity.
                 if (saved == 0) {
-                    // Save successful. Close this activity.
-                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_add_inventory_item_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (saved == 1) {
-                    // Save failed due to database error. Close this activity.
+                }
+                // If save failed due to database error, print Toast.
+                else if (saved == 1) {
                     Toast.makeText(AddInventoryItemActivity.this, R.string.toast_add_inventory_item_failed, Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    // Save failed due to invalid attributes.
+                }
+                // If save failed due to the object having invalid attributes, print Toast.
+                else {
                     Toast.makeText(AddInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
                 }
             }

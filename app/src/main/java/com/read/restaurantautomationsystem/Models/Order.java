@@ -1,55 +1,62 @@
 package com.read.restaurantautomationsystem.Models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Order {
+
     private String key;
+    private int orderNumber;
     private String status;
-    private String totalPrice;
-    private String timeOrdered;
-    private String tableOrdered;
+    private double totalPrice;
+    private Date dateTimeOrdered;
+    private String tableNameOrdered;
     private ArrayList<MenuItemWithQuantity> orderedItems;
 
     /**
      * Represents an Order with null attributes.
      */
-    public Order(){
+    public Order() {
     }
 
     /**
-     * Represents an Order with the specified attributes and a null key.
+     * Represents an Order with the specified attributes and a null key. The double totalPrice represents
+     * the total price of this Order object.
      *
-     * @param status            The status of the order.
-     * @param totalPrice        The total price of the order.
-     * @param timeOrdered       The time the order was placed.
-     * @param tableOrdered      The table the order was placed from.
-     * @param orderedItems      The items ordered and their quantities.
+     * @param status           The status of the order.
+     * @param totalPrice       The total price of the order.
+     * @param dateTimeOrdered  The time the order was placed.
+     * @param tableNameOrdered The table the order was placed from.
+     * @param orderedItems     The items ordered and their quantities.
      */
 
-    public Order(String status, String totalPrice, String timeOrdered, String tableOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
+
+    public Order(int orderNumber, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
+        this.orderNumber = orderNumber;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.timeOrdered = timeOrdered;
-        this.tableOrdered = tableOrdered;
+        this.dateTimeOrdered = dateTimeOrdered;
+        this.tableNameOrdered = tableNameOrdered;
         this.orderedItems = orderedItems;
     }
 
     /**
      * Represents an Order with the specified attributes.
      *
-     * @param key               The key of the order.
-     * @param status            The status of the order.
-     * @param totalPrice        The total price of the order.
-     * @param timeOrdered       The time the order was placed.
-     * @param tableOrdered      The table the order was placed from.
-     * @param orderedItems      The items ordered and their quantities.
+     * @param key              The key of the order.
+     * @param status           The status of the order.
+     * @param totalPrice       The total price of the order.
+     * @param dateTimeOrdered  The time the order was placed.
+     * @param tableNameOrdered The table the order was placed from.
+     * @param orderedItems     The items ordered and their quantities.
      */
-    public Order(String key, String status, String totalPrice, String timeOrdered, String tableOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
+    public Order(String key, int orderNumber, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
         this.key = key;
+        this.orderNumber = orderNumber;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.timeOrdered = timeOrdered;
-        this.tableOrdered = tableOrdered;
+        this.dateTimeOrdered = dateTimeOrdered;
+        this.tableNameOrdered = tableNameOrdered;
         this.orderedItems = orderedItems;
     }
 
@@ -61,6 +68,14 @@ public class Order {
         this.key = key;
     }
 
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -69,28 +84,28 @@ public class Order {
         this.status = status;
     }
 
-    public String getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(String totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getTimeOrdered() {
-        return timeOrdered;
+    public Date getDateTimeOrdered() {
+        return dateTimeOrdered;
     }
 
-    public void setTimeOrdered(String timeOrdered) {
-        this.timeOrdered = timeOrdered;
+    public void setDateTimeOrdered(Date dateTimeOrdered) {
+        this.dateTimeOrdered = dateTimeOrdered;
     }
 
-    public String getTableOrdered() {
-        return tableOrdered;
+    public String getTableNameOrdered() {
+        return tableNameOrdered;
     }
 
-    public void setTableOrdered(String tableOrdered) {
-        this.tableOrdered = tableOrdered;
+    public void setTableNameOrdered(String tableNameOrdered) {
+        this.tableNameOrdered = tableNameOrdered;
     }
 
     public ArrayList<MenuItemWithQuantity> getOrderedItems() {

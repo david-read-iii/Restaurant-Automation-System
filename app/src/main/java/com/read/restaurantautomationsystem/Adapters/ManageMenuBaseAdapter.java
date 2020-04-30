@@ -7,11 +7,16 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.read.restaurantautomationsystem.Comparators.MenuItemsComparator;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ManageMenuBaseAdapter extends BaseExpandableListAdapter {
 
@@ -99,9 +104,12 @@ public class ManageMenuBaseAdapter extends BaseExpandableListAdapter {
         // Retrieve attributes of the (ith, i1th) MenuItem object from the HashMap.
         MenuItem selected = (MenuItem) getChild(i, i1);
 
+        // Create NumberFormat object to format currency attributes.
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+
         // Set text as attributes of the (ith, i1th) MenuItem object.
         textViewName.setText(selected.getName());
-        textViewPrice.setText(selected.getPrice());
+        textViewPrice.setText(currencyFormat.format(selected.getPrice()));
 
         return view;
     }
@@ -109,5 +117,28 @@ public class ManageMenuBaseAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    /**
+     * Before adapting the data, sort the categories in the ArrayList alphabetically and sort the
+     * MenuItem objects in each ArrayList of the HashMap alphabetically by name.
+     */
+    @Override
+    public void notifyDataSetChanged() {
+
+        // Sort categories in ArrayList alphabetically.
+        Collections.sort(categories, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        // Sort MenuItem objects in each ArrayList in the HashMap alphabetically by name.
+        for (HashMap.Entry<String, ArrayList<MenuItem>> menuItems : menuItemsByCategory.entrySet()) {
+            Collections.sort(menuItems.getValue(), new MenuItemsComparator());
+        }
+
+        super.notifyDataSetChanged();
     }
 }

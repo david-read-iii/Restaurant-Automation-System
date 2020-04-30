@@ -45,13 +45,13 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
         selected = new MenuItem(
                 intent.getStringExtra("key"),
                 intent.getStringExtra("name"),
-                intent.getStringExtra("price"),
+                Double.parseDouble(intent.getStringExtra("price")),
                 intent.getStringExtra("category")
         );
 
         // Initialize DatabaseReference and ChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_menu_item_changed));
+        childEventListener = new GenericChildEventListener(this, getString(R.string.toast_selected_menu_item_modified), getString(R.string.toast_selected_menu_item_deleted));
 
         // Attach the ChildEventListener to the selected MenuItem object in the database.
         databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
@@ -65,28 +65,29 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
 
         // Set EditText values as the attributes of the selected MenuItem.
         editTextName.setText(selected.getName());
-        editTextPrice.setText(selected.getPrice());
+        editTextPrice.setText(Double.toString(selected.getPrice()));
         editTextCategory.setText(selected.getCategory());
 
         // Attach a click listener to buttonDelete.
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Delete the selected MenuItem object from the database.
-                deleted = MenuItemsFirebaseHelper.delete(selected);
+                deleted = MenuItemsFirebaseHelper.delete(selected.getKey());
 
-                // Print Toast indicating the status of the deletion.
+                // If deletion successful, close this activity.
                 if (deleted == 0) {
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_delete_menu_item_success, Toast.LENGTH_SHORT).show();
-                } else {
+                    finish();
+                }
+                // If deletion failed due to database error, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_delete_menu_item_failed, Toast.LENGTH_SHORT).show();
                 }
-
-                // Close this activity.
-                finish();
             }
         });
 
@@ -94,29 +95,30 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // Detach ChildEventListener.
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify MenuItem selected in the database with the attributes specified in the EditTexts.
-                modified = MenuItemsFirebaseHelper.modify(selected, new MenuItem(
+                modified = MenuItemsFirebaseHelper.modify(selected.getKey(), new MenuItem(
                         editTextName.getText().toString(),
-                        editTextPrice.getText().toString(),
+                        Double.parseDouble(editTextPrice.getText().toString()),
                         editTextCategory.getText().toString()
                 ));
 
-                // Depending on the status of the modification, print a Toast and take an action.
+                // If modification successful, close this activity.
                 if (modified == 0) {
-                    // Modification successful. Close this activity.
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_success, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (modified == 2) {
-                    // Modification failed due to invalid attributes. Reattach .
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to database error, reattach ChildEventListener and print Toast.
+                else if (modified == 1) {
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                } else {
-                    // Modification failed due to database error. Close this activity.
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_failed, Toast.LENGTH_SHORT).show();
-                    finish();
+                }
+                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                else {
+                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

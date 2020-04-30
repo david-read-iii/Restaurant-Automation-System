@@ -44,7 +44,7 @@ public class MenuItemsValueEventListener implements ValueEventListener {
             MenuItem menuItem = new MenuItem(
                     ds.getKey(),
                     ds.child("name").getValue(String.class),
-                    ds.child("price").getValue(String.class),
+                    ds.child("price").getValue(Double.class),
                     ds.child("category").getValue(String.class)
             );
 
@@ -54,24 +54,6 @@ public class MenuItemsValueEventListener implements ValueEventListener {
             }
 
             menuItemsByCategory.get(menuItem.getCategory()).add(menuItem);
-        }
-
-        // Sort categories in ArrayList alphabetically.
-        Collections.sort(categories, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
-
-        // Sort MenuItem objects in each ArrayList in the HashMap alphabetically by name.
-        for (HashMap.Entry<String, ArrayList<MenuItem>> menuItems : menuItemsByCategory.entrySet()) {
-            Collections.sort(menuItems.getValue(), new Comparator<MenuItem>() {
-                @Override
-                public int compare(MenuItem m1, MenuItem m2) {
-                    return m1.getName().compareToIgnoreCase(m2.getName());
-                }
-            });
         }
 
         // Notify the BaseAdapter to update its ListView.

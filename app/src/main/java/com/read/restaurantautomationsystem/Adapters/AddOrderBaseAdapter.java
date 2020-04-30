@@ -9,13 +9,16 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.read.restaurantautomationsystem.Comparators.MenuItemsWithQuantityComparator;
 import com.read.restaurantautomationsystem.Models.MenuItemWithQuantity;
 import com.read.restaurantautomationsystem.R;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AddOrderBaseAdapter extends BaseExpandableListAdapter {
 
@@ -31,34 +34,6 @@ public class AddOrderBaseAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.categories = categories;
         this.menuItemsWithQuantityByCategory = menuItemsWithQuantityByCategory;
-    }
-
-    /**
-     * Before adapting the data, sort the categories in the ArrayList alphabetically and sort the
-     * MenuItemWithQuantity objects in each ArrayList of the HashMap alphabetically by name.
-     */
-    @Override
-    public void notifyDataSetChanged() {
-
-        // Sort categories in ArrayList alphabetically.
-        Collections.sort(categories, new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return s1.compareToIgnoreCase(s2);
-            }
-        });
-
-        // Sort MenuItemWithQuantity objects in each ArrayList in the HashMap alphabetically by name.
-        for (HashMap.Entry<String, ArrayList<MenuItemWithQuantity>> menuItemsWithQuantity : menuItemsWithQuantityByCategory.entrySet()) {
-            Collections.sort(menuItemsWithQuantity.getValue(), new Comparator<MenuItemWithQuantity>() {
-                @Override
-                public int compare(MenuItemWithQuantity m1, MenuItemWithQuantity m2) {
-                    return m1.getMenuItem().getName().compareToIgnoreCase(m2.getMenuItem().getName());
-                }
-            });
-        }
-
-        super.notifyDataSetChanged();
     }
 
     @Override
@@ -134,10 +109,13 @@ public class AddOrderBaseAdapter extends BaseExpandableListAdapter {
         // Retrieve attributes of the (ith, i1th) MenuItemWithQuantity object from the HashMap.
         MenuItemWithQuantity selected = (MenuItemWithQuantity) getChild(i, i1);
 
+        // Create NumberFormat object to format currency attributes.
+        NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+
         // Set text as attributes of the (ith, i1th) MenuItemWithQuantity object.
         textViewName.setText(selected.getMenuItem().getName());
-        textViewPrice.setText(selected.getTotalPrice());
-        textViewQuantity.setText(selected.getQuantity());
+        textViewPrice.setText(currencyFormat.format(selected.getTotalPrice()));
+        textViewQuantity.setText(Integer.toString(selected.getQuantity()));
 
         // Calculate the flat position of this MenuItemWithQuantity object in the ExpandableListView.
         long packedPosition = ExpandableListView.getPackedPositionForChild(i, i1);
@@ -164,5 +142,28 @@ public class AddOrderBaseAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return false;
+    }
+
+    /**
+     * Before adapting the data, sort the categories in the ArrayList alphabetically and sort the
+     * MenuItemWithQuantity objects in each ArrayList of the HashMap alphabetically by name.
+     */
+    @Override
+    public void notifyDataSetChanged() {
+
+        // Sort categories in ArrayList alphabetically.
+        Collections.sort(categories, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
+
+        // Sort MenuItemWithQuantity objects in each ArrayList in the HashMap alphabetically by name.
+        for (HashMap.Entry<String, ArrayList<MenuItemWithQuantity>> menuItemsWithQuantity : menuItemsWithQuantityByCategory.entrySet()) {
+            Collections.sort(menuItemsWithQuantity.getValue(), new MenuItemsWithQuantityComparator());
+        }
+
+        super.notifyDataSetChanged();
     }
 }
