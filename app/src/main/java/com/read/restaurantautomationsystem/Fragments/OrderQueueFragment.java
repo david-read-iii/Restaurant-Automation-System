@@ -19,6 +19,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.OrderDetailActivity;
+import com.read.restaurantautomationsystem.Activities.OrderItemsActivity;
 import com.read.restaurantautomationsystem.Adapters.OrderQueueBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.OrderQueueChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.OrdersFirebaseHelper;
@@ -26,7 +27,9 @@ import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.OrderQue
 import com.read.restaurantautomationsystem.Models.Order;
 import com.read.restaurantautomationsystem.R;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OrderQueueFragment extends Fragment {
 
@@ -154,19 +157,40 @@ public class OrderQueueFragment extends Fragment {
                         orderStatusDialog.show();
                         break;
 
-                    // Define option click for "View Order".
+                    // Define option click for "View Items".
                     case 1:
 
                         // Detach ChildEventListener.
                         databaseReference.child("OrderQueue").child(selected.getKey()).removeEventListener(childEventListener);
 
-                        // Start the OrderDetailActivity.
-                        Intent intent = new Intent(context, OrderDetailActivity.class);
+                        // Start the OrderItemsActivity.
+                        Intent intent = new Intent(context, OrderItemsActivity.class);
 
                         // Pass the key of the selected Order object to the activity.
                         intent.putExtra("key", selected.getKey());
 
                         context.startActivity(intent);
+
+                        break;
+
+                    // Define option click for "View Details".
+                    case 2:
+
+                        // Detach ChildEventListener.
+                        databaseReference.child("OrderQueue").child(selected.getKey()).removeEventListener(childEventListener);
+
+                        // Start the OrderDetailActivity.
+                        Intent intent1 = new Intent(context, OrderDetailActivity.class);
+
+                        // Pass the attributes of the selected Order object to the activity.
+                        intent1.putExtra("key", selected.getKey());
+                        intent1.putExtra("number", selected.getNumber());
+                        intent1.putExtra("status", selected.getStatus());
+                        intent1.putExtra("totalPrice", selected.getTotalPrice());
+                        intent1.putExtra("dateTimeOrdered", selected.getDateTimeOrdered().getTime());
+                        intent1.putExtra("tableNameOrdered", selected.getTableNameOrdered());
+
+                        context.startActivity(intent1);
 
                         break;
                 }

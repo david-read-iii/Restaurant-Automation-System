@@ -22,7 +22,8 @@ public class OrderQueueValueEventListener implements ValueEventListener {
     /**
      * Defines a ValueEventListener that syncs a given ArrayList with Order objects in the database.
      * When the ArrayList is synced, a given BaseAdapter is notified so that it can update its
-     * ListView.
+     * ListView. Note that orderedMenuItemsWithQuantity attribute is left intentionally null, and
+     * will be fetched when the user navigates to the proper activity.
      */
     public OrderQueueValueEventListener(ArrayList<Order> orders, BaseAdapter baseAdapter) {
         this.orders = orders;
@@ -36,21 +37,6 @@ public class OrderQueueValueEventListener implements ValueEventListener {
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-            ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity = new ArrayList<>();
-
-            for (DataSnapshot ds1 : dataSnapshot.child(ds.getKey()).child("orderedMenuItemsWithQuantity").getChildren()) {
-                orderedMenuItemsWithQuantity.add(new MenuItemWithQuantity(
-                        new MenuItem(
-                                ds1.child("menuItem").child("key").getValue(String.class),
-                                ds1.child("menuItem").child("name").getValue(String.class),
-                                ds1.child("menuItem").child("price").getValue(Double.class),
-                                ds1.child("menuItem").child("category").getValue(String.class)
-                        ),
-                        ds1.child("quantity").getValue(Integer.class),
-                        ds1.child("totalPrice").getValue(Double.class)
-                ));
-            }
-
             Order order = new Order(
                     ds.getKey(),
                     ds.child("number").getValue(Integer.class),
@@ -58,7 +44,7 @@ public class OrderQueueValueEventListener implements ValueEventListener {
                     ds.child("totalPrice").getValue(Double.class),
                     ds.child("dateTimeOrdered").getValue(Date.class),
                     ds.child("tableNameOrdered").getValue(String.class),
-                    orderedMenuItemsWithQuantity
+                    null
             );
             orders.add(order);
         }

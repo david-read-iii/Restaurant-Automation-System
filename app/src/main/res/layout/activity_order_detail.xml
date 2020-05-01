@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding">
+
+    <TextView
+        android:id="@+id/text_view_order_detail_status"
+        style="@style/TextView.PrimaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: In Progress" />
+
+    <TextView
+        android:id="@+id/text_view_order_detail_total_price"
+        style="@style/TextView.PrimaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total price: $0.00" />
+
+    <TextView
+        android:id="@+id/text_view_order_detail_date"
+        style="@style/TextView.PrimaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date ordered: m/d/yyyy" />
+
+    <TextView
+        android:id="@+id/text_view_order_detail_time"
+        style="@style/TextView.PrimaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time ordered: hh:mm:ss a" />
+
+    <TextView
+        android:id="@+id/text_view_order_detail_table"
+        style="@style/TextView.PrimaryListViewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Origin table: Table 0" />
+
+</LinearLayout>

@@ -10,6 +10,7 @@
     <string name="name_fragment_serve_tables">Serve Tables</string>
     <string name="name_activity_table_order">Create Order</string>
     <string name="name_fragment_order_queue">Order Queue</string>
+    <string name="name_activity_order_items">Order Items</string>
     <string name="name_activity_order_detail">Order Details</string>
     <string name="name_fragment_view_reports">View Reports</string>
     <string name="name_fragment_manage_employees">Manage Employees</string>
@@ -30,6 +31,12 @@
     <string name="label_password">Password:</string>
     <string name="label_total">Total:</string>
     <string name="label_order">Order: %1$s</string>
+    <string name="label_status">Status: %1$s</string>
+    <string name="label_total_price">Total Price: %1$s</string>
+    <string name="label_date">Date Ordered: %1$s</string>
+    <string name="label_time">Time Ordered: %1$s</string>
+    <string name="label_origin_table">Origin Table Name: %1$s</string>
+
     <string name="label_first_name">First name:</string>
     <string name="label_last_name">Last name:</string>
     <string name="label_role">"Role:"</string>
@@ -82,7 +89,8 @@
     <string name="dialog_order_options_title">Choose an action</string>
     <array name="dialog_order_options_options">
         <item>Update Status</item>
-        <item>View Order</item>
+        <item>View Items</item>
+        <item>View Details</item>
     </array>
 
     <string name="dialog_order_status_title">Choose a status</string>
