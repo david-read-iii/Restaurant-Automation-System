@@ -10,6 +10,7 @@
     <string name="name_fragment_serve_tables">Serve Tables</string>
     <string name="name_activity_table_order">Create Order</string>
     <string name="name_fragment_order_queue">Order Queue</string>
+    <string name="name_activity_order_detail">Order Details</string>
     <string name="name_fragment_view_reports">View Reports</string>
     <string name="name_fragment_manage_employees">Manage Employees</string>
     <string name="name_activity_add_employee">Add Employee</string>
@@ -28,6 +29,7 @@
     <string name="label_username">Username:</string>
     <string name="label_password">Password:</string>
     <string name="label_total">Total:</string>
+    <string name="label_order">Order: %1$s</string>
     <string name="label_first_name">First name:</string>
     <string name="label_last_name">Last name:</string>
     <string name="label_role">"Role:"</string>
@@ -55,12 +57,6 @@
         <item>Manager</item>
     </array>
 
-    <array name="spinner_options_order_status">
-        <item>In Progress</item>
-        <item>Ready For Table</item>
-        <item>Completed</item>
-    </array>
-
     <!-- Button text -->
     <string name="button_login">Login</string>
     <string name="button_add">Add</string>
@@ -70,18 +66,32 @@
     <string name="button_decrement">-</string>
 
     <!-- Dialog text -->
-    <string name="dialog_table_list_title">Choose an action</string>
-    <array name="dialog_options_table_list">
+    <string name="dialog_table_options_title">Choose an action</string>
+    <array name="dialog_table_options_options">
         <item>Update Status</item>
         <item>Take Order</item>
     </array>
 
     <string name="dialog_table_status_title">Choose a status</string>
-    <array name="dialog_options_table_status">
+    <array name="dialog_table_status_options">
         <item>Ready</item>
         <item>Occupied</item>
         <item>Dirty</item>
     </array>
+
+    <string name="dialog_order_options_title">Choose an action</string>
+    <array name="dialog_order_options_options">
+        <item>Update Status</item>
+        <item>View Order</item>
+    </array>
+
+    <string name="dialog_order_status_title">Choose a status</string>
+    <array name="dialog_order_status_options">
+        <item>In Progress</item>
+        <item>Ready For Table</item>
+        <item>Completed</item>
+    </array>
+
     <string name="dialog_positive_button_text">OK</string>
     <string name="dialog_negative_button_text">Cancel</string>
 
@@ -103,6 +113,10 @@
     <string name="toast_update_table_status_failed">Table status not updated</string>
     <string name="toast_add_order_failed">Order not submitted</string>
     <string name="toast_add_order_invalid">Add at least one item</string>
+
+    <string name="toast_update_order_status_failed">Order status not updated</string>
+    <string name="toast_selected_order_modified">Order modified by another user</string>
+    <string name="toast_selected_order_deleted">Order deleted by another user</string>
 
     <string name="toast_add_employee_failed">Employee not added</string>
     <string name="toast_delete_employee_failed">Employee not deleted</string>
@@ -134,7 +148,8 @@
 
     <!-- ListView empty text -->
     <string name="empty_text_add_order">There are no menu items</string>
-    <string name="empty_text_employee_manage_tables">There are no tables</string>
+    <string name="empty_text_serve_tables">There are no tables</string>
+    <string name="empty_text_order_queue">There are no orders</string>
     <string name="empty_text_manage_employees">There are no employees</string>
     <string name="empty_text_manage_inventory">There are no inventory items</string>
     <string name="empty_text_manage_menu">There are no menu items</string>

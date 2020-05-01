@@ -40,6 +40,15 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+        <activity android:name=".Activities.OrderDetailActivity"
+            android:label="@string/name_activity_order_detail"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
         <activity
             android:name=".Activities.AddEmployeeActivity"
             android:label="@string/name_activity_add_employee"

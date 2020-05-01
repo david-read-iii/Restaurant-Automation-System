@@ -18,7 +18,7 @@ public class OrdersFirebaseHelper {
         int status;
 
         // Verify that the MenuItem object has valid attributes defined.
-        if (order.getOrderedItems().isEmpty()) {
+        if (order.getOrderedMenuItemsWithQuantity().isEmpty()) {
             status = 2;
         }
         // Attempt to save Order object to the database. Watch for a DatabaseException.
@@ -71,7 +71,7 @@ public class OrdersFirebaseHelper {
         int status;
 
         // Verify that the Order object has valid attributes defined.
-        if (order.getOrderedItems().isEmpty()) {
+        if (order.getOrderedMenuItemsWithQuantity().isEmpty()) {
             // TODO: Define some restrictions on what attributes can be entered for the object.
             status = 2;
         }
@@ -88,5 +88,28 @@ public class OrdersFirebaseHelper {
         }
 
         return status;
+    }
+
+    /**
+     * Modifies the status of an existing Order object.
+     *
+     * @param key The key of the Order object to be modified.
+     * @param status The status to be set upon the Order object.
+     * @return The status of the modification: 0 indicates successful modification, 1 indicates a
+     * failed modification due to database error.
+     */
+    public static int modifyStatus(String key, String status) {
+        int returnStatus;
+
+        try {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("OrderQueue").child(key).child("status").setValue(status);
+            returnStatus = 0;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            returnStatus = 1;
+        }
+
+        return returnStatus;
     }
 }

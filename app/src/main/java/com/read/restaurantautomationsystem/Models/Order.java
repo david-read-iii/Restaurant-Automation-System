@@ -6,12 +6,12 @@ import java.util.Date;
 public class Order {
 
     private String key;
-    private int orderNumber;
+    private int number;
     private String status;
     private double totalPrice;
     private Date dateTimeOrdered;
     private String tableNameOrdered;
-    private ArrayList<MenuItemWithQuantity> orderedItems;
+    private ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity;
 
     /**
      * Represents an Order with null attributes.
@@ -27,17 +27,17 @@ public class Order {
      * @param totalPrice       The total price of the order.
      * @param dateTimeOrdered  The time the order was placed.
      * @param tableNameOrdered The table the order was placed from.
-     * @param orderedItems     The items ordered and their quantities.
+     * @param orderedMenuItemsWithQuantity     The items ordered and their quantities.
      */
 
 
-    public Order(int orderNumber, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
-        this.orderNumber = orderNumber;
+    public Order(int number, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity) {
+        this.number = number;
         this.status = status;
         this.totalPrice = totalPrice;
         this.dateTimeOrdered = dateTimeOrdered;
         this.tableNameOrdered = tableNameOrdered;
-        this.orderedItems = orderedItems;
+        this.orderedMenuItemsWithQuantity = orderedMenuItemsWithQuantity;
     }
 
     /**
@@ -48,16 +48,16 @@ public class Order {
      * @param totalPrice       The total price of the order.
      * @param dateTimeOrdered  The time the order was placed.
      * @param tableNameOrdered The table the order was placed from.
-     * @param orderedItems     The items ordered and their quantities.
+     * @param orderedMenuItemsWithQuantity     The items ordered and their quantities.
      */
-    public Order(String key, int orderNumber, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedItems) {
+    public Order(String key, int number, String status, double totalPrice, Date dateTimeOrdered, String tableNameOrdered, ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity) {
         this.key = key;
-        this.orderNumber = orderNumber;
+        this.number = number;
         this.status = status;
         this.totalPrice = totalPrice;
         this.dateTimeOrdered = dateTimeOrdered;
         this.tableNameOrdered = tableNameOrdered;
-        this.orderedItems = orderedItems;
+        this.orderedMenuItemsWithQuantity = orderedMenuItemsWithQuantity;
     }
 
     public String getKey() {
@@ -68,12 +68,12 @@ public class Order {
         this.key = key;
     }
 
-    public int getOrderNumber() {
-        return orderNumber;
+    public int getNumber() {
+        return number;
     }
 
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getStatus() {
@@ -108,11 +108,11 @@ public class Order {
         this.tableNameOrdered = tableNameOrdered;
     }
 
-    public ArrayList<MenuItemWithQuantity> getOrderedItems() {
-        return orderedItems;
+    public ArrayList<MenuItemWithQuantity> getOrderedMenuItemsWithQuantity() {
+        return orderedMenuItemsWithQuantity;
     }
 
-    public void setOrderedItems(ArrayList<MenuItemWithQuantity> orderedItems) {
-        this.orderedItems = orderedItems;
+    public void setOrderedMenuItemsWithQuantity(ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity) {
+        this.orderedMenuItemsWithQuantity = orderedMenuItemsWithQuantity;
     }
 }

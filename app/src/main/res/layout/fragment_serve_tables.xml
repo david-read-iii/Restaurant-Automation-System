@@ -5,11 +5,11 @@
     android:layout_gravity="center">
 
     <TextView
-        android:id="@+id/text_view_serve_tables"
+        android:id="@+id/text_view_serve_tables_empty"
         style="@style/TextView.EmptyListViewText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/empty_text_employee_manage_tables" />
+        android:text="@string/empty_text_serve_tables" />
 
     <ListView
         android:id="@+id/list_view_serve_tables"
