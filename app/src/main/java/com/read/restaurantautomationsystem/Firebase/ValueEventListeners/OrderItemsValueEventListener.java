@@ -66,7 +66,6 @@ public class OrderItemsValueEventListener implements ValueEventListener {
 
         // Remove this ValueEventListener once the HashMap and ArrayList have been synced once.
         databaseReference.child("OrderQueue").child(orderKey).child("orderedMenuItemsWithQuantity").removeEventListener(this);
-
     }
 
     @Override

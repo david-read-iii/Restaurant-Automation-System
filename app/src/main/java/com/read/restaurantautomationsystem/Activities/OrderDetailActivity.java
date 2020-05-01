@@ -25,7 +25,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     private Order selected;
     private DatabaseReference databaseReference;
-    private ChildEventListener childEventListener;
+    private GenericChildEventListener childEventListener;
     private TextView textViewStatus, textViewTotalPrice, textViewDate, textViewTime, textViewTable;
 
     /**

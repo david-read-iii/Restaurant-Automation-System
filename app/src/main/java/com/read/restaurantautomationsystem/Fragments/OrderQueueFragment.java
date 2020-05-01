@@ -258,8 +258,7 @@ public class OrderQueueFragment extends Fragment {
                 /* If the status will be set to "completed", move the Order object from the
                  * OrderQueue collection to the CompletedOrders collection of the database. */
                 if (status.equals("Completed")) {
-                    Toast.makeText(context, "Move to CompletedOrders collection...", Toast.LENGTH_SHORT).show();
-                    // TODO: Implement Firebase function to move this Order object from OrderQueue to CompletedOrders.
+                    OrdersFirebaseHelper.moveToCompletedOrders(selected.getKey());
                 }
             }
         });

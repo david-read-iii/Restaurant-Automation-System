@@ -30,7 +30,7 @@
     <string name="label_username">Username:</string>
     <string name="label_password">Password:</string>
     <string name="label_total">Total:</string>
-    <string name="label_order">Order: %1$s</string>
+    <string name="label_order">Order %1$s</string>
     <string name="label_status">Status: %1$s</string>
     <string name="label_total_price">Total Price: %1$s</string>
     <string name="label_date">Date Ordered: %1$s</string>
@@ -158,6 +158,7 @@
     <string name="empty_text_add_order">There are no menu items</string>
     <string name="empty_text_serve_tables">There are no tables</string>
     <string name="empty_text_order_queue">There are no orders</string>
+    <string name="empty_text_order_items">There are no menu items</string>
     <string name="empty_text_manage_employees">There are no employees</string>
     <string name="empty_text_manage_inventory">There are no inventory items</string>
     <string name="empty_text_manage_menu">There are no menu items</string>

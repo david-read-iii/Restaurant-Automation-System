@@ -1,9 +1,19 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.read.restaurantautomationsystem.Models.MenuItem;
+import com.read.restaurantautomationsystem.Models.MenuItemWithQuantity;
 import com.read.restaurantautomationsystem.Models.Order;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class OrdersFirebaseHelper {
 
@@ -111,5 +121,59 @@ public class OrdersFirebaseHelper {
         }
 
         return returnStatus;
+    }
+
+    public static int moveToCompletedOrders(final String key) {
+        final int[] status = new int[1];
+        final Order order = new Order();
+
+        // Get attributes of Order object from OrderQueue collection of the database.
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.child("OrderQueue").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                order.setNumber(dataSnapshot.child("number").getValue(Integer.class));
+                order.setStatus(dataSnapshot.child("status").getValue(String.class));
+                order.setTotalPrice(dataSnapshot.child("totalPrice").getValue(Double.class));
+                order.setDateTimeOrdered(dataSnapshot.child("dateTimeOrdered").getValue(Date.class));
+                order.setTableNameOrdered(dataSnapshot.child("tableNameOrdered").getValue(String.class));
+
+                ArrayList<MenuItemWithQuantity> orderedMenuItemsWithQuantity = new ArrayList<>();
+
+                for (DataSnapshot ds : dataSnapshot.child("orderedMenuItemsWithQuantity").getChildren()) {
+                    MenuItemWithQuantity menuItemWithQuantity = new MenuItemWithQuantity(
+                            new MenuItem(
+                                    ds.child("menuItem").child("key").getValue(String.class),
+                                    ds.child("menuItem").child("name").getValue(String.class),
+                                    ds.child("menuItem").child("price").getValue(Double.class),
+                                    ds.child("menuItem").child("category").getValue(String.class)
+                            ),
+                            ds.child("quantity").getValue(Integer.class),
+                            ds.child("totalPrice").getValue(Double.class)
+                    );
+                    orderedMenuItemsWithQuantity.add(menuItemWithQuantity);
+                }
+
+                order.setOrderedMenuItemsWithQuantity(orderedMenuItemsWithQuantity);
+
+                // Delete the Order object from the database.
+                OrdersFirebaseHelper.delete(key);
+
+                // Attempt to save Order object to the database. Watch for a DatabaseException.
+                try {
+                    databaseReference.child("CompletedOrders").child(key).setValue(order);
+                    status[0] = 0;
+                } catch (DatabaseException e) {
+                    e.printStackTrace();
+                    status[0] = 1;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        return status[0];
     }
 }

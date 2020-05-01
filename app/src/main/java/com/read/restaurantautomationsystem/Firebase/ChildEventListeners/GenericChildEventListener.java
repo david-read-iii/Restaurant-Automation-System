@@ -1,7 +1,6 @@
 package com.read.restaurantautomationsystem.Firebase.ChildEventListeners;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -16,6 +15,7 @@ public class GenericChildEventListener implements ChildEventListener {
 
     private Context context;
     private String toastMessageChildModified, toastMessageChildDeleted;
+    private Boolean ranOnce;
 
     /**
      * Defines a listener that, when attached to a particular child of the database, will close the
@@ -25,6 +25,7 @@ public class GenericChildEventListener implements ChildEventListener {
         this.context = context;
         this.toastMessageChildModified = toastMessageChildModified;
         this.toastMessageChildDeleted = toastMessageChildDeleted;
+        this.ranOnce = false;
     }
 
     @Override
@@ -33,14 +34,22 @@ public class GenericChildEventListener implements ChildEventListener {
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-        ((Activity) context).finish();
-        Toast.makeText(context, toastMessageChildModified, Toast.LENGTH_SHORT).show();
+        if (!ranOnce) {
+            ((Activity) context).finish();
+            Toast.makeText(context, toastMessageChildModified, Toast.LENGTH_SHORT).show();
+            ranOnce = true;
+        }
+
     }
 
     @Override
     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-        ((Activity) context).finish();
-        Toast.makeText(context, toastMessageChildDeleted, Toast.LENGTH_SHORT).show();
+        if (!ranOnce) {
+            ((Activity) context).finish();
+            Toast.makeText(context, toastMessageChildDeleted, Toast.LENGTH_SHORT).show();
+            ranOnce = true;
+        }
+
     }
 
     @Override

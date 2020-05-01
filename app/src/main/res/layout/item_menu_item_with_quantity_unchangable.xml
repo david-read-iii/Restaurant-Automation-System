@@ -16,14 +16,14 @@
         android:paddingRight="@dimen/activity_add_order_view_padding">
 
         <TextView
-            android:id="@+id/text_view_menu_item_with_quantity_name"
+            android:id="@+id/text_view_menu_item_with_quantity_unchangeable_name"
             style="@style/TextView.PrimaryListViewText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name" />
 
         <TextView
-            android:id="@+id/text_view_menu_item_with_quantity_price"
+            android:id="@+id/text_view_menu_item_with_quantity_unchangeable_price"
             style="@style/TextView.SecondaryListViewText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,30 +38,14 @@
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_add_order_view_padding">
 
-        <Button
-            android:id="@+id/button_menu_item_with_quantity_decrement"
-            style="@style/Button.Medium.Borderless"
-            android:layout_width="@dimen/square_button_size"
-            android:layout_height="@dimen/square_button_size"
-            android:focusable="false"
-            android:text="-" />
-
         <TextView
-            android:id="@+id/text_view_menu_item_with_quantity_quantity"
+            android:id="@+id/text_view_menu_item_with_quantity_unchangeable_quantity"
             style="@style/TextView.SecondaryListViewText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/activity_add_order_view_padding"
             android:paddingRight="@dimen/activity_add_order_view_padding"
             android:text="0" />
-
-        <Button
-            android:id="@+id/button_menu_item_with_quantity_increment"
-            style="@style/Button.Medium.Borderless"
-            android:layout_width="@dimen/square_button_size"
-            android:layout_height="@dimen/square_button_size"
-            android:focusable="false"
-            android:text="+" />
 
     </LinearLayout>
 
