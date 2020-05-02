@@ -12,7 +12,6 @@
     <string name="name_fragment_order_queue">Order Queue</string>
     <string name="name_activity_order_items">Order Items</string>
     <string name="name_activity_order_detail">Order Details</string>
-    <string name="name_fragment_view_reports">View Reports</string>
     <string name="name_fragment_manage_employees">Manage Employees</string>
     <string name="name_activity_add_employee">Add Employee</string>
     <string name="name_activity_modify_employee">Modify Employee</string>
@@ -25,6 +24,9 @@
     <string name="name_fragment_manage_tables">Manage Tables</string>
     <string name="name_activity_add_table">Add Table</string>
     <string name="name_activity_modify_table">Modify Table</string>
+    <string name="name_fragment_view_employee_hours">View Employee Hours</string>
+    <string name="name_fragment_view_employee_log">View Employee Log</string>
+    <string name="name_fragment_view_order_history">View Order History</string>
 
     <!-- TextView labels -->
     <string name="label_username">Username:</string>
@@ -110,6 +112,7 @@
     <string name="drawer_closed">Drawer is closed</string>
 
     <!-- Toolbar action text -->
+    <string name="action_log_out">Log Out</string>
     <string name="action_submit_order">Submit</string>
     <string name="action_add_employee">Add employee</string>
     <string name="action_add_table">Add table</string>

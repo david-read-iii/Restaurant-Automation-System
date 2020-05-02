@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/drawer_menu_employee_functions">
+        <menu>
+            <item
+                android:id="@+id/drawer_menu_serve_tables"
+                android:title="@string/name_fragment_serve_tables" />
+            <item
+                android:id="@+id/drawer_menu_order_queue"
+                android:title="@string/name_fragment_order_queue" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/drawer_menu_log_out"
+        android:title="@string/action_log_out" />
+
+</menu>

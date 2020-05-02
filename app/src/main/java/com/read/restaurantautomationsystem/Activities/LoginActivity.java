@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
+import com.read.restaurantautomationsystem.Services.LoggedInService;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         // Set text in Toolbar.
         getSupportActionBar().setTitle(R.string.name_activity_login);
 
-        // Attach a click listener to the button.
+        // Define click behavior for "Log In" button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,15 +52,20 @@ public class LoginActivity extends AppCompatActivity {
                         "Manager"
                 );
 
+                // Start LoggedInService. Pass the key attribute of the logged in Employee in.
+                Intent intent = new Intent(LoginActivity.this, LoggedInService.class);
+                intent.putExtra("key", "0");
+                startService(intent);
+
                 // Start the MainActivity. Pass the attributes of the logged in Employee in.
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("key", employee.getKey());
-                intent.putExtra("firstName", employee.getFirstName());
-                intent.putExtra("lastName", employee.getLastName());
-                intent.putExtra("username", employee.getUsername());
-                intent.putExtra("password", employee.getPassword());
-                intent.putExtra("role", employee.getRole());
-                startActivity(intent);
+                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                intent1.putExtra("key", employee.getKey());
+                intent1.putExtra("firstName", employee.getFirstName());
+                intent1.putExtra("lastName", employee.getLastName());
+                intent1.putExtra("username", employee.getUsername());
+                intent1.putExtra("password", employee.getPassword());
+                intent1.putExtra("role", employee.getRole());
+                startActivity(intent1);
             }
         });
     }

@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/TextView.PrimaryListViewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="View reports fragment" />
+        android:text="View order history fragment" />
 
 </FrameLayout>
