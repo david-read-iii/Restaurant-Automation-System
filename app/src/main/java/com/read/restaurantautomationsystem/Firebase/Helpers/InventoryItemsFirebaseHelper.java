@@ -12,15 +12,19 @@ public class InventoryItemsFirebaseHelper {
      *
      * @param inventoryItem The InventoryItem object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to an attribute with invalid text.
+     * database error, 2 indicates a failed save due to at least one attribute being blank, 3
+     * indicates a failed save due to a non-unique name attribute.
      */
     public static int save(InventoryItem inventoryItem) {
         int status;
 
-        // Verify that the InventoryItem object has valid attributes defined.
-        if (inventoryItem == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If an InventoryItem object with blank attributes is blank, do not save the object.
+        if (inventoryItem.getName().equals("") || inventoryItem.getQuantity() == -1) {
             status = 2;
+        }
+        // If an InventoryItem object has a non-unique name, do not save the object.
+        else if (!isNameUnique(inventoryItem.getName())) {
+            status = 3;
         }
         // Attempt to save InventoryItem object to the database. Watch for a DatabaseException.
         else {
@@ -65,16 +69,19 @@ public class InventoryItemsFirebaseHelper {
      * @param key The key of the InventoryItem object to be modified.
      * @param inventoryItem The InventoryItem object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error, 2 indicates a failed
-     * modification due to an attribute with invalid text
+     * failed modification due to database error, 2 indicates a failed modification due to at least
+     * one attribute being blank, 3 indicates a failed modification due to a non-unique name attribute.
      */
-    public static int modify(String key, InventoryItem inventoryItem) {
+    public static int modify(String key, String oldName, InventoryItem inventoryItem) {
         int status;
 
-        // Verify that the InventoryItem object has valid attributes defined.
-        if (inventoryItem == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If an InventoryItem object with blank attributes is blank, do not save the object.
+        if (inventoryItem.getName().equals("") || inventoryItem.getQuantity() == -1) {
             status = 2;
+        }
+        // If an InventoryItem object has a non-unique name, do not save the object.
+        else if (!oldName.equals(inventoryItem.getName()) && !isNameUnique(inventoryItem.getName())) {
+            status = 3;
         }
         // Attempt to modify the InventoryItem object in the database. Watch for a DatabaseException.
         else {
@@ -89,5 +96,13 @@ public class InventoryItemsFirebaseHelper {
         }
 
         return status;
+    }
+
+    /**
+     * Returns true if passed name is unique and not already used in the database.
+     */
+    public static Boolean isNameUnique(String name) {
+        // TODO: Implement...
+        return true;
     }
 }

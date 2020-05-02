@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/activity_padding">
+    android:padding="@dimen/activity_padding"
+    tools:context=".Activities.AddInventoryItemActivity">
 
     <TextView
         style="@style/TextView.Label"
@@ -16,7 +17,8 @@
         android:id="@+id/edit_text_add_inventory_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_name" />
+        android:hint="@string/hint_name"
+        android:inputType="textCapWords" />
 
     <TextView
         style="@style/TextView.Label"
@@ -28,7 +30,8 @@
         android:id="@+id/edit_text_add_inventory_item_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_quantity" />
+        android:hint="@string/hint_quantity"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/button_add_inventory_item"

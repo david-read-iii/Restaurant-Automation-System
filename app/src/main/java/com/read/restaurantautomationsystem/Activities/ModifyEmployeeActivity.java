@@ -113,7 +113,7 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Employee selected in the database with the attributes specified in the EditTexts.
-                modified = EmployeesFirebaseHelper.modify(selected.getKey(), new Employee(
+                modified = EmployeesFirebaseHelper.modify(selected.getKey(), selected.getUsername(), new Employee(
                         editTextFirstName.getText().toString(),
                         editTextLastName.getText().toString(),
                         editTextUsername.getText().toString(),
@@ -130,10 +130,15 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                // If modification failed due to the object having blank attributes, reattach ChildEventListener and print Toast.
+                else if (modified == 2){
+                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to a non-unique username attribute, reattach ChildEventListener and print Toast.
                 else {
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

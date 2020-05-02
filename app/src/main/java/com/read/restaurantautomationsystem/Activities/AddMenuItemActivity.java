@@ -40,11 +40,25 @@ public class AddMenuItemActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Save an MenuItem object with the specified attributes to the database.
-                saved = MenuItemsFirebaseHelper.save(new MenuItem(
-                        editTextName.getText().toString(),
-                        Double.parseDouble(editTextPrice.getText().toString()),
-                        editTextCategory.getText().toString()
-                ));
+                if (editTextPrice.getText().toString().equals("")) {
+                    saved = MenuItemsFirebaseHelper.save(new MenuItem(
+                            editTextName.getText().toString(),
+                            -1,
+                            editTextCategory.getText().toString()
+                    ));
+                } else if(!priceFormattedCorrectly(editTextPrice.getText().toString())) {
+                    saved = MenuItemsFirebaseHelper.save(new MenuItem(
+                            editTextName.getText().toString(),
+                            -2,
+                            editTextCategory.getText().toString()
+                    ));
+                } else {
+                    saved = MenuItemsFirebaseHelper.save(new MenuItem(
+                            editTextName.getText().toString(),
+                            Double.parseDouble(editTextPrice.getText().toString()),
+                            editTextCategory.getText().toString()
+                    ));
+                }
 
                 // If save successful, close this activity.
                 if (saved == 0) {
@@ -54,12 +68,38 @@ public class AddMenuItemActivity extends AppCompatActivity {
                 else if (saved == 1) {
                     Toast.makeText(AddMenuItemActivity.this, R.string.toast_add_menu_item_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If save failed due to the object having invalid attributes, print Toast.
+                // If save failed due to the object having blank attributes, print Toast.
+                else if (saved == 2){
+                    Toast.makeText(AddMenuItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to a non-unique name attribute, print Toast.
+                else if (saved == 3){
+                    Toast.makeText(AddMenuItemActivity.this, R.string.toast_menu_item_name_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to an invalidly formatted price attribute, print Toast.
                 else {
-                    Toast.makeText(AddMenuItemActivity.this, R.string.toast_menu_item_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddMenuItemActivity.this, R.string.toast_menu_item_price_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    /**
+     * Returns true if the price attribute is properly formatted.
+     */
+    public Boolean priceFormattedCorrectly(String price) {
+
+        if (price.contains(".")) {
+            int seperatorPosition = price.indexOf('.');
+            int decimalPlaces = price.length() - seperatorPosition - 1;
+
+            if (decimalPlaces != 2) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 }

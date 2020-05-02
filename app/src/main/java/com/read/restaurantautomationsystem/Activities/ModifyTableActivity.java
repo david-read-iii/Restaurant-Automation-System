@@ -95,7 +95,7 @@ public class ModifyTableActivity extends AppCompatActivity {
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify Table selected in the database with the attributes specified in the EditText.
-                modified = TablesFirebaseHelper.modify(selected.getKey(), new Table(
+                modified = TablesFirebaseHelper.modify(selected.getKey(), selected.getName(), new Table(
                         editTextName.getText().toString(),
                         selected.getStatus()
                 ));
@@ -109,10 +109,15 @@ public class ModifyTableActivity extends AppCompatActivity {
                     databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                // If modification failed due to the object having blank attributes, print Toast.
+                else if (modified == 2){
+                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyTableActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to a non-unique name attribute, print Toast.
                 else {
                     databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

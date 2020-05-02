@@ -39,10 +39,17 @@ public class AddInventoryItemActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Save an InventoryItem object with the specified attributes to the database.
-                saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
-                        editTextName.getText().toString(),
-                        Integer.parseInt(editTextQuantity.getText().toString())
-                ));
+                if (editTextQuantity.getText().toString().equals("")) {
+                    saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
+                            editTextName.getText().toString(),
+                            -1)
+                    );
+                } else {
+                    saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
+                            editTextName.getText().toString(),
+                            Integer.parseInt(editTextQuantity.getText().toString())
+                    ));
+                }
 
                 // If save successful, close this activity.
                 if (saved == 0) {
@@ -52,9 +59,13 @@ public class AddInventoryItemActivity extends AppCompatActivity {
                 else if (saved == 1) {
                     Toast.makeText(AddInventoryItemActivity.this, R.string.toast_add_inventory_item_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If save failed due to the object having invalid attributes, print Toast.
+                // If save failed due to the object having blank attributes, print Toast.
+                else if (saved == 2){
+                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to a non-unique name attribute, print Toast.
                 else {
-                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_inventory_item_name_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

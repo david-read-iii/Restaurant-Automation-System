@@ -16,6 +16,8 @@ import com.read.restaurantautomationsystem.Firebase.Helpers.MenuItemsFirebaseHel
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.R;
 
+import java.text.DecimalFormat;
+
 public class ModifyMenuItemActivity extends AppCompatActivity {
 
     private MenuItem selected;
@@ -63,9 +65,12 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
         buttonDelete = findViewById(R.id.button_modify_menu_item_delete);
         buttonSave = findViewById(R.id.button_modify_menu_item_save);
 
+        // Create DecimalFormat object to format attributes with decimal places.
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
         // Set EditText values as the attributes of the selected MenuItem.
         editTextName.setText(selected.getName());
-        editTextPrice.setText(Double.toString(selected.getPrice()));
+        editTextPrice.setText(decimalFormat.format(selected.getPrice()));
         editTextCategory.setText(selected.getCategory());
 
         // Attach a click listener to buttonDelete.
@@ -100,11 +105,26 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify MenuItem selected in the database with the attributes specified in the EditTexts.
-                modified = MenuItemsFirebaseHelper.modify(selected.getKey(), new MenuItem(
-                        editTextName.getText().toString(),
-                        Double.parseDouble(editTextPrice.getText().toString()),
-                        editTextCategory.getText().toString()
-                ));
+
+                if (editTextPrice.getText().toString().equals("")) {
+                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
+                            editTextName.getText().toString(),
+                            -1,
+                            editTextCategory.getText().toString()
+                    ));
+                } else if(!priceFormattedCorrectly(editTextPrice.getText().toString())) {
+                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
+                            editTextName.getText().toString(),
+                            -2,
+                            editTextCategory.getText().toString()
+                    ));
+                } else {
+                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
+                            editTextName.getText().toString(),
+                            Double.parseDouble(editTextPrice.getText().toString()),
+                            editTextCategory.getText().toString()
+                    ));
+                }
 
                 // If modification successful, close this activity.
                 if (modified == 0) {
@@ -115,10 +135,20 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                // If modification failed due to the object having blank attributes, print Toast.
+                else if (modified == 2){
+                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to a non-unique name attribute, print Toast.
+                else if (modified == 3){
+                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_name_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to an invalidly formatted price attribute, print Toast.
                 else {
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_price_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -136,5 +166,24 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
 
         // Close this activity.
         finish();
+    }
+
+    /**
+     * Returns true if the price attribute is properly formatted.
+     */
+    public Boolean priceFormattedCorrectly(String price) {
+
+        if (price.contains(".")) {
+            int seperatorPosition = price.indexOf('.');
+            int decimalPlaces = price.length() - seperatorPosition - 1;
+
+            if (decimalPlaces != 2) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 }

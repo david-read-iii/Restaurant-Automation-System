@@ -66,9 +66,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 else if (saved == 1) {
                     Toast.makeText(AddEmployeeActivity.this, R.string.toast_add_employee_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If save failed due to the object having invalid attributes, print Toast.
+                // If save failed due to the object having blank attributes, print Toast.
+                else if (saved == 2){
+                    Toast.makeText(AddEmployeeActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to a non-unique username attribute, print Toast.
                 else {
-                    Toast.makeText(AddEmployeeActivity.this, R.string.toast_employee_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

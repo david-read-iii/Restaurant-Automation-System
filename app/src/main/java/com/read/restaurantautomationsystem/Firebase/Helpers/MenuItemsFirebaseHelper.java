@@ -12,15 +12,24 @@ public class MenuItemsFirebaseHelper {
      *
      * @param menuItem The MenuItem object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to an attribute with invalid text.
+     * database error, 2 indicates a failed save due to at least one attribute being blank, 3
+     * indicates a failed save due to a non-unique name attribute, 4 indicates a failed save due to
+     * an invalidly formatted price attribute.
      */
     public static int save(MenuItem menuItem) {
         int status;
 
-        // Verify that the MenuItem object has valid attributes defined.
-        if (menuItem == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If a MenuItem object with blank attributes is blank, do not save the object.
+        if (menuItem.getName().equals("") || menuItem.getPrice() == -1 || menuItem.getCategory().equals("")) {
             status = 2;
+        }
+        // If a MenuItem object has a non-unique name, do not save the object.
+        else if (!isNameUnique(menuItem.getName())) {
+            status = 3;
+        }
+        // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
+        else if (menuItem.getPrice() == -2) {
+            status = 4;
         }
         // Attempt to save MenuItem object to the database. Watch for a DatabaseException.
         else {
@@ -65,16 +74,24 @@ public class MenuItemsFirebaseHelper {
      * @param key The key of the MenuItem object to be modified.
      * @param menuItem The MenuItem object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error, 2 indicates a failed
-     * modification due to an attribute with invalid text.
+     * failed modification due to database error, 2 indicates a failed modification due to at least
+     * one attribute being blank, 3 indicates a failed modification due to a non-unique name attribute,
+     * 4 indicates a failed modification due to an invalidly formatted price attribute.
      */
-    public static int modify(String key, MenuItem menuItem) {
+    public static int modify(String key, String oldName, MenuItem menuItem) {
         int status;
 
-        // Verify that the MenuItem object has valid attributes defined.
-        if (menuItem == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If a MenuItem object with blank attributes is blank, do not save the object.
+        if (menuItem.getName().equals("") || menuItem.getPrice() == -1 || menuItem.getCategory().equals("")) {
             status = 2;
+        }
+        // If a MenuItem object has a non-unique name, do not save the object.
+        else if (!oldName.equals(menuItem.getName()) && !isNameUnique(menuItem.getName())) {
+            status = 3;
+        }
+        // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
+        else if (menuItem.getPrice() == -2) {
+            status = 4;
         }
         // Attempt to modify the MenuItem object in the database. Watch for a DatabaseException.
         else {
@@ -89,5 +106,13 @@ public class MenuItemsFirebaseHelper {
         }
 
         return status;
+    }
+
+    /**
+     * Returns true if passed name is unique and not already used in the database.
+     */
+    public static Boolean isNameUnique(String name) {
+        // TODO: Implement...
+        return true;
     }
 }

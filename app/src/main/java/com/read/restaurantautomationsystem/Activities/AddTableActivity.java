@@ -52,9 +52,13 @@ public class AddTableActivity extends AppCompatActivity {
                 else if (saved == 1) {
                     Toast.makeText(AddTableActivity.this, R.string.toast_add_table_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If save failed due to the object having invalid attributes, print Toast.
+                // If save failed due to the object having blank attributes, print Toast.
+                else if (saved == 2){
+                    Toast.makeText(AddTableActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due to a non-unique name attribute, print Toast.
                 else {
-                    Toast.makeText(AddTableActivity.this, R.string.toast_table_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -12,15 +12,19 @@ public class TablesFirebaseHelper {
      *
      * @param table The Table object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to an attribute with invalid text.
+     * database error, 2 indicates a failed save due to at least one attribute being blank, 3
+     * indicates a failed save due to a non-unique name attribute.
      */
     public static int save(Table table) {
         int status;
 
-        // Verify that the Table object has valid attributes defined.
-        if (table == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If a Table object with blank attributes is blank, do not save the object.
+        if (table.getName().equals("")) {
             status = 2;
+        }
+        // If a Table object has a non-unique name, do not save the object.
+        else if (!isNameUnique(table.getName())) {
+            status = 3;
         }
         // Attempt to save Table object to the database. Watch for a DatabaseException.
         else {
@@ -65,16 +69,19 @@ public class TablesFirebaseHelper {
      * @param key The key of the Table object to be deleted.
      * @param table The table object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error, 2 indicates a failed
-     * modification due to an attribute with invalid text.
+     * failed modification due to database error, 2 indicates a failed modification due to at least
+     * one attribute being blank, 3 indicates a failed modification due to a non-unique name attribute.
      */
-    public static int modify(String key, Table table) {
+    public static int modify(String key, String oldName, Table table) {
         int status;
 
-        // Verify that the Table object has valid attributes defined.
-        if (table == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If a Table object with blank attributes is blank, do not save the object.
+        if (table.getName().equals("")) {
             status = 2;
+        }
+        // If a Table object has a non-unique name, do not save the object.
+        else if (!oldName.equals(table.getName()) && !isNameUnique(table.getName())) {
+            status = 3;
         }
         // Attempt to modify the Table object in the database. Watch for a DatabaseException.
         else {
@@ -89,5 +96,13 @@ public class TablesFirebaseHelper {
         }
 
         return status;
+    }
+
+    /**
+     * Returns true if passed name is unique and not already used in the database.
+     */
+    public static Boolean isNameUnique(String name) {
+        // TODO: Implement...
+        return true;
     }
 }

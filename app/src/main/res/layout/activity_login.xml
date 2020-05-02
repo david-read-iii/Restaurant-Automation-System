@@ -39,7 +39,6 @@
         <TextView
             style="@style/TextView.Label"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:text="@string/label_password" />
 

@@ -245,7 +245,7 @@ public class ServeTablesFragment extends Fragment {
                 String status = statusOptions[checkedOption];
 
                 // Modify the Table object with the new status.
-                modified = TablesFirebaseHelper.modify(selected.getKey(), new Table(
+                modified = TablesFirebaseHelper.modify(selected.getKey(), selected.getName(), new Table(
                         selected.getName(),
                         status
                 ));

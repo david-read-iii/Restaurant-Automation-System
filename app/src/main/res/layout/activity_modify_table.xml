@@ -16,7 +16,8 @@
         android:id="@+id/edit_text_modify_table_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_name" />
+        android:hint="@string/hint_name"
+        android:inputType="textCapWords" />
 
     <LinearLayout
         android:layout_width="wrap_content"

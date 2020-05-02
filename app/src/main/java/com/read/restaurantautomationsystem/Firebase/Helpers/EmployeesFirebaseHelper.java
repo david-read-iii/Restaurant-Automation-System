@@ -12,15 +12,19 @@ public class EmployeesFirebaseHelper {
      *
      * @param employee The Employee object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to an attribute with invalid text.
+     * database error, 2 indicates a failed save due to at least one attribute being blank, 3
+     * indicates a failed save due to a non-unique username attribute.
      */
     public static int save(Employee employee) {
         int status;
 
-        // Verify that the Employee object has valid attributes defined.
-        if (employee == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If an Employee object with blank attributes is blank, do not save the object.
+        if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
             status = 2;
+        }
+        // If an Employee object has a non-unique username, do not save the object.
+        else if (!isUsernameUnique(employee.getUsername())) {
+            status = 3;
         }
         // Attempt to save Employee object to the database. Watch for a DatabaseException.
         else {
@@ -62,19 +66,23 @@ public class EmployeesFirebaseHelper {
     /**
      * Modifies an existing Employee object with new attributes.
      *
-     * @param key The key of the Employee object to be modified.
+     * @param key      The key of the Employee object to be modified.
      * @param employee The Employee object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error, 2 indicates a failed modification due to
-     * an attribute with invalid text.
+     * failed modification due to database error, 2 indicates a failed modification due to at least
+     * one attribute being blank, 3 indicates a failed modification due to a non-unique username
+     * attribute.
      */
-    public static int modify(String key, Employee employee) {
+    public static int modify(String key, String oldUsername, Employee employee) {
         int status;
 
-        // Verify that the Employee object has valid attributes defined.
-        if (employee == null) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
+        // If an Employee object with blank attributes is blank, do not save the object.
+        if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
             status = 2;
+        }
+        // If an Employee object has a non-unique username, do not save the object.
+        else if (!oldUsername.equals(employee.getUsername()) && !isUsernameUnique(employee.getUsername())) {
+            status = 3;
         }
         // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
         else {
@@ -89,5 +97,13 @@ public class EmployeesFirebaseHelper {
         }
 
         return status;
+    }
+
+    /**
+     * Returns true if passed username is unique and not already used in the database.
+     */
+    public static Boolean isUsernameUnique(String username) {
+        // TODO: Implement...
+        return true;
     }
 }

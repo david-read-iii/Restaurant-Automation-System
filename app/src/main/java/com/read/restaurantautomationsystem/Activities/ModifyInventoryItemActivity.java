@@ -97,10 +97,17 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                 databaseReference.child("InventoryItems").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Modify InventoryItem selected in the database with the attributes specified in the EditTexts.
-                modified = InventoryItemsFirebaseHelper.modify(selected.getKey(), new InventoryItem(
-                        editTextName.getText().toString(),
-                        Integer.parseInt(editTextQuantity.getText().toString())
-                ));
+                if (editTextQuantity.getText().toString().equals("")) {
+                    modified = InventoryItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new InventoryItem(
+                            editTextName.getText().toString(),
+                            -1)
+                    );
+                } else {
+                    modified = InventoryItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new InventoryItem(
+                            editTextName.getText().toString(),
+                            Integer.parseInt(editTextQuantity.getText().toString())
+                    ));
+                }
 
                 // If modification successful, close this activity.
                 if (modified == 0) {
@@ -111,10 +118,15 @@ public class ModifyInventoryItemActivity extends AppCompatActivity {
                     databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_modify_inventory_item_failed, Toast.LENGTH_SHORT).show();
                 }
-                // If modification failed due to the object having invalid attributes, reattach ChildEventListener and print Toast.
+                // If modification failed due to the object having blank attributes, print Toast.
+                else if (modified == 2){
+                    databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                }
+                // If modification failed due to a non-unique name attribute, print Toast.
                 else {
                     databaseReference.child("InventoryItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyInventoryItemActivity.this, R.string.toast_inventory_item_name_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

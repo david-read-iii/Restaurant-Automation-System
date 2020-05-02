@@ -1,5 +1,8 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
@@ -8,9 +11,11 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.read.restaurantautomationsystem.Models.Log;
 import com.read.restaurantautomationsystem.Models.MenuItem;
 import com.read.restaurantautomationsystem.Models.MenuItemWithQuantity;
 import com.read.restaurantautomationsystem.Models.Order;
+import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,27 +27,58 @@ public class OrdersFirebaseHelper {
      *
      * @param order The Order object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to an attribute with invalid text.
+     * database error, 2 indicates a failed save due to an Order being passed with an empty
+     * orderedMenuItemsWithQuantity attribute.
      */
-    public static int save(Order order) {
-        int status;
+    public static int save(final Order order, final String loggedInEmployeeFirstName, final String loggedInEmployeeLastName, final Context context) {
+        final int[] status = new int[1];
 
-        // Verify that the MenuItem object has valid attributes defined.
+        /* If the Order object is passed with an empty orderedMenuItemsWithQuantity attribute, do
+         * not save the object. */
         if (order.getOrderedMenuItemsWithQuantity().isEmpty()) {
-            status = 2;
+            status[0] = 2;
         }
-        // Attempt to save Order object to the database. Watch for a DatabaseException.
+        /* If the Order object is passed with a nonempty orderedMenuItemsWithQuantity attribute,
+         * attempt to save the Order object to the database. Watch for a DatabaseException. */
         else {
             try {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("OrderQueue").push().setValue(order);
-                status = 0;
+                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                databaseReference.child("nextOrderNumber").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        // Get value of nextOrderNumber.
+                        int orderNumber = dataSnapshot.getValue(Integer.class);
+
+                        // Increment nextOrderNumber in the database.
+                        databaseReference.child("nextOrderNumber").setValue(orderNumber + 1);
+
+                        // Set order number of the Order object.
+                        order.setNumber(orderNumber);
+
+                        // Save an Order object with the specified attributes to the database.
+                        databaseReference.child("OrderQueue").push().setValue(order);
+
+                        // Log Employee activity.
+                        LogFirebaseHelper.save(new Log(
+                                context.getString(R.string.log_user_submitted_order, loggedInEmployeeFirstName, loggedInEmployeeLastName, Integer.toString(orderNumber), order.getTableNameOrdered()),
+                                new Date()
+                        ));
+
+                        status[0] = 0;
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        status[0] = 1;
+                    }
+                });
+
             } catch (DatabaseException e) {
                 e.printStackTrace();
-                status = 1;
+                status[0] = 1;
             }
         }
-        return status;
+        return status[0];
     }
 
     /**
@@ -74,15 +110,15 @@ public class OrdersFirebaseHelper {
      * @param key The key of the Order object to be modified.
      * @param order The Order object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
-     * failed modification due to database error, 2 indicates a failed
-     * modification due to an attribute with invalid text.
+     * failed modification due to database error, 2 indicates a failed modification due to an
+     * attribute with invalid text.
      */
     public static int modify(String key, Order order) {
         int status;
 
-        // Verify that the Order object has valid attributes defined.
+        /* If the Order object is passed with an empty orderedMenuItemsWithQuantity attribute, do
+         * not save the object. */
         if (order.getOrderedMenuItemsWithQuantity().isEmpty()) {
-            // TODO: Define some restrictions on what attributes can be entered for the object.
             status = 2;
         }
         // Attempt to modify the Order object in the database. Watch for a DatabaseException.
@@ -123,6 +159,14 @@ public class OrdersFirebaseHelper {
         return returnStatus;
     }
 
+    /**
+     * Moves an Order object with the specified key from the OrderQueue collection of the database
+     * to the CompletedOrders collection of the database.
+     *
+     * @param key The key of the Order object to be moved.
+     * @return The status of the modification: 0 indicates successful modification, 1 indicates a
+     * failed modification due to database error.
+     */
     public static int moveToCompletedOrders(final String key) {
         final int[] status = new int[1];
         final Order order = new Order();
@@ -171,6 +215,7 @@ public class OrdersFirebaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                status[0] = 1;
             }
         });
 

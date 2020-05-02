@@ -9,20 +9,14 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Adapters.AddOrderBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
-import com.read.restaurantautomationsystem.Firebase.Helpers.LogFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.Helpers.OrdersFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.MenuItemsWithQuantityValueEventListener;
-import com.read.restaurantautomationsystem.Models.Log;
 import com.read.restaurantautomationsystem.Models.MenuItemWithQuantity;
 import com.read.restaurantautomationsystem.Models.Order;
 import com.read.restaurantautomationsystem.Models.Table;
@@ -177,59 +171,30 @@ public class AddOrderActivity extends AppCompatActivity {
             // Unpack the HashMap MenuItemWithQuantity objects into a single ArrayList, excluding objects with a quantity attribute set to 0.
             final ArrayList<MenuItemWithQuantity> orderedItems = unpackHashMapItemsIntoArrayList(menuItemsWithQuantityByCategory);
 
-            // If ArrayList is empty, print Toast.
-            if (orderedItems.isEmpty()) {
-                Toast.makeText(AddOrderActivity.this, R.string.toast_add_order_invalid, Toast.LENGTH_SHORT).show();
+            // Save an Order object with the specified attributes to the database.
+            saved = OrdersFirebaseHelper.save(new Order(
+                            0,
+                            getResources().getStringArray(R.array.dialog_order_status_options)[0],
+                            calculateOrderTotalPrice(orderedItems),
+                            new Date(),
+                            selected.getName(),
+                            orderedItems
+                    ),
+                    loggedInEmployeeFirstName,
+                    loggedInEmployeeLastName,
+                    this);
+
+            // If save successful, close this activity.
+            if (saved == 0) {
+                finish();
             }
-
-            // If ArrayList has items, save the Order object to the database.
-            else {
-                // Attach SingleValueEventListener to get the value of nextOrderNumber from the database.
-                databaseReference.child("nextOrderNumber").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        // Get the value of nextOrderNumber.
-                        int orderNumber = dataSnapshot.getValue(Integer.class);
-
-                        // Increment nextOrderNumber in the database.
-                        databaseReference.child("nextOrderNumber").setValue(orderNumber + 1);
-
-                        // Save an Order object with the specified attributes to the database.
-                        saved = OrdersFirebaseHelper.save(new Order(
-                                orderNumber,
-                                getResources().getStringArray(R.array.dialog_order_status_options)[0],
-                                calculateOrderTotalPrice(orderedItems),
-                                new Date(),
-                                selected.getName(),
-                                orderedItems
-                        ));
-
-                        // If save successful, close this activity and log the logged in Employee's activity in the database.
-                        if (saved == 0) {
-
-                            LogFirebaseHelper.save(new Log(
-                                    getString(R.string.log_user_submitted_order, loggedInEmployeeFirstName, loggedInEmployeeLastName, Integer.toString(orderNumber), selected.getName()),
-                                    new Date()
-                            ));
-
-                            finish();
-                        }
-                        // If save failed due to database error, print Toast.
-                        if (saved == 1) {
-                            Toast.makeText(AddOrderActivity.this, R.string.toast_add_order_failed, Toast.LENGTH_SHORT).show();
-                        }
-                        // If save failed due to the object having invalid attributes, print Toast.
-                        else if (saved == 2) {
-                            Toast.makeText(AddOrderActivity.this, R.string.toast_add_order_invalid, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
+            // If save failed due to database error, print Toast.
+            else if (saved == 1) {
+                Toast.makeText(AddOrderActivity.this, R.string.toast_add_order_failed, Toast.LENGTH_SHORT).show();
+            }
+            // If save failed due to the object having invalid attributes, print Toast.
+            else if (saved == 2) {
+                Toast.makeText(AddOrderActivity.this, R.string.toast_order_invalid, Toast.LENGTH_SHORT).show();
             }
         }
 

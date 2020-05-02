@@ -17,7 +17,8 @@
         android:id="@+id/edit_text_modify_inventory_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_name" />
+        android:hint="@string/hint_name"
+        android:inputType="textCapWords" />
 
     <TextView
         style="@style/TextView.Label"
@@ -29,7 +30,8 @@
         android:id="@+id/edit_text_modify_inventory_item_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_quantity" />
+        android:hint="@string/hint_quantity"
+        android:inputType="number" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -17,7 +17,8 @@
         android:id="@+id/edit_text_modify_employee_first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_first_name" />
+        android:hint="@string/hint_first_name"
+        android:inputType="textCapWords" />
 
     <TextView
         style="@style/TextView.Label"
@@ -29,7 +30,8 @@
         android:id="@+id/edit_text_modify_employee_last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_last_name" />
+        android:hint="@string/hint_last_name"
+        android:inputType="textCapWords" />
 
     <TextView
         style="@style/TextView.Label"
@@ -41,7 +43,8 @@
         android:id="@+id/edit_text_modify_employee_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_username" />
+        android:hint="@string/hint_username"
+        android:inputType="text" />
 
     <TextView
         style="@style/TextView.Label"
@@ -53,7 +56,8 @@
         android:id="@+id/edit_text_modify_employee_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_password" />
+        android:hint="@string/hint_password"
+        android:inputType="textVisiblePassword" />
 
     <TextView
         style="@style/TextView.Label"
