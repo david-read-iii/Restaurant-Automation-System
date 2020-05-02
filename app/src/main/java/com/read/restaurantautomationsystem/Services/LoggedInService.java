@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import com.read.restaurantautomationsystem.Firebase.Helpers.LogFirebaseHelper;
+import com.read.restaurantautomationsystem.Models.Employee;
+import com.read.restaurantautomationsystem.Models.Log;
+import com.read.restaurantautomationsystem.R;
+
+import java.util.Date;
 
 public class LoggedInService extends Service {
 
-    String key;
+    Employee loggedInEmployee;
 
     // TODO: Implement this Service once Firebase function is defined and working.
 
@@ -36,20 +39,47 @@ public class LoggedInService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        key = intent.getStringExtra("key");
-        Toast.makeText(this, "Employee logged in: Key: " + key, Toast.LENGTH_SHORT).show();
+
+        /* Get the attributes of the logged in Employee from intent extras and store them in an
+         * Employee object */
+        loggedInEmployee = new Employee(
+                intent.getStringExtra("key"),
+                intent.getStringExtra("firstName"),
+                intent.getStringExtra("lastName"),
+                intent.getStringExtra("username"),
+                intent.getStringExtra("password"),
+                intent.getStringExtra("role"));
+
+        // Log the Employee's login in the database..
+        LogFirebaseHelper.save(new Log(
+                getString(R.string.log_user_login, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()),
+                new Date()
+        ));
+
         return START_NOT_STICKY;
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        Toast.makeText(this, "Employee logged out (app killed): Key: " + key, Toast.LENGTH_SHORT).show();
+
+        // Log the Employee's logout in the database.
+        LogFirebaseHelper.save(new Log(
+                getString(R.string.log_user_logout, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()),
+                new Date()
+        ));
+
         super.onTaskRemoved(rootIntent);
     }
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Employee logged out: Key: " + key, Toast.LENGTH_SHORT).show();
+
+        // Log the Employee's logout in the database.
+        LogFirebaseHelper.save(new Log(
+                getString(R.string.log_user_logout, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()),
+                new Date()
+        ));
+
         super.onDestroy();
     }
 }

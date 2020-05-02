@@ -12,6 +12,8 @@ import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 import com.read.restaurantautomationsystem.Services.LoggedInService;
 
+import java.util.Date;
+
 public class LoginActivity extends AppCompatActivity {
 
     /**
@@ -54,7 +56,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Start LoggedInService. Pass the key attribute of the logged in Employee in.
                 Intent intent = new Intent(LoginActivity.this, LoggedInService.class);
-                intent.putExtra("key", "0");
+                intent.putExtra("key", employee.getKey());
+                intent.putExtra("firstName", employee.getFirstName());
+                intent.putExtra("lastName", employee.getLastName());
+                intent.putExtra("username", employee.getUsername());
+                intent.putExtra("password", employee.getPassword());
+                intent.putExtra("role", employee.getRole());
                 startService(intent);
 
                 // Start the MainActivity. Pass the attributes of the logged in Employee in.

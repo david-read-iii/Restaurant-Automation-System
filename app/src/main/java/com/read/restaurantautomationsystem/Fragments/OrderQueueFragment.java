@@ -22,17 +22,19 @@ import com.read.restaurantautomationsystem.Activities.OrderDetailActivity;
 import com.read.restaurantautomationsystem.Activities.OrderItemsActivity;
 import com.read.restaurantautomationsystem.Adapters.OrderQueueBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.OrderQueueChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.Helpers.LogFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.Helpers.OrdersFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.OrderQueueValueEventListener;
+import com.read.restaurantautomationsystem.Models.Log;
 import com.read.restaurantautomationsystem.Models.Order;
 import com.read.restaurantautomationsystem.R;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class OrderQueueFragment extends Fragment {
 
+    private String loggedInEmployeeFirstName, loggedInEmployeeLastName;
     private ArrayList<Order> orders;
     private OrderQueueBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
@@ -52,6 +54,10 @@ public class OrderQueueFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_order_queue, container, false);
+
+        // Receive first and last name attributes of the logged in Employee
+        loggedInEmployeeFirstName = getArguments().getString("firstName");
+        loggedInEmployeeLastName = getArguments().getString("lastName");
 
         // Initialize ArrayList and BaseAdapter.
         orders = new ArrayList<>();
@@ -250,6 +256,13 @@ public class OrderQueueFragment extends Fragment {
                 // Modify the Order object with the new status.
                 modified = OrdersFirebaseHelper.modifyStatus(selected.getKey(), status);
 
+                // Log the logged in Employee's activity in the database if modification is successful.
+                if (modified == 0) {
+                    LogFirebaseHelper.save(new Log(
+                            getString(R.string.log_user_changed_order_status, loggedInEmployeeFirstName, loggedInEmployeeLastName, Integer.toString(selected.getNumber()), status),
+                            new Date()
+                    ));
+                }
                 // Print Toast if modification fails.
                 if (modified == 1) {
                     Toast.makeText(context, R.string.toast_update_order_status_failed, Toast.LENGTH_SHORT).show();

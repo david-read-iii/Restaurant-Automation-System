@@ -27,9 +27,6 @@
                 android:id="@+id/drawer_menu_manage_tables"
                 android:title="@string/name_fragment_manage_tables" />
             <item
-                android:id="@+id/drawer_menu_view_employee_hours"
-                android:title="@string/name_fragment_view_employee_hours" />
-            <item
                 android:id="@+id/drawer_menu_view_employee_log"
                 android:title="@string/name_fragment_view_employee_log" />
             <item

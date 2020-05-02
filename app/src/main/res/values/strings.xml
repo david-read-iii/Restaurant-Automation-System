@@ -176,8 +176,16 @@
     <string name="empty_text_manager_manage_tables">There are no tables</string>
     <string name="empty_text_view_order_history">There is no order history</string>
 
+    <!-- Log messages -->
+    <string name="log_user_login">%1$s %2$s logged in</string>
+    <string name="log_user_logout">%1$s %2$s logged out</string>
+    <string name="log_user_changed_table_status">%1$s %2$s changed status of %3$s to %4$s</string>
+    <string name="log_user_changed_order_status">%1$s %2$s changed status of Order %3$s to %4$s</string>
+    <string name="log_user_submitted_order">%1$s %2$s submitted Order %3$s from %4$s to the Order Queue</string>
+
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>
     <string name="default_total_price">$0.00</string>
+    <string name="empty_text_view_employee_log">There are no log entries</string>
 
 </resources>

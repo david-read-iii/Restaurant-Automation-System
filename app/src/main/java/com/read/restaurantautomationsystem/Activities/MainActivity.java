@@ -22,7 +22,6 @@ import com.read.restaurantautomationsystem.Fragments.ManageInventoryFragment;
 import com.read.restaurantautomationsystem.Fragments.ManageMenuFragment;
 import com.read.restaurantautomationsystem.Fragments.ManageTablesFragment;
 import com.read.restaurantautomationsystem.Fragments.OrderQueueFragment;
-import com.read.restaurantautomationsystem.Fragments.ViewEmployeeHoursFragment;
 import com.read.restaurantautomationsystem.Fragments.ViewEmployeeLogFragment;
 import com.read.restaurantautomationsystem.Fragments.ViewOrderHistoryFragment;
 import com.read.restaurantautomationsystem.Models.Employee;
@@ -141,10 +140,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Start the appropriate Fragment.
         if (menuItem.getItemId() == R.id.drawer_menu_serve_tables) {
-            startFragment(new ServeTablesFragment(), getString(R.string.name_fragment_serve_tables));
+            // Pass first and last name attributes of the logged in Employee into the fragment.
+            Fragment fragment = new ServeTablesFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("firstName", loggedInEmployee.getFirstName());
+            bundle.putString("lastName", loggedInEmployee.getLastName());
+            fragment.setArguments(bundle);
+            startFragment(fragment, getString(R.string.name_fragment_serve_tables));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_order_queue) {
-            startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
+            // Pass first and last name attributes of the logged in Employee into the fragment.
+            Fragment fragment = new OrderQueueFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("firstName", loggedInEmployee.getFirstName());
+            bundle.putString("lastName", loggedInEmployee.getLastName());
+            fragment.setArguments(bundle);
+            startFragment(fragment, getString(R.string.name_fragment_order_queue));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_employees) {
             startFragment(new ManageEmployeesFragment(), getString(R.string.name_fragment_manage_employees), R.menu.manage_employees_menu);
@@ -157,9 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (menuItem.getItemId() == R.id.drawer_menu_manage_tables) {
             startFragment(new ManageTablesFragment(), getString(R.string.name_fragment_manage_tables), R.menu.manage_tables_menu);
-        }
-        if (menuItem.getItemId() == R.id.drawer_menu_view_employee_hours) {
-            startFragment(new ViewEmployeeHoursFragment(), getString(R.string.name_fragment_view_employee_hours));
         }
         if (menuItem.getItemId() == R.id.drawer_menu_view_employee_log) {
             startFragment(new ViewEmployeeLogFragment(), getString(R.string.name_fragment_view_employee_log));

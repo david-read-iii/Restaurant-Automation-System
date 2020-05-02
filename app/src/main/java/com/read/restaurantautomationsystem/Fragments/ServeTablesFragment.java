@@ -21,15 +21,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Activities.AddOrderActivity;
 import com.read.restaurantautomationsystem.Adapters.ServeTablesBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.ServeTablesChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.Helpers.LogFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.Helpers.TablesFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.TablesValueEventListener;
+import com.read.restaurantautomationsystem.Models.Log;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ServeTablesFragment extends Fragment {
 
+    private String loggedInEmployeeFirstName, loggedInEmployeeLastName;
     private ArrayList<Table> tables;
     private ServeTablesBaseAdapter baseAdapter;
     private DatabaseReference databaseReference;
@@ -49,6 +53,10 @@ public class ServeTablesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_serve_tables, container, false);
+
+        // Receive first and last name attributes of the logged in Employee
+        loggedInEmployeeFirstName = getArguments().getString("firstName");
+        loggedInEmployeeLastName = getArguments().getString("lastName");
 
         // Initialize ArrayList and BaseAdapter.
         tables = new ArrayList<>();
@@ -171,6 +179,10 @@ public class ServeTablesFragment extends Fragment {
                             intent.putExtra("name", selected.getName());
                             intent.putExtra("status", selected.getStatus());
 
+                            // Pass the first and last name attributes of the logged in Employee to the activity.
+                            intent.putExtra("firstName", loggedInEmployeeFirstName);
+                            intent.putExtra("lastName", loggedInEmployeeLastName);
+
                             context.startActivity(intent);
                         }
                         // If the select Table has any other status, print a Toast.
@@ -229,7 +241,7 @@ public class ServeTablesFragment extends Fragment {
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
                 // Determine which option of the AlertDialog is currently checked.
-                int checkedOption = ((AlertDialog)dialogInterface).getListView().getCheckedItemPosition();
+                int checkedOption = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
                 String status = statusOptions[checkedOption];
 
                 // Modify the Table object with the new status.
@@ -238,6 +250,13 @@ public class ServeTablesFragment extends Fragment {
                         status
                 ));
 
+                // Log the logged in Employee's activity in the database if modification is successful.
+                if (modified == 0) {
+                    LogFirebaseHelper.save(new Log(
+                            getString(R.string.log_user_changed_table_status, loggedInEmployeeFirstName, loggedInEmployeeLastName, selected.getName(), status),
+                            new Date()
+                    ));
+                }
                 // Print Toast if modification fails.
                 if (modified == 1) {
                     Toast.makeText(context, R.string.toast_update_table_status_failed, Toast.LENGTH_SHORT).show();

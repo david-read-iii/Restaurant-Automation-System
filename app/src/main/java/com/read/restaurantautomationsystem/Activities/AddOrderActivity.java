@@ -19,8 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Adapters.AddOrderBaseAdapter;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
+import com.read.restaurantautomationsystem.Firebase.Helpers.LogFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.Helpers.OrdersFirebaseHelper;
 import com.read.restaurantautomationsystem.Firebase.ValueEventListeners.MenuItemsWithQuantityValueEventListener;
+import com.read.restaurantautomationsystem.Models.Log;
 import com.read.restaurantautomationsystem.Models.MenuItemWithQuantity;
 import com.read.restaurantautomationsystem.Models.Order;
 import com.read.restaurantautomationsystem.Models.Table;
@@ -34,6 +36,7 @@ import java.util.Locale;
 
 public class AddOrderActivity extends AppCompatActivity {
 
+    private String loggedInEmployeeFirstName, loggedInEmployeeLastName;
     private Table selected;
     private DatabaseReference databaseReference;
     private GenericChildEventListener tableChildEventListener;
@@ -50,7 +53,7 @@ public class AddOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
 
-        // Retrieve attributes of selected Table object.
+        // Retrieve attributes of selected Table object, and the first and last name attributes of the logged in Employee.
         Intent intent = getIntent();
 
         selected = new Table(
@@ -58,6 +61,9 @@ public class AddOrderActivity extends AppCompatActivity {
                 intent.getStringExtra("name"),
                 intent.getStringExtra("status")
         );
+
+        loggedInEmployeeFirstName = intent.getStringExtra("firstName");
+        loggedInEmployeeLastName = intent.getStringExtra("lastName");
 
         // Initialize DatabaseReference and tableChildEventListener.
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -199,8 +205,14 @@ public class AddOrderActivity extends AppCompatActivity {
                                 orderedItems
                         ));
 
-                        // If save successful, close this activity.
+                        // If save successful, close this activity and log the logged in Employee's activity in the database.
                         if (saved == 0) {
+
+                            LogFirebaseHelper.save(new Log(
+                                    getString(R.string.log_user_submitted_order, loggedInEmployeeFirstName, loggedInEmployeeLastName, Integer.toString(orderNumber), selected.getName()),
+                                    new Date()
+                            ));
+
                             finish();
                         }
                         // If save failed due to database error, print Toast.
