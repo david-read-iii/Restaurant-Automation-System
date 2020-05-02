@@ -27,6 +27,8 @@
     <string name="name_fragment_view_employee_hours">View Employee Hours</string>
     <string name="name_fragment_view_employee_log">View Employee Log</string>
     <string name="name_fragment_view_order_history">View Order History</string>
+    <string name="name_activity_view_order_history_items">Order Items</string>
+    <string name="name_activity_view_order_history_detail">Order Details</string>
 
     <!-- TextView labels -->
     <string name="label_username">Username:</string>
@@ -102,6 +104,12 @@
         <item>Completed</item>
     </array>
 
+    <string name="dialog_order_history_title">Choose an action</string>
+    <array name="dialog_order_history_options">
+        <item>View Items</item>
+        <item>View Details</item>
+    </array>
+
     <string name="dialog_positive_button_text">OK</string>
     <string name="dialog_negative_button_text">Cancel</string>
 
@@ -166,6 +174,7 @@
     <string name="empty_text_manage_inventory">There are no inventory items</string>
     <string name="empty_text_manage_menu">There are no menu items</string>
     <string name="empty_text_manager_manage_tables">There are no tables</string>
+    <string name="empty_text_view_order_history">There is no order history</string>
 
     <!-- Other -->
     <string name="format_full_name">%1$s %2$s</string>

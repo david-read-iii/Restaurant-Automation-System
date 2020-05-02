@@ -140,6 +140,26 @@
                 android:value=".Activities.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".Activities.ViewOrderHistoryItemsActivity"
+            android:label="@string/name_activity_view_order_history_items"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".Activities.ViewOrderHistoryDetailActivity"
+            android:label="@string/name_activity_view_order_history_detail"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
+        </activity>
+
         <service
             android:name=".Services.LoggedInService"
             android:enabled="true"
