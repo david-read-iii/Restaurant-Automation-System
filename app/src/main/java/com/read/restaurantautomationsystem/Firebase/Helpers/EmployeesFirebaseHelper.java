@@ -13,7 +13,8 @@ public class EmployeesFirebaseHelper {
      * @param employee The Employee object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
      * database error, 2 indicates a failed save due to at least one attribute being blank, 3
-     * indicates a failed save due to a non-unique username attribute.
+     * indicates a failed save due to a non-unique username attribute, 4 indicates a failed save due
+     * to the delimiter "|" being present in either the username or password attributes.
      */
     public static int save(Employee employee) {
         int status;
@@ -26,11 +27,24 @@ public class EmployeesFirebaseHelper {
         else if (!isUsernameUnique(employee.getUsername())) {
             status = 3;
         }
+        // If an Employee object's username or password contains the delimiter "|", do not save the object.
+        else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
+            status = 4;
+        }
         // Attempt to save Employee object to the database. Watch for a DatabaseException.
         else {
             try {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("Employees").push().setValue(employee);
+
+                // Get a unique key.
+                String key = databaseReference.child("Employees").push().getKey();
+
+                // Save the Employee object.
+                databaseReference.child("Employees").child(key).setValue(employee);
+
+                // Save the extra usernamePasswordCombo attribute with the Employee object.
+                databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
+
                 status = 0;
             } catch (DatabaseException e) {
                 e.printStackTrace();
@@ -71,7 +85,8 @@ public class EmployeesFirebaseHelper {
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
      * failed modification due to database error, 2 indicates a failed modification due to at least
      * one attribute being blank, 3 indicates a failed modification due to a non-unique username
-     * attribute.
+     * attribute, 4 indicates a failed save due to the delimiter "|" being present in either the
+     * username or password attributes.
      */
     public static int modify(String key, String oldUsername, Employee employee) {
         int status;
@@ -84,11 +99,21 @@ public class EmployeesFirebaseHelper {
         else if (!oldUsername.equals(employee.getUsername()) && !isUsernameUnique(employee.getUsername())) {
             status = 3;
         }
+        // If an Employee object's username or password contains the delimiter "|", do not save the object.
+        else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
+            status = 4;
+        }
         // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
         else {
             try {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                // Modify the Employee object.
                 databaseReference.child("Employees").child(key).setValue(employee);
+
+                // Modify the extra usernamePasswordCombo attribute with the Employee object.
+                databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
+
                 status = 0;
             } catch (DatabaseException e) {
                 e.printStackTrace();

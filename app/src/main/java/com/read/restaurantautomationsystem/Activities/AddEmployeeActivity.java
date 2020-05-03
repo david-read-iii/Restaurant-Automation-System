@@ -71,8 +71,12 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     Toast.makeText(AddEmployeeActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
                 }
                 // If save failed due to a non-unique username attribute, print Toast.
-                else {
+                else if (saved == 3){
                     Toast.makeText(AddEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
+                }
+                // If save failed due username or password attribute containing the delimiter, reattach ChildEventListener and print Toast.
+                else {
+                    Toast.makeText(AddEmployeeActivity.this, R.string.toast_employee_username_or_password_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

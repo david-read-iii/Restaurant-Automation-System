@@ -145,6 +145,7 @@
     <string name="toast_selected_employee_modified">Employee modified by another user</string>
     <string name="toast_selected_employee_deleted">Employee deleted by another user</string>
     <string name="toast_employee_username_invalid">Enter a unique username</string>
+    <string name="toast_employee_username_or_password_invalid">Username and password may not contain the \"|\" symbol</string>
 
     <string name="toast_add_inventory_item_failed">Item not added due to database error</string>
     <string name="toast_delete_inventory_item_failed">Item not deleted due to database error</string>
