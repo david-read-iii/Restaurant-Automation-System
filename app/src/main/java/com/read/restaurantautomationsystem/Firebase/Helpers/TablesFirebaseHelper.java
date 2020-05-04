@@ -3,6 +3,7 @@ package com.read.restaurantautomationsystem.Firebase.Helpers;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
@@ -24,29 +25,42 @@ public class TablesFirebaseHelper {
      * database error, 2 indicates a failed save due to at least one attribute being blank, 3
      * indicates a failed save due to a non-unique name attribute.
      */
-    public static int save(Table table) {
-        int status;
+    public static int save(final Table table) {
+        final int[] status = new int[1];
 
         // If a Table object with blank attributes is blank, do not save the object.
         if (table.getName().equals("")) {
-            status = 2;
+            status[0] = 2;
+        } else {
+
+            // Run task to check if name attribute of the Table object is unique.
+            Task<Boolean> task = isNameUnique(table.getName());
+            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(@NonNull Task<Boolean> task) {
+
+                    // Get result of the task.
+                    Boolean isUnique = (Boolean) task.getResult();
+
+                    // If the Table object has a non-unique username, do not save the object.
+                    if (!isUnique) {
+                        status[0] = 3;
+                    }
+                    // Attempt to save Table object to the database. Watch for a DatabaseException.
+                    else {
+                        try {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("Tables").push().setValue(table);
+                            status[0] = 0;
+                        } catch (DatabaseException e) {
+                            e.printStackTrace();
+                            status[0] = 1;
+                        }
+                    }
+                }
+            });
         }
-        // If a Table object has a non-unique name, do not save the object.
-        else if (!isNameUnique(table.getName()).getResult()) {
-            status = 3;
-        }
-        // Attempt to save Table object to the database. Watch for a DatabaseException.
-        else {
-            try {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("Tables").push().setValue(table);
-                status = 0;
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-                status = 1;
-            }
-        }
-        return status;
+        return status[0];
     }
 
     /**
@@ -81,30 +95,42 @@ public class TablesFirebaseHelper {
      * failed modification due to database error, 2 indicates a failed modification due to at least
      * one attribute being blank, 3 indicates a failed modification due to a non-unique name attribute.
      */
-    public static int modify(String key, String oldName, Table table) {
-        int status;
+    public static int modify(final String key, final String oldName, final Table table) {
+        final int[] status = new int[1];
 
-        // If a Table object with blank attributes is blank, do not save the object.
+        // If a Table object with blank attributes is blank, do not modify the object.
         if (table.getName().equals("")) {
-            status = 2;
-        }
-        // If a Table object has a non-unique name, do not save the object.
-        else if (!oldName.equals(table.getName()) && !isNameUnique(table.getName()).getResult()) {
-            status = 3;
-        }
-        // Attempt to modify the Table object in the database. Watch for a DatabaseException.
-        else {
-            try {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("Tables").child(key).setValue(table);
-                status = 0;
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-                status = 1;
-            }
-        }
+            status[0] = 2;
+        } else {
 
-        return status;
+            // Run task to check if name attribute of the Table object is unique.
+            Task<Boolean> task = isNameUnique(table.getName());
+            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(@NonNull Task<Boolean> task) {
+
+                    // Get result of the task.
+                    Boolean isUnique = (Boolean) task.getResult();
+
+                    // If the Table object has a non-unique username, do not modify the object.
+                    if (!isUnique && !oldName.equals(table.getName())) {
+                        status[0] = 3;
+                    }
+                    // Attempt to modify the Table object in the database. Watch for a DatabaseException.
+                    else {
+                        try {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("Tables").child(key).setValue(table);
+                            status[0] = 0;
+                        } catch (DatabaseException e) {
+                            e.printStackTrace();
+                            status[0] = 1;
+                        }
+                    }
+                }
+            });
+        }
+        return status[0];
     }
 
     /**

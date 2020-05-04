@@ -1,18 +1,21 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Models.Employee;
+
 import java.util.*;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Continuation;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.HttpsCallableResult;
+
 import androidx.annotation.NonNull;
 
 public class EmployeesFirebaseHelper {
-
 
     /**
      * Saves a new Employee object to the database.
@@ -23,42 +26,55 @@ public class EmployeesFirebaseHelper {
      * indicates a failed save due to a non-unique username attribute, 4 indicates a failed save due
      * to the delimiter "|" being present in either the username or password attributes.
      */
-    public static int save(Employee employee) {
-        int status;
+    public static int save(final Employee employee) {
+        final int[] status = new int[1];
 
         // If an Employee object with blank attributes is blank, do not save the object.
         if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
-            status = 2;
-        }
-        // If an Employee object has a non-unique username, do not save the object.
-        else if (!isUsernameUnique(employee.getUsername()).getResult()) {
-            status = 3;
+            status[0] = 2;
         }
         // If an Employee object's username or password contains the delimiter "|", do not save the object.
         else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
-            status = 4;
+            status[0] = 4;
+        } else {
+
+            // Run task to check if username attribute of the Employee object is unique.
+            Task<Boolean> task = isUsernameUnique(employee.getUsername());
+            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(@NonNull Task<Boolean> task) {
+
+                    // Get result of the task.
+                    Boolean isUnique = (Boolean) task.getResult();
+
+                    // If the Employee object has a non-unique username, do not save the object.
+                    if (!isUnique) {
+                        status[0] = 3;
+                    }
+                    // Attempt to save Employee object to the database. Watch for a DatabaseException.
+                    else {
+                        try {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                            // Get a unique key.
+                            String key = databaseReference.child("Employees").push().getKey();
+
+                            // Save the Employee object.
+                            databaseReference.child("Employees").child(key).setValue(employee);
+
+                            // Save the extra usernamePasswordCombo attribute with the Employee object.
+                            databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
+
+                            status[0] = 0;
+                        } catch (DatabaseException e) {
+                            e.printStackTrace();
+                            status[0] = 1;
+                        }
+                    }
+                }
+            });
         }
-        // Attempt to save Employee object to the database. Watch for a DatabaseException.
-        else {
-            try {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                // Get a unique key.
-                String key = databaseReference.child("Employees").push().getKey();
-
-                // Save the Employee object.
-                databaseReference.child("Employees").child(key).setValue(employee);
-
-                // Save the extra usernamePasswordCombo attribute with the Employee object.
-                databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
-
-                status = 0;
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-                status = 1;
-            }
-        }
-        return status;
+        return status[0];
     }
 
     /**
@@ -95,48 +111,56 @@ public class EmployeesFirebaseHelper {
      * attribute, 4 indicates a failed save due to the delimiter "|" being present in either the
      * username or password attributes.
      */
-
-
-    public static int modify(String key, String oldUsername, Employee employee) {
-        int status;
+    public static int modify(final String key, final String oldUsername, final Employee employee) {
+        final int[] status = new int[1];
 
         // If an Employee object with blank attributes is blank, do not save the object.
         if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
-            status = 2;
-        }
-        // If an Employee object has a non-unique username, do not save the object.
-        else if (!oldUsername.equals(employee.getUsername()) && !isUsernameUnique(employee.getUsername()).getResult()) {
-            status = 3;
+            status[0] = 2;
         }
         // If an Employee object's username or password contains the delimiter "|", do not save the object.
         else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
-            status = 4;
+            status[0] = 4;
+        } else {
+
+            // Run task to check if username attribute of the Employee object is unique.
+            Task<Boolean> task = isUsernameUnique(employee.getUsername());
+            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                @Override
+                public void onComplete(@NonNull Task<Boolean> task) {
+
+                    // Get result of the task.
+                    Boolean isUnique = (Boolean) task.getResult();
+
+                    // If the Employee object has a non-unique username, do not modify the object.
+                    if (!isUnique && !oldUsername.equals(employee.getUsername())) {
+                        status[0] = 3;
+                    }
+                    // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
+                    else {
+                        try {
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                            // Modify the Employee object.
+                            databaseReference.child("Employees").child(key).setValue(employee);
+
+                            // Modify the extra usernamePasswordCombo attribute with the Employee object.
+                            databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
+
+                            status[0] = 0;
+                        } catch (DatabaseException e) {
+                            e.printStackTrace();
+                            status[0] = 1;
+                        }
+                    }
+                }
+            });
         }
-        // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
-        else {
-            try {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                // Modify the Employee object.
-                databaseReference.child("Employees").child(key).setValue(employee);
-
-                // Modify the extra usernamePasswordCombo attribute with the Employee object.
-                databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
-
-                status = 0;
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-                status = 1;
-            }
-        }
-
-        return status;
+        return status[0];
     }
 
     /**
      * Returns true if passed username is unique and not already used in the database.
-     *
-     * @return
      */
     private static Task<Boolean> isUsernameUnique(String text) {
 
@@ -157,8 +181,6 @@ public class EmployeesFirebaseHelper {
                         Boolean result = (Boolean) task.getResult().getData();
                         return result;
                     }
-
-                    ;
                 });
     }
 }
