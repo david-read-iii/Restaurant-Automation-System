@@ -1,9 +1,18 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 import com.read.restaurantautomationsystem.Models.Table;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TablesFirebaseHelper {
 
@@ -23,7 +32,7 @@ public class TablesFirebaseHelper {
             status = 2;
         }
         // If a Table object has a non-unique name, do not save the object.
-        else if (!isNameUnique(table.getName())) {
+        else if (!isNameUnique(table.getName()).getResult()) {
             status = 3;
         }
         // Attempt to save Table object to the database. Watch for a DatabaseException.
@@ -80,7 +89,7 @@ public class TablesFirebaseHelper {
             status = 2;
         }
         // If a Table object has a non-unique name, do not save the object.
-        else if (!oldName.equals(table.getName()) && !isNameUnique(table.getName())) {
+        else if (!oldName.equals(table.getName()) && !isNameUnique(table.getName()).getResult()) {
             status = 3;
         }
         // Attempt to modify the Table object in the database. Watch for a DatabaseException.
@@ -101,8 +110,27 @@ public class TablesFirebaseHelper {
     /**
      * Returns true if passed name is unique and not already used in the database.
      */
-    public static Boolean isNameUnique(String name) {
-        // TODO: Implement...
-        return true;
+    private static Task<Boolean> isNameUnique(String text) {
+
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("text", text);
+        data.put("push", true);
+        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
+        return firebaseFunctions
+                .getHttpsCallable("isTableNameUnique")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, Boolean>() {
+                    @Override
+                    public Boolean then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        Boolean result = (Boolean) task.getResult().getData();
+                        return result;
+                    }
+
+                    ;
+                });
     }
 }
