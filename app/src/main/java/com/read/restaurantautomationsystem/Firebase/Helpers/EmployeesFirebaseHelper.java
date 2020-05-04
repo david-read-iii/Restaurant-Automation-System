@@ -4,8 +4,15 @@ import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.read.restaurantautomationsystem.Models.Employee;
+import java.util.*;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Continuation;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
+import androidx.annotation.NonNull;
 
 public class EmployeesFirebaseHelper {
+
 
     /**
      * Saves a new Employee object to the database.
@@ -24,7 +31,7 @@ public class EmployeesFirebaseHelper {
             status = 2;
         }
         // If an Employee object has a non-unique username, do not save the object.
-        else if (!isUsernameUnique(employee.getUsername())) {
+        else if (!isUsernameUnique(employee.getUsername()).getResult()) {
             status = 3;
         }
         // If an Employee object's username or password contains the delimiter "|", do not save the object.
@@ -88,6 +95,8 @@ public class EmployeesFirebaseHelper {
      * attribute, 4 indicates a failed save due to the delimiter "|" being present in either the
      * username or password attributes.
      */
+
+
     public static int modify(String key, String oldUsername, Employee employee) {
         int status;
 
@@ -96,7 +105,7 @@ public class EmployeesFirebaseHelper {
             status = 2;
         }
         // If an Employee object has a non-unique username, do not save the object.
-        else if (!oldUsername.equals(employee.getUsername()) && !isUsernameUnique(employee.getUsername())) {
+        else if (!oldUsername.equals(employee.getUsername()) && !isUsernameUnique(employee.getUsername()).getResult()) {
             status = 3;
         }
         // If an Employee object's username or password contains the delimiter "|", do not save the object.
@@ -126,9 +135,30 @@ public class EmployeesFirebaseHelper {
 
     /**
      * Returns true if passed username is unique and not already used in the database.
+     *
+     * @return
      */
-    public static Boolean isUsernameUnique(String username) {
-        // TODO: Implement...
-        return true;
+    private static Task<Boolean> isUsernameUnique(String text) {
+
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("text", text);
+        data.put("push", true);
+        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
+        return firebaseFunctions
+                .getHttpsCallable("isUsernameUnique")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, Boolean>() {
+                    @Override
+                    public Boolean then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        Boolean result = (Boolean) task.getResult().getData();
+                        return result;
+                    }
+
+                    ;
+                });
     }
 }

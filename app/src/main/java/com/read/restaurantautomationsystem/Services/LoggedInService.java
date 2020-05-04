@@ -42,7 +42,7 @@ public class LoggedInService extends Service {
 
         /* Get the attributes of the logged in Employee from intent extras and store them in an
          * Employee object */
-        loggedInEmployee = new Employee(
+            loggedInEmployee = new Employee(
                 intent.getStringExtra("key"),
                 intent.getStringExtra("firstName"),
                 intent.getStringExtra("lastName"),

@@ -1,9 +1,17 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.functions.HttpsCallableResult;
 import com.read.restaurantautomationsystem.Models.MenuItem;
+
+import java.util.*;
 
 public class MenuItemsFirebaseHelper {
 
@@ -24,7 +32,7 @@ public class MenuItemsFirebaseHelper {
             status = 2;
         }
         // If a MenuItem object has a non-unique name, do not save the object.
-        else if (!isNameUnique(menuItem.getName())) {
+        else if (!isNameUnique(menuItem.getName()).getResult()) {
             status = 3;
         }
         // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
@@ -86,7 +94,7 @@ public class MenuItemsFirebaseHelper {
             status = 2;
         }
         // If a MenuItem object has a non-unique name, do not save the object.
-        else if (!oldName.equals(menuItem.getName()) && !isNameUnique(menuItem.getName())) {
+        else if (!oldName.equals(menuItem.getName()) && !isNameUnique(menuItem.getName()).getResult()) {
             status = 3;
         }
         // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
@@ -111,8 +119,24 @@ public class MenuItemsFirebaseHelper {
     /**
      * Returns true if passed name is unique and not already used in the database.
      */
-    public static Boolean isNameUnique(String name) {
-        // TODO: Implement...
-        return true;
+    private static Task<Boolean> isNameUnique(String name) {
+        // Create the arguments to the callable function.
+        Map<String, Object> data = new HashMap<>();
+        data.put("text", name);
+        data.put("push", true);
+        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
+        return firebaseFunctions
+                .getHttpsCallable("isMenuNameUnique")
+                .call(data)
+                .continueWith(new Continuation<HttpsCallableResult, Boolean>() {
+                    @Override
+                    public Boolean then(@NonNull Task<HttpsCallableResult> task) throws Exception {
+                        // This continuation runs on either success or failure, but if the task
+                        // has failed then getResult() will throw an Exception which will be
+                        // propagated down.
+                        Boolean result = (Boolean) task.getResult().getData();
+                        return result;
+                    }
+                });
     }
 }
