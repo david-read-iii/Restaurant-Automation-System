@@ -128,6 +128,8 @@
     <string name="action_add_menu_item">Add item</string>
 
     <!-- Toast messages -->
+    <string name="toast_login_invalid">Entered username or password is incorrect</string>
+
     <string name="toast_update_table_status_to_occupied">Update status to "occupied" to take orders</string>
     <string name="toast_update_table_status_failed">Table status not updated due to database error</string>
     <string name="toast_add_order_failed">Order not submitted due to database error</string>
