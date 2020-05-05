@@ -23,11 +23,9 @@ import java.util.Date;
 
 public class LoggedInService extends Service {
 
-    Employee loggedInEmployee;
-    ChildEventListener changedEmployeeListener;
-    DatabaseReference databaseReference;
-
-    // TODO: Implement this Service once Firebase function is defined and working.
+    private Employee loggedInEmployee;
+    private ChildEventListener changedEmployeeListener;
+    private DatabaseReference databaseReference;
 
     /**
      * Defines a service that will log the logged in user out of the application if their account

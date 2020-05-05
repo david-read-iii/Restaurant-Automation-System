@@ -29,9 +29,6 @@ import com.read.restaurantautomationsystem.R;
 import com.read.restaurantautomationsystem.Fragments.ServeTablesFragment;
 import com.read.restaurantautomationsystem.Services.LoggedInService;
 
-/* TODO: Restrict certain NavigationItems from showing in the NavigationDrawer given the role of the
-    logged in user. */
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Employee loggedInEmployee;
