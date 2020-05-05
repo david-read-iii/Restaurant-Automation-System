@@ -141,10 +141,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Set username EditText as focused.
         editTextUsername.requestFocus();
-
-        // TODO: REMOVE THESE DEBUG VALUES
-        editTextUsername.setText("starwars");
-        editTextPassword.setText("bruhmonument");
     }
 
 }
