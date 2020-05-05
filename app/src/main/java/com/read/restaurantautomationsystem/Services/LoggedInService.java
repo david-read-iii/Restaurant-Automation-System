@@ -67,7 +67,6 @@ public class LoggedInService extends Service {
                 getString(R.string.log_user_logout, loggedInEmployee.getFirstName(), loggedInEmployee.getLastName()),
                 new Date()
         ));
-
         super.onTaskRemoved(rootIntent);
     }
 

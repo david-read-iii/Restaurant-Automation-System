@@ -136,14 +136,9 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
                 }
                 // If modification failed due to a non-unique username attribute, reattach ChildEventListener and print Toast.
-                else if (modified == 3) {
-                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due username or password attribute containing the delimiter, reattach ChildEventListener and print Toast.
                 else {
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_or_password_invalid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
                 }
             }
         });

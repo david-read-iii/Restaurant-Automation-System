@@ -10,20 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
 import com.read.restaurantautomationsystem.R;
 import com.read.restaurantautomationsystem.Services.LoggedInService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LoginActivity extends AppCompatActivity {
+
+    private EditText editTextUsername, editTextPassword;
 
     /**
      * When this activity is created, inflate a layout containing two EditTexts and a Button. The
@@ -36,9 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Bring XML elements to Java.
-        final EditText editTextUsername = findViewById(R.id.edit_text_login_username);
-        final EditText editTextPassword = findViewById(R.id.edit_text_login_password);
-        Button button = findViewById(R.id.button_login);
+        editTextUsername = findViewById(R.id.edit_text_login_username);
+        editTextPassword = findViewById(R.id.edit_text_login_password);
+        final Button button = findViewById(R.id.button_login);
 
         // Set text in Toolbar.
         getSupportActionBar().setTitle(R.string.name_activity_login);
@@ -48,83 +47,97 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Run task to check if username and password combination is in the database.
-                Task<DataSnapshot> task = getEmployeeFromUsernamePasswordCombo(editTextUsername.getText().toString(), editTextPassword.getText().toString());
-                task.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-                    @Override
-                    public void onSuccess(DataSnapshot dataSnapshot) {
+                // Make Button unclickable while this code processes.
+                button.setClickable(false);
 
-                        // If the key of the returned DataSnapshot is null or empty, the entered combo is incorrect. So print Toast.
-                        // TODO: Which one of these conditions in the if statement, if any, will signify an incorrect combo?
-                        if (dataSnapshot.getKey() == null || dataSnapshot.getKey().equals("")) {
-                            Toast.makeText(LoginActivity.this, R.string.toast_login_invalid, Toast.LENGTH_SHORT).show();
+                // If either EditText is blank, print a Toast.
+                if (editTextUsername.getText().toString().equals("") || editTextPassword.getText().toString().equals("")) {
+                    Toast.makeText(LoginActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Query the database under the "Employees" collection for a child with the username defined in the EditText.
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query usernameQuery = databaseReference.child("Employees").orderByChild("username").equalTo(editTextUsername.getText().toString());
+                    usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // Initialize a null Employee object representing the logged in Employee.
+                            Employee loggedInEmployee = new Employee();
+
+                            // Get attributes of the Employee object returned by the query.
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                loggedInEmployee = new Employee(
+                                        ds.getKey(),
+                                        ds.child("firstName").getValue(String.class),
+                                        ds.child("lastName").getValue(String.class),
+                                        ds.child("username").getValue(String.class),
+                                        ds.child("password").getValue(String.class),
+                                        ds.child("role").getValue(String.class)
+                                );
+                            }
+
+                            /* If the key of the Employee object is null, no Employee object was
+                             * returned by the query. If the password of the Employee object is not
+                             * equal to the password in the EditText, the user entered an invalid
+                             * password. In either case, print a Toast. */
+                            if (loggedInEmployee.getKey() == null || !loggedInEmployee.getPassword().equals(editTextPassword.getText().toString())) {
+                                Toast.makeText(LoginActivity.this, R.string.toast_login_invalid, Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                // Start LoggedInService, passing the attributes of the logged in Employee.
+                                Intent intent = new Intent(LoginActivity.this, LoggedInService.class);
+                                intent.putExtra("key", loggedInEmployee.getKey());
+                                intent.putExtra("firstName", loggedInEmployee.getFirstName());
+                                intent.putExtra("lastName", loggedInEmployee.getLastName());
+                                intent.putExtra("username", loggedInEmployee.getUsername());
+                                intent.putExtra("password", loggedInEmployee.getPassword());
+                                intent.putExtra("role", loggedInEmployee.getRole());
+                                startService(intent);
+
+                                // Start the MainActivity, passing the attributes of the logged in Employee.
+                                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                                intent1.putExtra("key", loggedInEmployee.getKey());
+                                intent1.putExtra("firstName", loggedInEmployee.getFirstName());
+                                intent1.putExtra("lastName", loggedInEmployee.getLastName());
+                                intent1.putExtra("username", loggedInEmployee.getUsername());
+                                intent1.putExtra("password", loggedInEmployee.getPassword());
+                                intent1.putExtra("role", loggedInEmployee.getRole());
+                                startActivity(intent1);
+                            }
                         }
-                        // If the key of the returned DataSnapshot is not null or not empty, the entered combo is correct. So, log the Employee in.
-                        else {
 
-                            // Get attributes of the logged in Employee.
-                            Employee employee = new Employee(
-                                    dataSnapshot.getKey(),
-                                    dataSnapshot.child("firstName").getValue(String.class),
-                                    dataSnapshot.child("lastName").getValue(String.class),
-                                    dataSnapshot.child("username").getValue(String.class),
-                                    dataSnapshot.child("password").getValue(String.class),
-                                    dataSnapshot.child("role").getValue(String.class)
-                            );
-
-                            // Start LoggedInService. Pass the key attribute of the logged in Employee in.
-                            Intent intent = new Intent(LoginActivity.this, LoggedInService.class);
-                            intent.putExtra("key", employee.getKey());
-                            intent.putExtra("firstName", employee.getFirstName());
-                            intent.putExtra("lastName", employee.getLastName());
-                            intent.putExtra("username", employee.getUsername());
-                            intent.putExtra("password", employee.getPassword());
-                            intent.putExtra("role", employee.getRole());
-                            startService(intent);
-
-                            // Start the MainActivity. Pass the attributes of the logged in Employee in.
-                            Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                            intent1.putExtra("key", employee.getKey());
-                            intent1.putExtra("firstName", employee.getFirstName());
-                            intent1.putExtra("lastName", employee.getLastName());
-                            intent1.putExtra("username", employee.getUsername());
-                            intent1.putExtra("password", employee.getPassword());
-                            intent1.putExtra("role", employee.getRole());
-                            startActivity(intent1);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(LoginActivity.this, R.string.toast_login_failed, Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
+                    });
+                }
+
+                // Make Button clickable again.
+                button.setClickable(true);
             }
         });
     }
 
     /**
-     * Returns a DataSnapshot containing the Employee object corresponding to the given username and
-     * password combination. If no Employee corresponds to this combo, the fields of the DataSnapshot
-     * will be empty or null.
+     * When this activity is in the foreground, ensure that each EditText is blank and the username
+     * EditText is focused.
      */
-    // TODO: Is this the correct return type? If so, remove this TODO statement.
-    private Task<DataSnapshot> getEmployeeFromUsernamePasswordCombo(String username, String password) {
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        // Concatenate the username and password attributes.
-        String usernamePasswordCombo = username + "|" + password;
+        // Set text of each EditText as the empty string.
+        editTextUsername.setText("");
+        editTextPassword.setText("");
 
-        // Create the arguments to the callable function.
-        Map<String, Object> data = new HashMap<>();
-        data.put("text", usernamePasswordCombo);
-        data.put("push", true);
+        // Set username EditText as focused.
+        editTextUsername.requestFocus();
 
-        // Return the result from the Firebase function.
-        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
-        return firebaseFunctions
-                .getHttpsCallable("checkForUsernamePasswordCombo")
-                .call(data)
-                .continueWith(new Continuation<HttpsCallableResult, DataSnapshot>() {
-                    @Override
-                    public DataSnapshot then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        DataSnapshot result = (DataSnapshot) task.getResult().getData();
-                        return result;
-                    }
-                });
+        // TODO: REMOVE THESE DEBUG VALUES
+        editTextUsername.setText("starwars");
+        editTextPassword.setText("bruhmonument");
     }
+
 }

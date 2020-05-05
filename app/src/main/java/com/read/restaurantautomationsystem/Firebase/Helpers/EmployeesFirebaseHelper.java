@@ -1,17 +1,14 @@
 package com.read.restaurantautomationsystem.Firebase.Helpers;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Models.Employee;
-
-import java.util.*;
-
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Continuation;
-import com.google.firebase.functions.FirebaseFunctions;
-import com.google.firebase.functions.HttpsCallableResult;
 
 import androidx.annotation.NonNull;
 
@@ -22,59 +19,21 @@ public class EmployeesFirebaseHelper {
      *
      * @param employee The Employee object to be saved. Must have a null key.
      * @return The status of the save: 0 indicates successful save, 1 indicates a failed save due to
-     * database error, 2 indicates a failed save due to at least one attribute being blank, 3
-     * indicates a failed save due to a non-unique username attribute, 4 indicates a failed save due
-     * to the delimiter "|" being present in either the username or password attributes.
+     * database error.
      */
     public static int save(final Employee employee) {
-        final int[] status = new int[1];
+        int status;
 
-        // If an Employee object with blank attributes is blank, do not save the object.
-        if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
-            status[0] = 2;
+        try {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("Employees").push().setValue(employee);
+            status = 0;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            status = 1;
         }
-        // If an Employee object's username or password contains the delimiter "|", do not save the object.
-        else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
-            status[0] = 4;
-        } else {
 
-            // Run task to check if username attribute of the Employee object is unique.
-            Task<Boolean> task = isUsernameUnique(employee.getUsername());
-            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(@NonNull Task<Boolean> task) {
-
-                    // Get result of the task.
-                    Boolean isUnique = (Boolean) task.getResult();
-
-                    // If the Employee object has a non-unique username, do not save the object.
-                    if (!isUnique) {
-                        status[0] = 3;
-                    }
-                    // Attempt to save Employee object to the database. Watch for a DatabaseException.
-                    else {
-                        try {
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                            // Get a unique key.
-                            String key = databaseReference.child("Employees").push().getKey();
-
-                            // Save the Employee object.
-                            databaseReference.child("Employees").child(key).setValue(employee);
-
-                            // Save the extra usernamePasswordCombo attribute with the Employee object.
-                            databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
-
-                            status[0] = 0;
-                        } catch (DatabaseException e) {
-                            e.printStackTrace();
-                            status[0] = 1;
-                        }
-                    }
-                }
-            });
-        }
-        return status[0];
+        return status;
     }
 
     /**
@@ -108,8 +67,7 @@ public class EmployeesFirebaseHelper {
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
      * failed modification due to database error, 2 indicates a failed modification due to at least
      * one attribute being blank, 3 indicates a failed modification due to a non-unique username
-     * attribute, 4 indicates a failed save due to the delimiter "|" being present in either the
-     * username or password attributes.
+     * attribute.
      */
     public static int modify(final String key, final String oldUsername, final Employee employee) {
         final int[] status = new int[1];
@@ -117,36 +75,24 @@ public class EmployeesFirebaseHelper {
         // If an Employee object with blank attributes is blank, do not save the object.
         if (employee.getFirstName().equals("") || employee.getLastName().equals("") || employee.getUsername().equals("") || employee.getPassword().equals("")) {
             status[0] = 2;
-        }
-        // If an Employee object's username or password contains the delimiter "|", do not save the object.
-        else if (employee.getUsername().contains("|") || employee.getPassword().contains("|")) {
-            status[0] = 4;
         } else {
 
-            // Run task to check if username attribute of the Employee object is unique.
-            Task<Boolean> task = isUsernameUnique(employee.getUsername());
-            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
+            // Query the database under the "Employees" collection for a child with the requested new username.
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            Query usernameQuery = databaseReference.child("Employees").orderByChild("username").equalTo(employee.getUsername());
+            usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<Boolean> task) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    // Get result of the task.
-                    Boolean isUnique = (Boolean) task.getResult();
-
-                    // If the Employee object has a non-unique username, do not modify the object.
-                    if (!isUnique && !oldUsername.equals(employee.getUsername())) {
+                    // If the query returns at least one child and the old username is not the new username, then an Employee object already uses the username.
+                    if (dataSnapshot.hasChildren() && !oldUsername.equals(employee.getUsername())) {
                         status[0] = 3;
                     }
                     // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
                     else {
                         try {
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                            // Modify the Employee object.
                             databaseReference.child("Employees").child(key).setValue(employee);
-
-                            // Modify the extra usernamePasswordCombo attribute with the Employee object.
-                            databaseReference.child("Employees").child(key).child("usernamePasswordCombo").setValue(employee.getUsername() + "|" + employee.getPassword());
-
                             status[0] = 0;
                         } catch (DatabaseException e) {
                             e.printStackTrace();
@@ -154,33 +100,13 @@ public class EmployeesFirebaseHelper {
                         }
                     }
                 }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    status[0] = 1;
+                }
             });
         }
         return status[0];
-    }
-
-    /**
-     * Returns true if passed username is unique and not already used in the database.
-     */
-    private static Task<Boolean> isUsernameUnique(String text) {
-
-        // Create the arguments to the callable function.
-        Map<String, Object> data = new HashMap<>();
-        data.put("text", text);
-        data.put("push", true);
-        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
-        return firebaseFunctions
-                .getHttpsCallable("isUsernameUnique")
-                .call(data)
-                .continueWith(new Continuation<HttpsCallableResult, Boolean>() {
-                    @Override
-                    public Boolean then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        Boolean result = (Boolean) task.getResult().getData();
-                        return result;
-                    }
-                });
     }
 }

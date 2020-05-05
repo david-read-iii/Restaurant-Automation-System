@@ -108,9 +108,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (loggedInEmployee.getRole().equals("Manager")) {
             startFragment(new ViewEmployeeLogFragment(), getString(R.string.name_fragment_view_employee_log));
         } else if (loggedInEmployee.getRole().equals("Cook")) {
-            startFragment(new OrderQueueFragment(), getString(R.string.name_fragment_order_queue));
+            // Pass first and last name attributes of the logged in Employee into the fragment.
+            Fragment fragment = new OrderQueueFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("firstName", loggedInEmployee.getFirstName());
+            bundle.putString("lastName", loggedInEmployee.getLastName());
+            fragment.setArguments(bundle);
+            startFragment(fragment, getString(R.string.name_fragment_order_queue));
         } else {
-            startFragment(new ServeTablesFragment(), getString(R.string.name_fragment_serve_tables));
+            // Pass first and last name attributes of the logged in Employee into the fragment.
+            Fragment fragment = new ServeTablesFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("firstName", loggedInEmployee.getFirstName());
+            bundle.putString("lastName", loggedInEmployee.getLastName());
+            fragment.setArguments(bundle);
+            startFragment(fragment, getString(R.string.name_fragment_serve_tables));
         }
     }
 
