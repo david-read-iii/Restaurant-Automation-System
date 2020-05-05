@@ -131,6 +131,10 @@
     <string name="toast_login_failed">Login failed due to database error</string>
     <string name="toast_login_invalid">Entered username or password is incorrect</string>
 
+    <string name="toast_employee_account_active">Employee account is already logged in</string>
+    <string name="toast_employee_account_modified">Employee account modified by a Manager</string>
+    <string name="toast_employee_account_deleted">Employee account deleted by a Manager</string>
+
     <string name="toast_update_table_status_to_occupied">Update status to "occupied" to take orders</string>
     <string name="toast_update_table_status_failed">Table status not updated due to database error</string>
     <string name="toast_add_order_failed">Order not submitted due to database error</string>

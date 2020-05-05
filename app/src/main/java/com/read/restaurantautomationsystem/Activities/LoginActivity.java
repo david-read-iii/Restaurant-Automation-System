@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             // Initialize a null Employee object representing the logged in Employee.
                             Employee loggedInEmployee = new Employee();
+                            Boolean isLoggedIn = true;
 
                             // Get attributes of the Employee object returned by the query.
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -75,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                                         ds.child("password").getValue(String.class),
                                         ds.child("role").getValue(String.class)
                                 );
+                                
+                                isLoggedIn = ds.child("isLoggedIn").getValue(Boolean.class);
                             }
 
                             /* If the key of the Employee object is null, no Employee object was
@@ -83,6 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                              * password. In either case, print a Toast. */
                             if (loggedInEmployee.getKey() == null || !loggedInEmployee.getPassword().equals(editTextPassword.getText().toString())) {
                                 Toast.makeText(LoginActivity.this, R.string.toast_login_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // If Employee is already logged in, print a Toast.
+                            else if (isLoggedIn != null && isLoggedIn) {
+                                Toast.makeText(LoginActivity.this, R.string.toast_employee_account_active, Toast.LENGTH_SHORT).show();
                             } else {
 
                                 // Start LoggedInService, passing the attributes of the logged in Employee.
