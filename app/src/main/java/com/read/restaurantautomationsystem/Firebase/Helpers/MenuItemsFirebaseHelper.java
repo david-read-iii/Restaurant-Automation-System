@@ -25,46 +25,19 @@ public class MenuItemsFirebaseHelper {
      * indicates a failed save due to a non-unique name attribute, 4 indicates a failed save due to
      * an invalidly formatted price attribute.
      */
-    public static int save(final MenuItem menuItem) {
-        final int[] status = new int[1];
+    public static int save(MenuItem menuItem) {
+        int status;
 
-        // If a MenuItem object with blank attributes is blank, do not save the object.
-        if (menuItem.getName().equals("") || menuItem.getPrice() == -1 || menuItem.getCategory().equals("")) {
-            status[0] = 2;
+        try {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("MenuItems").push().setValue(menuItem);
+            status = 0;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            status = 1;
         }
-        // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
-        else if (menuItem.getPrice() == -2) {
-            status[0] = 4;
-        } else {
 
-            // Run task to check if name attribute of the MenuItem object is unique.
-            Task<Boolean> task = isNameUnique(menuItem.getName());
-            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(@NonNull Task<Boolean> task) {
-
-                    // Get result of the task.
-                    Boolean isUnique = (Boolean) task.getResult();
-
-                    // If the MenuItem object has a non-unique username, do not save the object.
-                    if (!isUnique) {
-                        status[0] = 3;
-                    }
-                    // Attempt to save MenuItem object to the database. Watch for a DatabaseException.
-                    else {
-                        try {
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                            databaseReference.child("MenuItems").push().setValue(menuItem);
-                            status[0] = 0;
-                        } catch (DatabaseException e) {
-                            e.printStackTrace();
-                            status[0] = 1;
-                        }
-                    }
-                }
-            });
-        }
-        return status[0];
+        return status;
     }
 
     /**
@@ -93,76 +66,25 @@ public class MenuItemsFirebaseHelper {
     /**
      * Modifies an existing MenuItem object with new attributes.
      *
-     * @param key The key of the MenuItem object to be modified.
+     * @param key      The key of the MenuItem object to be modified.
      * @param menuItem The MenuItem object with the new attributes defined. Must have a null key.
      * @return The status of the modification: 0 indicates successful modification, 1 indicates a
      * failed modification due to database error, 2 indicates a failed modification due to at least
      * one attribute being blank, 3 indicates a failed modification due to a non-unique name attribute,
      * 4 indicates a failed modification due to an invalidly formatted price attribute.
      */
-    public static int modify(final String key, final String oldName, final MenuItem menuItem) {
-        final int[] status = new int[1];
+    public static int modify(String key, MenuItem menuItem) {
+        int status;
 
-        // If a MenuItem object with blank attributes is blank, do not save the object.
-        if (menuItem.getName().equals("") || menuItem.getPrice() == -1 || menuItem.getCategory().equals("")) {
-            status[0] = 2;
+        try {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("MenuItems").child(key).setValue(menuItem);
+            status = 0;
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+            status = 1;
         }
-        // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
-        else if (menuItem.getPrice() == -2) {
-            status[0] = 4;
-        } else {
 
-            // Run task to check if name attribute of the MenuItem object is unique.
-            Task<Boolean> task = isNameUnique(menuItem.getName());
-            task.addOnCompleteListener(new OnCompleteListener<Boolean>() {
-                @Override
-                public void onComplete(@NonNull Task<Boolean> task) {
-
-                    // Get result of the task.
-                    Boolean isUnique = (Boolean) task.getResult();
-
-                    // If the MenuItem object has a non-unique username, do not modify the object.
-                    if (!isUnique && !oldName.equals(menuItem.getName())) {
-                        status[0] = 3;
-                    }
-                    // Attempt to modify the MenuItem object in the database. Watch for a DatabaseException.
-                    else {
-                        try {
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                            databaseReference.child("MenuItems").child(key).setValue(menuItem);
-                            status[0] = 0;
-                        } catch (DatabaseException e) {
-                            e.printStackTrace();
-                            status[0] = 1;
-                        }
-                    }
-                }
-            });
-        }
-        return status[0];
-    }
-
-    /**
-     * Returns true if passed name is unique and not already used in the database.
-     */
-    private static Task<Boolean> isNameUnique(String name) {
-        // Create the arguments to the callable function.
-        Map<String, Object> data = new HashMap<>();
-        data.put("text", name);
-        data.put("push", true);
-        FirebaseFunctions firebaseFunctions = FirebaseFunctions.getInstance();
-        return firebaseFunctions
-                .getHttpsCallable("isMenuNameUnique")
-                .call(data)
-                .continueWith(new Continuation<HttpsCallableResult, Boolean>() {
-                    @Override
-                    public Boolean then(@NonNull Task<HttpsCallableResult> task) throws Exception {
-                        // This continuation runs on either success or failure, but if the task
-                        // has failed then getResult() will throw an Exception which will be
-                        // propagated down.
-                        Boolean result = (Boolean) task.getResult().getData();
-                        return result;
-                    }
-                });
+        return status;
     }
 }

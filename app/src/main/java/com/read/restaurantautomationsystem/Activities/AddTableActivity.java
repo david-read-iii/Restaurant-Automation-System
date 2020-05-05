@@ -7,8 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.TablesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Table;
 import com.read.restaurantautomationsystem.R;
@@ -38,27 +45,46 @@ public class AddTableActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Save a Table object with the specified attributes to the database.
-                saved = TablesFirebaseHelper.save(new Table(
+                // Get the attributes of the passed Table object.
+                final Table passedTable = new Table(
                         editTextName.getText().toString(),
                         "Ready"
-                ));
+                );
 
-                // If save successful, close this activity.
-                if (saved == 0) {
-                    finish();
-                }
-                // If save failed due to database error, print Toast.
-                else if (saved == 1) {
-                    Toast.makeText(AddTableActivity.this, R.string.toast_add_table_failed, Toast.LENGTH_SHORT).show();
-                }
-                // If save failed due to the object having blank attributes, print Toast.
-                else if (saved == 2){
+                // If a Table object with blank attributes is passed, do not save the object.
+                if (passedTable.getName().equals("")) {
                     Toast.makeText(AddTableActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
-                }
-                // If save failed due to a non-unique name attribute, print Toast.
-                else {
-                    Toast.makeText(AddTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Query the database under the "Tables" collection for a child with the requested new name.
+                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query nameQuery = databaseReference.child("Tables").orderByChild("name").equalTo(passedTable.getName());
+                    nameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // If the query returns at least one child, then a Table object already uses the name.
+                            if (dataSnapshot.hasChildren()) {
+                                Toast.makeText(AddTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // Attempt to save the Table object in the database. Watch for a DatabaseException.
+                            else {
+                                saved = TablesFirebaseHelper.save(passedTable);
+
+                                // Take action according to status of save.
+                                if (saved == 0) {
+                                    finish();
+                                } else {
+                                    Toast.makeText(AddTableActivity.this, R.string.toast_add_table_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(AddTableActivity.this, R.string.toast_add_table_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

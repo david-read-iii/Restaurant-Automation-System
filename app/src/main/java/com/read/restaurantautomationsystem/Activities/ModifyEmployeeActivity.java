@@ -9,10 +9,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.EmployeesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Employee;
@@ -112,33 +117,53 @@ public class ModifyEmployeeActivity extends AppCompatActivity {
                 // Detach ChildEventListener.
                 databaseReference.child("Employees").child(selected.getKey()).removeEventListener(childEventListener);
 
-                // Modify Employee selected in the database with the attributes specified in the EditTexts.
-                modified = EmployeesFirebaseHelper.modify(selected.getKey(), selected.getUsername(), new Employee(
+                // Get attributes of the passed Employee object.
+                final Employee passedEmployee = new Employee(
                         editTextFirstName.getText().toString(),
                         editTextLastName.getText().toString(),
                         editTextUsername.getText().toString(),
                         editTextPassword.getText().toString(),
                         spinnerRole.getSelectedItem().toString()
-                ));
+                );
 
-                // If modification successful, close this activity.
-                if (modified == 0) {
-                    finish();
-                }
-                // If modification failed due to database error, reattach ChildEventListener and print Toast.
-                else if (modified == 1) {
-                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due to the object having blank attributes, reattach ChildEventListener and print Toast.
-                else if (modified == 2){
+                // If an Employee object with blank attributes is blank, do not save the object.
+                if (passedEmployee.getFirstName().equals("") || passedEmployee.getLastName().equals("") || passedEmployee.getUsername().equals("") || passedEmployee.getPassword().equals("")) {
                     databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due to a non-unique username attribute, reattach ChildEventListener and print Toast.
-                else {
-                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Query the database under the "Employees" collection for a child with the requested new username.
+                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query usernameQuery = databaseReference.child("Employees").orderByChild("username").equalTo(passedEmployee.getUsername());
+                    usernameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // If the query returns at least one child and the old username is not the new username, then an Employee object already uses the username.
+                            if (dataSnapshot.hasChildren() && !selected.getUsername().equals(passedEmployee.getUsername())) {
+                                databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
+                                Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_employee_username_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
+                            else {
+                                modified = EmployeesFirebaseHelper.modify(selected.getKey(), passedEmployee);
+
+                                // Take action according to status of modification.
+                                if (modified == 0) {
+                                    finish();
+                                } else {
+                                    databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
+                                    Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            databaseReference.child("Employees").child(selected.getKey()).addChildEventListener(childEventListener);
+                            Toast.makeText(ModifyEmployeeActivity.this, R.string.toast_delete_employee_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

@@ -6,8 +6,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.InventoryItemsFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.InventoryItem;
 import com.read.restaurantautomationsystem.R;
@@ -38,34 +45,46 @@ public class AddInventoryItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Save an InventoryItem object with the specified attributes to the database.
-                if (editTextQuantity.getText().toString().equals("")) {
-                    saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
-                            editTextName.getText().toString(),
-                            -1)
-                    );
-                } else {
-                    saved = InventoryItemsFirebaseHelper.save(new InventoryItem(
-                            editTextName.getText().toString(),
-                            Integer.parseInt(editTextQuantity.getText().toString())
-                    ));
-                }
+                // Get attributes of the passed InventoryItem object.
+                final InventoryItem passedInventoryItem = new InventoryItem(
+                        editTextName.getText().toString(),
+                        Integer.parseInt(editTextQuantity.getText().toString())
+                );
 
-                // If save successful, close this activity.
-                if (saved == 0) {
-                    finish();
-                }
-                // If save failed due to database error, print Toast.
-                else if (saved == 1) {
-                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_add_inventory_item_failed, Toast.LENGTH_SHORT).show();
-                }
-                // If save failed due to the object having blank attributes, print Toast.
-                else if (saved == 2){
+                // If an InventoryItem object with blank attributes is passed, do not modify the object.
+                if (passedInventoryItem.getName().equals("") || editTextQuantity.getText().toString().equals("")) {
                     Toast.makeText(AddInventoryItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
-                }
-                // If save failed due to a non-unique name attribute, print Toast.
-                else {
-                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_inventory_item_name_invalid, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Query the database under the "InventoryItems" collection for a child with the requested new name.
+                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query nameQuery = databaseReference.child("InventoryItems").orderByChild("name").equalTo(passedInventoryItem.getName());
+                    nameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // If the query returns at least one child, then an InventoryItem object already uses the name.
+                            if (dataSnapshot.hasChildren()) {
+                                Toast.makeText(AddInventoryItemActivity.this, R.string.toast_inventory_item_name_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // Attempt to modify the Employee object in the database. Watch for a DatabaseException.
+                            else {
+                                saved = InventoryItemsFirebaseHelper.save(passedInventoryItem);
+
+                                // Take action according to status of save.
+                                if (saved == 0) {
+                                    finish();
+                                } else {
+                                    Toast.makeText(AddInventoryItemActivity.this, R.string.toast_modify_inventory_item_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(AddInventoryItemActivity.this, R.string.toast_modify_inventory_item_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

@@ -7,10 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.MenuItemsFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.MenuItem;
@@ -104,51 +109,56 @@ public class ModifyMenuItemActivity extends AppCompatActivity {
                 // Detach ChildEventListener.
                 databaseReference.child("MenuItems").child(selected.getKey()).removeEventListener(childEventListener);
 
-                // Modify MenuItem selected in the database with the attributes specified in the EditTexts.
-
-                if (editTextPrice.getText().toString().equals("")) {
-                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
-                            editTextName.getText().toString(),
-                            -1,
-                            editTextCategory.getText().toString()
-                    ));
-                } else if(!priceFormattedCorrectly(editTextPrice.getText().toString())) {
-                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
-                            editTextName.getText().toString(),
-                            -2,
-                            editTextCategory.getText().toString()
-                    ));
-                } else {
-                    modified = MenuItemsFirebaseHelper.modify(selected.getKey(), selected.getName(), new MenuItem(
-                            editTextName.getText().toString(),
-                            Double.parseDouble(editTextPrice.getText().toString()),
-                            editTextCategory.getText().toString()
-                    ));
-                }
-
-                // If modification successful, close this activity.
-                if (modified == 0) {
-                    finish();
-                }
-                // If modification failed due to database error, reattach ChildEventListener and print Toast.
-                else if (modified == 1) {
-                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_failed, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due to the object having blank attributes, print Toast.
-                else if (modified == 2){
+                // If a MenuItem object with blank attributes is passed, do not save the object.
+                if (editTextName.getText().toString().equals("") || editTextPrice.getText().toString().equals("") || editTextCategory.getText().toString().equals("")) {
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
                 }
-                // If modification failed due to a non-unique name attribute, print Toast.
-                else if (modified == 3){
-                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_name_invalid, Toast.LENGTH_SHORT).show();
-                }
-                // If save failed due to an invalidly formatted price attribute, print Toast.
-                else {
+                // If a MenuItem object has an invalidly formatted price attribute, do not save the object.
+                else if (!priceFormattedCorrectly(editTextPrice.getText().toString())) {
                     databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_price_invalid, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Get attributes of the passed MenuItem object.
+                    final MenuItem passedMenuItem = new MenuItem(
+                            editTextName.getText().toString(),
+                            Double.parseDouble(editTextPrice.getText().toString()),
+                            editTextCategory.getText().toString()
+                    );
+
+                    // Query the database under the "MenuItems" collection for a child with the requested new name.
+                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query nameQuery = databaseReference.child("MenuItems").orderByChild("name").equalTo(passedMenuItem.getName());
+                    nameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // If the query returns at least one child and the old name is not the new name, then an MenuItem object already uses the name.
+                            if (dataSnapshot.hasChildren() && !selected.getName().equals(passedMenuItem.getName())) {
+                                databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                                Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_menu_item_name_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // Attempt to modify the MenuItem object in the database. Watch for a DatabaseException.
+                            else {
+                                modified = MenuItemsFirebaseHelper.modify(selected.getKey(), passedMenuItem);
+
+                                // Take action according to status of modification.
+                                if (modified == 0) {
+                                    finish();
+                                } else {
+                                    databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                                    Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            databaseReference.child("MenuItems").child(selected.getKey()).addChildEventListener(childEventListener);
+                            Toast.makeText(ModifyMenuItemActivity.this, R.string.toast_modify_menu_item_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

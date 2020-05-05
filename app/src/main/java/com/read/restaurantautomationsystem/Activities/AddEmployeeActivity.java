@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -84,8 +83,14 @@ public class AddEmployeeActivity extends AppCompatActivity {
                             }
                             // Attempt to save the Employee object in the database. Watch for a DatabaseException.
                             else {
-                               saved = EmployeesFirebaseHelper.save(passedEmployee);
-                               finish();
+                                saved = EmployeesFirebaseHelper.save(passedEmployee);
+
+                                // Take action according to status of save.
+                                if (saved == 0) {
+                                    finish();
+                                } else {
+                                    Toast.makeText(AddEmployeeActivity.this, R.string.toast_add_employee_failed, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 

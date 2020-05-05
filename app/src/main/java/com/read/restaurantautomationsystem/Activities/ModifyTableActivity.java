@@ -7,10 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.read.restaurantautomationsystem.Firebase.ChildEventListeners.GenericChildEventListener;
 import com.read.restaurantautomationsystem.Firebase.Helpers.TablesFirebaseHelper;
 import com.read.restaurantautomationsystem.Models.Table;
@@ -94,30 +99,50 @@ public class ModifyTableActivity extends AppCompatActivity {
                 // Detach ChildEventListener.
                 databaseReference.child("Tables").child(selected.getKey()).removeEventListener(childEventListener);
 
-                // Modify Table selected in the database with the attributes specified in the EditText.
-                modified = TablesFirebaseHelper.modify(selected.getKey(), selected.getName(), new Table(
+                // Get the attributes of the passed Table object.
+                final Table passedTable = new Table(
                         editTextName.getText().toString(),
                         selected.getStatus()
-                ));
+                );
 
-                // If modification successful, close this activity.
-                if (modified == 0) {
-                    finish();
-                }
-                // If modification failed due to database error, reattach ChildEventListener and print Toast.
-                else if (modified == 1) {
-                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_failed, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due to the object having blank attributes, print Toast.
-                else if (modified == 2){
+                // If a Table object with blank attributes is passed, do not modify the object.
+                if (passedTable.getName().equals("")) {
                     databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
                     Toast.makeText(ModifyTableActivity.this, R.string.toast_object_invalid_blank, Toast.LENGTH_SHORT).show();
-                }
-                // If modification failed due to a non-unique name attribute, print Toast.
-                else {
-                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
-                    Toast.makeText(ModifyTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
+                } else {
+
+                    // Query the database under the "Tables" collection for a child with the requested new name.
+                    final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    Query nameQuery = databaseReference.child("Tables").orderByChild("name").equalTo(passedTable.getName());
+                    nameQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            // If the query returns at least one child and the old name is not the new name, then a Table object already uses the name.
+                            if (dataSnapshot.hasChildren() && !selected.getName().equals(passedTable.getName())) {
+                                databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
+                                Toast.makeText(ModifyTableActivity.this, R.string.toast_table_name_invalid, Toast.LENGTH_SHORT).show();
+                            }
+                            // Attempt to modify the Table object in the database. Watch for a DatabaseException.
+                            else {
+                                modified = TablesFirebaseHelper.modify(selected.getKey(), passedTable);
+
+                                // Take action according to status of modification.
+                                if (modified == 0) {
+                                    finish();
+                                } else {
+                                    databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
+                                    Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_failed, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            databaseReference.child("Tables").child(selected.getKey()).addChildEventListener(childEventListener);
+                            Toast.makeText(ModifyTableActivity.this, R.string.toast_modify_table_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
