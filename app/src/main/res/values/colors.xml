@@ -6,5 +6,6 @@
     <color name="color_accent">#D81B60</color>
     <color name="color_text_dark">#000000</color>
     <color name="color_text_light">#FFFFFF</color>
+    <color name="ic_launcher_background">#008577</color>
 
 </resources>
