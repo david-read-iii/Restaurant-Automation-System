@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.read.restaurantautomationsystem">
+    package="com.davidread.restaurantautomationsystem">
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.LoginActivity"
             android:exported="true"
             android:label="@string/app_name_short"
             android:theme="@style/AppTheme">
@@ -22,147 +22,147 @@
         </activity>
 
         <activity
-            android:name=".Activities.MainActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".Activities.LoginActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.LoginActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.LoginActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.AddOrderActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.AddOrderActivity"
             android:label="@string/name_activity_table_order"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.OrderItemsActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.OrderItemsActivity"
             android:label="@string/name_activity_order_items"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.OrderDetailActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.OrderDetailActivity"
             android:label="@string/name_activity_order_detail"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.AddEmployeeActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.AddEmployeeActivity"
             android:label="@string/name_activity_add_employee"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ModifyEmployeeActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ModifyEmployeeActivity"
             android:label="@string/name_activity_modify_employee"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.AddInventoryItemActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.AddInventoryItemActivity"
             android:label="@string/name_activity_add_inventory_item"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ModifyInventoryItemActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ModifyInventoryItemActivity"
             android:label="@string/name_activity_modify_inventory_item"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.AddMenuItemActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.AddMenuItemActivity"
             android:label="@string/name_activity_add_menu_item"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ModifyMenuItemActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ModifyMenuItemActivity"
             android:label="@string/name_activity_modify_menu_item"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.AddTableActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.AddTableActivity"
             android:label="@string/name_activity_add_table"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ModifyTableActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ModifyTableActivity"
             android:label="@string/name_activity_modify_table"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ViewOrderHistoryItemsActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ViewOrderHistoryItemsActivity"
             android:label="@string/name_activity_view_order_history_items"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Activities.ViewOrderHistoryDetailActivity"
+            android:name="com.davidread.restaurantautomationsystem.Activities.ViewOrderHistoryDetailActivity"
             android:label="@string/name_activity_view_order_history_detail"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="com.davidread.restaurantautomationsystem.Activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
+                android:value="com.davidread.restaurantautomationsystem.Activities.MainActivity" />
         </activity>
 
         <service
-            android:name=".Services.LoggedInService"
+            android:name="com.davidread.restaurantautomationsystem.Services.LoggedInService"
             android:enabled="true"
             android:stopWithTask="false" />
 
